@@ -14,16 +14,7 @@
 #include <readline/readline.h>
 #include "../include/ft_tokenizer.h"
 
-// readline으로 반환된 문자열을 word, operator(pipe, redirect) 단위로 끊어서 저장하는 부분
-
-// Shell Command language 문서의 Token Recognition 절차를 그대로 조건화했다.
-// 조건을 조정하거나 함수로 빼낼 수 있을 것 같음.
-
-// 조건문 자체도 더 축약 가능할 것 같다.
-	// 지금 방식은 cmd 문자열의 각 단어 단위로 작업을 진행한다.
-		// 이렇게하면 각 단어마다 할당 해제 계속 함.
-	// 그렇다면 새롭게 추가할 예정인 단어 범위를 진행하다가 추가 타이밍이 되면 단어를 더하게 만드는 건 어떨까?
-
+// 예외처리를 임시로 exit로 해둠. exit 사용을 위한 헤더
 #include <stdlib.h>
 
 void	*ft_tokenizer(char *str)
