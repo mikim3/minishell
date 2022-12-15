@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+#include <readline/readline.h>
 #include "../include/ft_tokenizer.h"
 
 // readline으로 반환된 문자열을 word, operator(pipe, redirect) 단위로 끊어서 저장하는 부분
@@ -22,7 +24,6 @@
 		// 이렇게하면 각 단어마다 할당 해제 계속 함.
 	// 그렇다면 새롭게 추가할 예정인 단어 범위를 진행하다가 추가 타이밍이 되면 단어를 더하게 만드는 건 어떨까?
 
-#include <stdio.h>
 #include <stdlib.h>
 
 void	*ft_tokenizer(char *str)
@@ -31,7 +32,7 @@ void	*ft_tokenizer(char *str)
 	int			prev_type;
 	int			error;
 
-	prev_type = TKN_TYPE_NULL;
+	prev_type = TKN_NULL;
 	error = BOOL_FALSE;
 	tknizer.tkn_start = str;
 	tknizer.tkn_len = 0;
@@ -41,137 +42,72 @@ void	*ft_tokenizer(char *str)
 		return (0);
 	while (*str != '\0')
 	{
-		/*
 		if (ft_is_quote(*str) == BOOL_TRUE)
-		{
-			if (ft_close_quote(tkn_start, &token_len) = FT_ERROR)
-				return (ft_free_tokenizer(), FT_ERROR);
-		}
-		*/
-		if (error == BOOL_FALSE && prev_type == TKN_TYPE_OPERATOR)
+			error = ft_close_quote(&tknizer, &str, &prev_type);
+		if (error == BOOL_FALSE && prev_type == TKN_OPERATOR)
 		{
 			if (ft_can_become_operator(
 					*(tknizer.tkn_start), *str, tknizer.tkn_len) == BOOL_FALSE)
-				error = ft_token_processor(&tknizer, str, &prev_type, TKN_TYPE_WORD);
+				error = ft_token_processor(&tknizer, str, &prev_type, TKN_WORD);
 		}
-		if (error == BOOL_FALSE && prev_type != TKN_TYPE_OPERATOR && ft_is_operator(*str) == BOOL_TRUE)
-			error = ft_token_processor(&tknizer, str, &prev_type, TKN_TYPE_OPERATOR);
+		if (error == BOOL_FALSE
+			&& prev_type != TKN_OPERATOR && ft_is_operator(*str) == BOOL_TRUE)
+			error = ft_token_processor(&tknizer, str, &prev_type, TKN_OPERATOR);
 		if (error == BOOL_FALSE && ft_isspace(*str) == BOOL_TRUE)
-			error = ft_token_processor(&tknizer, str, &prev_type, TKN_TYPE_WORD);
+			error = ft_token_processor(&tknizer, str, &prev_type, TKN_WORD);
 		else
 			tknizer.tkn_len++;
 		str++;
 		if (error == BOOL_FALSE && *str == '\0')
-			error = ft_token_processor(&tknizer, str, &prev_type, TKN_TYPE_NULL);
+			error = ft_token_processor(&tknizer, str, &prev_type, TKN_NULL);
 		if (error == BOOL_TRUE)
 			exit(1);
 	}
 	return ((void *)(tknizer.tkn_list));
 }
 
-int	ft_token_processor(
-		t_tknizer *tknizer, char *str, int *prev_type, int tkn_type)
+int	ft_is_quote(char cha)
 {
-	if (tknizer->tkn_len != 0)
-	{
-		if (ft_token_set(
-				tknizer->tkn, tknizer->tkn_start, tknizer->tkn_len) == FT_ERROR)
-			return (FT_ERROR);
-		tknizer->tkn = ft_token_cut(&(tknizer->tkn_list), tknizer->tkn);
-		if (tknizer->tkn == 0)
-			return (FT_ERROR);
-	}
-	tknizer->tkn_len = 0;
-	ft_token_start_set(tknizer, str);
-	*prev_type = tkn_type;
-	if (tkn_type == TKN_TYPE_NULL)
-		free(tknizer->tkn);
-	return (FT_SUCCESS);
+	if (cha == '\'' || cha == '\"')
+		return (BOOL_TRUE);
+	return (BOOL_FALSE);
 }
 
-int	ft_token_set(t_tkn *token, char *tkn_start, int token_len)
+int	ft_close_quote(t_tknizer *tknizer, char **str, int *prev_type)
 {
-	char	*new_str;
+	char	target;
 
-	new_str = ft_strndup(tkn_start, token_len);
-	if (new_str == 0)
+	target = **str;
+	tknizer->tkn_len++;
+	(*str)++;
+	while (**str != target)
+	{
+		if (**str == '\0')
+			return (FT_ERROR);
+		tknizer->tkn_len++;
+		(*str)++;
+	}
+	if (**str == '\0')
 		return (FT_ERROR);
-	token->str = new_str;
+	tknizer->tkn_len++;
+	(*str)++;
+	*prev_type = TKN_WORD;
 	return (FT_SUCCESS);
 }
 
-t_tkn	*ft_token_cut(t_list **token_list, t_tkn *token)
+int	main(void)
 {
-	t_list	*new_node;
-
-	new_node = ft_calloc(1, sizeof(t_list));
-	if (new_node == 0)
-		return (0);
-	new_node->content = (void *)token;
-	ft_lstadd_back(token_list, new_node);
-	return (ft_new_token());
-}
-
-t_tkn	*ft_new_token(void)
-{
-	t_tkn	*new_token;
-
-	new_token = ft_calloc(1, sizeof(t_tkn));
-	if (new_token == 0)
-		return (0);
-	return (new_token);
-}
-
-void	ft_token_start_set(t_tknizer *tknizer, char *str)
-{
-	while (ft_isspace(*str) == BOOL_TRUE)
-	{
-		str++;
-	}
-	tknizer->tkn_start = str;
-	return ;
-}
-
-int ft_can_become_operator(char diff_target, char cha, int token_len)
-{
-	if (token_len > 1)
-		return (BOOL_FALSE);
-	if (diff_target == cha)
-		return (BOOL_TRUE);
-	return (BOOL_FALSE);
-	// |는 어떻게 처리하지?
-}
-
-int	ft_is_operator(char cha)
-{
-	if (cha == '<' || cha == '>' || cha == '|')
-		return (BOOL_TRUE);
-	return (BOOL_FALSE);
-}
-
-/*
-int	ft_is_quote()
-{
-
-}
-
-int	ft_close_quote()
-{
-
-}
-*/
-
-int		main(int argc, char **argv)
-{
-//	t_tree_node	*token_tree;
 	t_list		*token_list;
 	char		*input;
-	// 테스트용 -> argv 한 묶음으로만 받기
-	if (argc >= 3)
-		return (1);
-	input = argv[1];
-	token_list = (t_list *)ft_tokenizer(input);
-	test_print_token_lst(token_list);
+//	t_tree_node	*token_tree;
+
+	while (1)
+	{
+		input = readline("minishell$ ");
+		token_list = (t_list *)ft_tokenizer(input);
+		test_print_token_lst(token_list);
+	}
+
 	return (0);
 }
 

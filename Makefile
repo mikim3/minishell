@@ -11,9 +11,11 @@ LIBFT = ./libft
 
 LIBFT_FLAG = -Llibft -lft
 
+READLINE_FLAG = -lreadline
+
 SRCDIR = ./src
 
-SRCS	= ft_tokenizer.c
+SRCS	= ft_tokenizer.c ft_token_processing.c ft_tokenizer_util.c
 SRCS	:= $(addprefix $(SRCDIR)/, $(SRCS))
 
 OBJS = $(SRCS:.c=.o)
@@ -23,7 +25,7 @@ all : $(NAME)
 
 $(NAME): $(OBJS)
 	make -C $(LIBFT) bonus
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_FLAG) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_FLAG) $(READLINE_FLAG) -o $(NAME)
 
 %.o	: %.c
 	$(CC) $(CFLAGS) $(HEADERS) -Ilibft -c $< -o $@
