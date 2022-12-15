@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:49:46 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/15 14:43:52 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/15 15:11:27 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,28 @@ int	ft_token_processor(
 {
 	if (tknizer->tkn_len != 0)
 	{
-		if (ft_token_set(
-				tknizer->tkn, tknizer->tkn_start, tknizer->tkn_len) == FT_ERROR)
+		if (ft_token_set(tknizer->tkn, tknizer->tkn_start,
+				tknizer->tkn_len, *prev_type) == FT_ERROR
+			|| ft_token_cut(&(tknizer->tkn_list), tknizer->tkn) == FT_ERROR)
 			return (FT_ERROR);
-		tknizer->tkn = ft_token_cut(&(tknizer->tkn_list), tknizer->tkn);
+		tknizer->tkn = ft_new_token();
 		if (tknizer->tkn == 0)
 			return (FT_ERROR);
 	}
+	*prev_type = tkn_type;
 	tknizer->tkn_len = 0;
 	ft_token_start_set(tknizer, str);
-	*prev_type = tkn_type;
 	if (tkn_type == TKN_NULL)
-		free(tknizer->tkn);
+	{
+		tknizer->tkn->str = 0;
+		tknizer->tkn->type = tkn_type;
+		if (ft_token_cut(&(tknizer->tkn_list), tknizer->tkn) == FT_ERROR)
+			return (FT_ERROR);
+	}
 	return (FT_SUCCESS);
 }
 
-int	ft_token_set(t_tkn *token, char *tkn_start, int token_len)
+int	ft_token_set(t_tkn *token, char *tkn_start, int token_len, int type)
 {
 	char	*new_str;
 
@@ -40,19 +46,28 @@ int	ft_token_set(t_tkn *token, char *tkn_start, int token_len)
 	if (new_str == 0)
 		return (FT_ERROR);
 	token->str = new_str;
+	if (type == TKN_OPERATOR)
+	{
+		if (*(token->str) == '|')
+			token->type = TKN_PIPE;
+		else
+			token->type = TKN_REDIRECT;
+	}
+	else
+		token->type = type;
 	return (FT_SUCCESS);
 }
 
-t_tkn	*ft_token_cut(t_list **token_list, t_tkn *token)
+int	ft_token_cut(t_list **token_list, t_tkn *token)
 {
 	t_list	*new_node;
 
 	new_node = ft_calloc(1, sizeof(t_list));
 	if (new_node == 0)
-		return (0);
+		return (FT_ERROR);
 	new_node->content = (void *)token;
 	ft_lstadd_back(token_list, new_node);
-	return (ft_new_token());
+	return (FT_SUCCESS);
 }
 
 t_tkn	*ft_new_token(void)

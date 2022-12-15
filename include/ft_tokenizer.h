@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:04:24 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/15 14:41:42 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/15 15:33:08 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,20 @@ typedef struct s_tokenizer_data{
 }		t_tknizer;
 
 void	*ft_tokenizer(char *str);
+int		ft_tokenizing_loop(t_tknizer *tknizer,
+			int *prev_type, int error, char **str);
+int		ft_close_quote(t_tknizer *tknizer, char **str, int *prev_type);
 
 int		ft_token_processor(t_tknizer *tknizer, char *str,
 			int *prev_type, int tkn_type);
-int		ft_token_set(t_tkn *token, char *token_start, int token_len);
-t_tkn	*ft_token_cut(t_list **token_list, t_tkn *token);
+int		ft_token_set(t_tkn *token, char *token_start, int token_len, int type);
+int		ft_token_cut(t_list **token_list, t_tkn *token);
 t_tkn	*ft_new_token(void);
 void	ft_token_start_set(t_tknizer *tknizer, char *str);
 
+int		ft_is_quote(char cha);
 int		ft_can_become_operator(char diff_target, char cha, int token_len);
 int		ft_is_operator(char cha);
-
-int		ft_is_quote(char cha);
-int		ft_close_quote(t_tknizer *tknizer, char **str, int *prev_type);
 
 void	test_print_token_lst(t_list *token_list);
 
