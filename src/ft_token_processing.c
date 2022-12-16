@@ -6,19 +6,18 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:49:46 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/15 15:11:27 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/16 10:38:42 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_tokenizer.h"
 
 int	ft_token_processor(
-		t_tknizer *tknizer, char *str, int *prev_type, int tkn_type)
+		t_tknizer *tknizer, int *prev_type, int tkn_type)
 {
 	if (tknizer->tkn_len != 0)
 	{
-		if (ft_token_set(tknizer->tkn, tknizer->tkn_start,
-				tknizer->tkn_len, *prev_type) == FT_ERROR
+		if (ft_token_set(tknizer, *prev_type) == FT_ERROR
 			|| ft_token_cut(&(tknizer->tkn_list), tknizer->tkn) == FT_ERROR)
 			return (FT_ERROR);
 		tknizer->tkn = ft_new_token();
@@ -26,35 +25,37 @@ int	ft_token_processor(
 			return (FT_ERROR);
 	}
 	*prev_type = tkn_type;
+	ft_token_start_set(tknizer);
 	tknizer->tkn_len = 0;
-	ft_token_start_set(tknizer, str);
 	if (tkn_type == TKN_NULL)
 	{
 		tknizer->tkn->str = 0;
-		tknizer->tkn->type = tkn_type;
+		tknizer->tkn->type = TKN_NULL;
 		if (ft_token_cut(&(tknizer->tkn_list), tknizer->tkn) == FT_ERROR)
 			return (FT_ERROR);
 	}
 	return (FT_SUCCESS);
 }
 
-int	ft_token_set(t_tkn *token, char *tkn_start, int token_len, int type)
+int	ft_token_set(t_tknizer *tknizer, int type)
 {
 	char	*new_str;
 
-	new_str = ft_strndup(tkn_start, token_len);
+	new_str = ft_strndup(tknizer->tkn_start, tknizer->tkn_len);
 	if (new_str == 0)
 		return (FT_ERROR);
-	token->str = new_str;
+	tknizer->tkn->str = new_str;
 	if (type == TKN_OPERATOR)
 	{
-		if (*(token->str) == '|')
-			token->type = TKN_PIPE;
+		if (*(tknizer->tkn->str) == '|')
+			tknizer->tkn->type = TKN_PIPE;
+		else if (tknizer->io_num_mode == BOOL_TRUE)
+			tknizer->tkn->type = TKN_IO_REDIRECT;
 		else
-			token->type = TKN_REDIRECT;
+			tknizer->tkn->type = TKN_REDIRECT;
 	}
 	else
-		token->type = type;
+		tknizer->tkn->type = type;
 	return (FT_SUCCESS);
 }
 
@@ -80,12 +81,14 @@ t_tkn	*ft_new_token(void)
 	return (new_token);
 }
 
-void	ft_token_start_set(t_tknizer *tknizer, char *str)
+void	ft_token_start_set(t_tknizer *tknizer)
 {
-	while (ft_isspace(*str) == BOOL_TRUE)
+	while (ft_isspace(*(tknizer->str_pos)) == BOOL_TRUE)
 	{
-		str++;
+		tknizer->str_pos++;
 	}
-	tknizer->tkn_start = str;
+	tknizer->tkn_start = tknizer->str_pos;
+	if (ft_isdigit(*(tknizer->str_pos)) == BOOL_TRUE)
+		tknizer->io_num_mode = BOOL_TRUE;
 	return ;
 }

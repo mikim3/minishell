@@ -23,64 +23,78 @@ void	*ft_tokenizer(char *str)
 	int			prev_type;
 	int			error;
 	// 코드 밖 코멘트, 사용하지 않을 헤더 존재함
-	prev_type = TKN_NULL;
+	prev_type = TKN_WORD;
 	error = BOOL_FALSE;
-	tknizer.tkn_start = str;
-	tknizer.tkn_len = 0;
-	tknizer.tkn_list = 0;
-	tknizer.tkn = ft_new_token();
-	if (tknizer.tkn == 0)
-		return (0);
-	while (*str != '\0')
+	if (ft_initialize_tokenizer(&tknizer, str) == FT_ERROR)
+		exit(1);
+	while (*(tknizer.str_pos) != '\0')
 	{
-		error = ft_tokenizing_loop(&tknizer, &prev_type, error, &str);
+		error = ft_tokenizing_loop(&tknizer, &prev_type);
 		if (error == BOOL_TRUE)
 			exit(1);
-		str++;
+		(tknizer.str_pos)++;
 	}
-	if (ft_token_processor(&tknizer, str, &prev_type, TKN_NULL) == FT_ERROR)
+	if (ft_token_processor(&tknizer, &prev_type, TKN_NULL) == FT_ERROR)
 		exit(1);
 	return ((void *)(tknizer.tkn_list));
 }
 
-int	ft_tokenizing_loop(t_tknizer *tknizer, int *prev_type, int error, char **str)
+int	ft_initialize_tokenizer( t_tknizer *tknizer, char *str)
 {
-	if (ft_is_quote(**str) == BOOL_TRUE)
-		error = ft_close_quote(tknizer, str, prev_type);
+	tknizer->tkn_list = 0;
+	tknizer->tkn = ft_new_token();
+	if (tknizer->tkn == 0)
+		return (FT_ERROR);
+	tknizer->str_pos = str;
+	tknizer->tkn_start = str;
+	tknizer->tkn_len = 0;
+	tknizer->io_num_mode = BOOL_FALSE;
+	return (FT_SUCCESS);
+}
+
+int	ft_tokenizing_loop(t_tknizer *tknizer, int *prev_type)
+{
+	int	error;
+
+	error = BOOL_FALSE;
+	if (ft_is_quote(*(tknizer->str_pos)) == BOOL_TRUE)
+		error = ft_close_quote(tknizer, prev_type);
 	if (error == BOOL_FALSE && *prev_type == TKN_OPERATOR)
 	{
 		if (ft_can_become_operator(*(tknizer->tkn_start),
-				**str, tknizer->tkn_len) == BOOL_FALSE)
-			error = ft_token_processor(tknizer, *str, prev_type, TKN_WORD);
+				*(tknizer->str_pos), tknizer->tkn_len) == BOOL_FALSE)
+			error = ft_token_processor(tknizer, prev_type, TKN_WORD);
 	}
-	if (error == BOOL_FALSE
-		&& *prev_type != TKN_OPERATOR && ft_is_operator(**str) == BOOL_TRUE)
-		error = ft_token_processor(tknizer, *str, prev_type, TKN_OPERATOR);
-	if (error == BOOL_FALSE && ft_isspace(**str) == BOOL_TRUE)
-		error = ft_token_processor(tknizer, *str, prev_type, TKN_WORD);
-	else
-		tknizer->tkn_len++;
+	if (error == BOOL_FALSE && *prev_type != TKN_OPERATOR
+		&& ft_is_operator(*(tknizer->str_pos)) == BOOL_TRUE)
+		error = ft_token_processor(tknizer, prev_type, TKN_OPERATOR);
+	if (error == BOOL_FALSE && ft_isspace(*(tknizer->str_pos)) == BOOL_TRUE)
+		error = ft_token_processor(tknizer, prev_type, TKN_WORD);
+	if (ft_isdigit(*(tknizer->str_pos) == BOOL_FALSE))
+			tknizer->io_num_mode = BOOL_FALSE;
+	tknizer->tkn_len++;
 	return (error);
 }
 
-int	ft_close_quote(t_tknizer *tknizer, char **str, int *prev_type)
+int	ft_close_quote(t_tknizer *tknizer, int *prev_type)
 {
 	char	target;
-	// 형태 마음에 안든다. 최적화 가능할 것 같음.
-	target = **str;
+	// 형태 마음에 안든다. 반복 조건 조정해서 리팩토링.
+	target = *(tknizer->str_pos);
 	tknizer->tkn_len++;
-	(*str)++;
-	while (**str != target)
+	tknizer->str_pos++;
+	while (*(tknizer->str_pos) != target)
 	{
-		if (**str == '\0')
+		if (*(tknizer->str_pos) == '\0')
 			return (FT_ERROR);
 		tknizer->tkn_len++;
-		(*str)++;
+		tknizer->str_pos++;
 	}
-	if (**str == '\0')
+	if (*(tknizer->str_pos) == '\0')
 		return (FT_ERROR);
 	tknizer->tkn_len++;
-	(*str)++;
+	tknizer->str_pos++;
+	tknizer->io_num_mode = BOOL_FALSE;
 	*prev_type = TKN_WORD;
 	return (FT_SUCCESS);
 }
@@ -102,14 +116,9 @@ int	main(void)
 void	test_print_token_lst(t_list *token_list)
 {
 	int		i;
-	char	*type[5];
+	char	*type[5] = {"NULL", "WORD", "OPERATOR", "PIPE", "REDIRECT"};
 
 	i = 1;
-	type[0] = "NULL";
-	type[1] = "WORD";
-	type[2] = "OPERATOR";
-	type[3] = "PIPE";
-	type[4] = "REDIRECT";
 	while (token_list != 0)
 	{
 		printf("token %d : %s, ", i, ((t_tkn *)token_list->content)->str);
