@@ -6,14 +6,15 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:49:46 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/16 10:38:42 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/16 14:01:42 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_tokenizer.h"
+#include "../libft/libft.h"
 
 int	ft_token_processor(
-		t_tknizer *tknizer, int *prev_type, int tkn_type)
+		t_tknizer *tknizer, int *prev_type)
 {
 	if (tknizer->tkn_len != 0)
 	{
@@ -24,16 +25,20 @@ int	ft_token_processor(
 		if (tknizer->tkn == 0)
 			return (FT_ERROR);
 	}
-	*prev_type = tkn_type;
-	ft_token_start_set(tknizer);
-	tknizer->tkn_len = 0;
-	if (tkn_type == TKN_NULL)
+	if (*(tknizer->str_pos) == '\0')
 	{
 		tknizer->tkn->str = 0;
 		tknizer->tkn->type = TKN_NULL;
 		if (ft_token_cut(&(tknizer->tkn_list), tknizer->tkn) == FT_ERROR)
 			return (FT_ERROR);
+		tknizer->tkn_len = 0;
+		return (FT_SUCCESS);
 	}
+	ft_token_start_set(tknizer);
+	if (ft_is_operator(*(tknizer->str_pos)) == BOOL_TRUE)
+		*prev_type = TKN_OPERATOR;
+	else
+		*prev_type = TKN_WORD;
 	return (FT_SUCCESS);
 }
 
@@ -50,7 +55,7 @@ int	ft_token_set(t_tknizer *tknizer, int type)
 		if (*(tknizer->tkn->str) == '|')
 			tknizer->tkn->type = TKN_PIPE;
 		else if (tknizer->io_num_mode == BOOL_TRUE)
-			tknizer->tkn->type = TKN_IO_REDIRECT;
+			tknizer->tkn->type = TKN_FD_REDIRECT;
 		else
 			tknizer->tkn->type = TKN_REDIRECT;
 	}
@@ -83,12 +88,23 @@ t_tkn	*ft_new_token(void)
 
 void	ft_token_start_set(t_tknizer *tknizer)
 {
+	int	i;
+
+	i = 0;
 	while (ft_isspace(*(tknizer->str_pos)) == BOOL_TRUE)
 	{
 		tknizer->str_pos++;
+		i++;
 	}
 	tknizer->tkn_start = tknizer->str_pos;
-	if (ft_isdigit(*(tknizer->str_pos)) == BOOL_TRUE)
+	tknizer->tkn_len = 0;
+	tknizer->oper_len = 0;
+	if (i != 0 && ft_isdigit(*(tknizer->str_pos)) == BOOL_TRUE)
 		tknizer->io_num_mode = BOOL_TRUE;
+	else if (i == 0 && *(tknizer->str_pos - 1) == '|'
+		&& ft_isdigit(*(tknizer->str_pos)) == BOOL_TRUE)
+		tknizer->io_num_mode = BOOL_TRUE;
+	else
+		tknizer->io_num_mode = BOOL_FALSE;
 	return ;
 }

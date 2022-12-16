@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tokenizer.c                                        :+:      :+:    :+:   */
+/*   ft_tokenizer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:01:52 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/13 12:33:31 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/16 14:28:22 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,11 @@ void	*ft_tokenizer(char *str)
 		exit(1);
 	while (*(tknizer.str_pos) != '\0')
 	{
-		error = ft_tokenizing_loop(&tknizer, &prev_type);
+		error = ft_tokenizing_loop(&tknizer, error, &prev_type);
 		if (error == BOOL_TRUE)
 			exit(1);
-		(tknizer.str_pos)++;
 	}
-	if (ft_token_processor(&tknizer, &prev_type, TKN_NULL) == FT_ERROR)
+	if (ft_token_processor(&tknizer, &prev_type) == FT_ERROR)
 		exit(1);
 	return ((void *)(tknizer.tkn_list));
 }
@@ -48,38 +47,57 @@ int	ft_initialize_tokenizer( t_tknizer *tknizer, char *str)
 	tknizer->str_pos = str;
 	tknizer->tkn_start = str;
 	tknizer->tkn_len = 0;
-	tknizer->io_num_mode = BOOL_FALSE;
+	tknizer->oper_len = 0;
+	if (ft_isdigit(*str) == BOOL_TRUE)
+		tknizer->io_num_mode = BOOL_TRUE;
+	else
+		tknizer->io_num_mode = BOOL_FALSE;
 	return (FT_SUCCESS);
 }
 
-int	ft_tokenizing_loop(t_tknizer *tknizer, int *prev_type)
+int	ft_tokenizing_loop(t_tknizer *tknizer, int error, int *prev_type)
 {
-	int	error;
-
-	error = BOOL_FALSE;
 	if (ft_is_quote(*(tknizer->str_pos)) == BOOL_TRUE)
 		error = ft_close_quote(tknizer, prev_type);
 	if (error == BOOL_FALSE && *prev_type == TKN_OPERATOR)
 	{
-		if (ft_can_become_operator(*(tknizer->tkn_start),
-				*(tknizer->str_pos), tknizer->tkn_len) == BOOL_FALSE)
-			error = ft_token_processor(tknizer, prev_type, TKN_WORD);
+		if (tknizer->oper_len == 1
+			|| ft_can_become_operator(*(tknizer->str_pos - 1),
+				*(tknizer->str_pos), &(tknizer->oper_len)) == BOOL_FALSE)
+			error = ft_token_processor(tknizer, prev_type);
 	}
 	if (error == BOOL_FALSE && *prev_type != TKN_OPERATOR
 		&& ft_is_operator(*(tknizer->str_pos)) == BOOL_TRUE)
-		error = ft_token_processor(tknizer, prev_type, TKN_OPERATOR);
-	if (error == BOOL_FALSE && ft_isspace(*(tknizer->str_pos)) == BOOL_TRUE)
-		error = ft_token_processor(tknizer, prev_type, TKN_WORD);
-	if (ft_isdigit(*(tknizer->str_pos) == BOOL_FALSE))
+	{
+		if (tknizer->io_num_mode == BOOL_TRUE)
+			*prev_type = TKN_OPERATOR;
+		else
+			error = ft_token_processor(tknizer, prev_type);
+	}
+	if (error == BOOL_FALSE
+		&& ft_isspace(*(tknizer->str_pos)) == BOOL_TRUE)
+		error = ft_token_processor(tknizer, prev_type);
+	else
+	{
+		if (ft_isdigit(*(tknizer->str_pos)) == BOOL_FALSE)
 			tknizer->io_num_mode = BOOL_FALSE;
-	tknizer->tkn_len++;
+		tknizer->str_pos++;
+		tknizer->tkn_len++;
+	}
 	return (error);
 }
+/*
+	if (ft_isdigit(*(tknizer->str_pos) == BOOL_FALSE))
+			tknizer->io_num_mode = BOOL_FALSE;
+*/
 
 int	ft_close_quote(t_tknizer *tknizer, int *prev_type)
 {
 	char	target;
 	// 형태 마음에 안든다. 반복 조건 조정해서 리팩토링.
+	if (*prev_type == TKN_OPERATOR
+		&& ft_token_processor(tknizer, prev_type) == FT_ERROR)
+		return (FT_ERROR);
 	target = *(tknizer->str_pos);
 	tknizer->tkn_len++;
 	tknizer->str_pos++;
@@ -92,9 +110,9 @@ int	ft_close_quote(t_tknizer *tknizer, int *prev_type)
 	}
 	if (*(tknizer->str_pos) == '\0')
 		return (FT_ERROR);
+	tknizer->io_num_mode = BOOL_FALSE;
 	tknizer->tkn_len++;
 	tknizer->str_pos++;
-	tknizer->io_num_mode = BOOL_FALSE;
 	*prev_type = TKN_WORD;
 	return (FT_SUCCESS);
 }
@@ -116,7 +134,7 @@ int	main(void)
 void	test_print_token_lst(t_list *token_list)
 {
 	int		i;
-	char	*type[5] = {"NULL", "WORD", "OPERATOR", "PIPE", "REDIRECT"};
+	char	*type[6] = {"NULL", "WORD", "OPERATOR", "PIPE", "REDIRECT", "FD_REDIRECT"};
 
 	i = 1;
 	while (token_list != 0)

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:51:56 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/15 15:19:48 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/16 12:45:09 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@ int	ft_is_quote(char cha)
 	return (BOOL_FALSE);
 }
 
-int	ft_can_become_operator(char diff_target, char cha, int token_len)
+int	ft_can_become_operator(char diff_target, char cha, int *oper_len)
 {
-	if (token_len > 1)
-		return (BOOL_FALSE);
 	if (diff_target != '|' && diff_target == cha)
+	{
+		(*oper_len)++;
 		return (BOOL_TRUE);
+	}
 	return (BOOL_FALSE);
 }
 

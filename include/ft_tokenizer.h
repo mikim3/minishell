@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:04:24 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/16 10:12:30 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/16 13:34:05 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef enum e_token_type{
 	TKN_OPERATOR,
 	TKN_PIPE,
 	TKN_REDIRECT,
-	TKN_IO_REDIRECT
+	TKN_FD_REDIRECT
 }		t_tkn_type;
 
 typedef enum e_boolean{
@@ -46,22 +46,23 @@ typedef struct s_tokenizer_data{
 	char	*tkn_start;
 	int		tkn_len;
 	int		io_num_mode;
+	int		oper_len;
 }		t_tknizer;
 
 void	*ft_tokenizer(char *str);
 int		ft_initialize_tokenizer( t_tknizer *tknizer, char *str);
-int		ft_tokenizing_loop(t_tknizer *tknizer, int *prev_type);
+int		ft_tokenizing_loop(t_tknizer *tknizer, int error, int *prev_type);
 int		ft_close_quote(t_tknizer *tknizer, int *prev_type);
 
 int		ft_token_processor(t_tknizer *tknizer,
-			int *prev_type, int tkn_type);
+			int *prev_type);
 int		ft_token_set(t_tknizer *tknizer, int type);
 int		ft_token_cut(t_list **token_list, t_tkn *token);
 t_tkn	*ft_new_token(void);
 void	ft_token_start_set(t_tknizer *tknizer);
 
 int		ft_is_quote(char cha);
-int		ft_can_become_operator(char diff_target, char cha, int token_len);
+int		ft_can_become_operator(char diff_target, char cha, int *oper_len);
 int		ft_is_operator(char cha);
 
 void	test_print_token_lst(t_list *token_list);
