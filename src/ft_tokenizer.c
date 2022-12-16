@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:01:52 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/16 15:35:38 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/16 15:42:52 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,17 +79,14 @@ int	ft_tokenizing_loop(t_tknizer *tknizer, int error, int *prev_type)
 		error = ft_token_processor(tknizer, prev_type);
 	else
 	{
-		if (ft_isdigit(*(tknizer->str_pos)) == BOOL_FALSE)
+		if (*prev_type != TKN_OPERATOR
+			&& ft_isdigit(*(tknizer->str_pos)) == BOOL_FALSE)
 			tknizer->io_num_mode = BOOL_FALSE;
 		tknizer->str_pos++;
 		tknizer->tkn_len++;
 	}
 	return (error);
 }
-/*
-	if (ft_isdigit(*(tknizer->str_pos) == BOOL_FALSE))
-			tknizer->io_num_mode = BOOL_FALSE;
-*/
 
 int	ft_close_quote(t_tknizer *tknizer, int *prev_type)
 {
