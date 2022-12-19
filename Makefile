@@ -15,7 +15,7 @@ READLINE_FLAG = -lreadline
 
 SRCDIR = ./src
 
-SRCS	= ft_tokenizer.c ft_token_processing.c ft_tokenizer_util.c
+SRCS	= ft_tokenizer.c ft_token_processing.c ft_tokenizer_util.c ft_syntax_analysis.c
 SRCS	:= $(addprefix $(SRCDIR)/, $(SRCS))
 
 OBJS = $(SRCS:.c=.o)
