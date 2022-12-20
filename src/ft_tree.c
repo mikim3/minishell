@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 10:36:56 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/19 11:45:13 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/20 15:49:20 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,21 @@ t_tree_node	*ft_tree_init(void *node_content)
 	return (new);
 }
 
+// 좌우 순서로 적절한 위치에 추가하는 함수 (이름이 존재할까?) - 함수 이름 수정 
+	// 해당 노드 아래 노드들의 깊이를 기준으로 해당 깊이를 '채우도록' 할당
+void	ft_tree_add_node_bfs(t_tree_node *target_tree, t_tree_node *new_node)
+{
+	if (target_tree->left == 0)
+		target_tree->left = new_node;
+	else if (target_tree->right == 0)
+		target_tree->right = new_node;
+	else
+		ft_tree_add_node_fulfill_depth(target_tree->left, new_node);
+	return ;
+}
+
+
+// 좌측 가지 대체
 void	ft_tree_add_node_left(t_tree_node *target_tree, t_tree_node *new_node)
 {
 	if (target_tree == BOOL_FALSE)
@@ -40,6 +55,7 @@ void	ft_tree_add_node_left(t_tree_node *target_tree, t_tree_node *new_node)
 	return ;
 }
 
+// 우측 가지 대체
 void	ft_tree_add_node_right(t_tree_node *target_tree, t_tree_node *new_node)
 {
 	if (target_tree == BOOL_FALSE)
@@ -54,39 +70,36 @@ void	ft_tree_add_node_right(t_tree_node *target_tree, t_tree_node *new_node)
 	return ;
 }
 
-// 순
-void	ft_tree_delete_node()
-{
-
-
-
-}
-
-//
-int	ft_tree_node_post_traversal(t_tree_node *target_tree, char(*f)(unsigned int, char))
-{
-	if (target_tree == BOOL_FALSE)
-		return (FT_FAIL);
-	ft_tree_node_traversal(target_tree->left,(*f));
-	ft_tree_node_traversal(target_tree->right,(*f));
-	if ((*f) == BOOL_FALSE)
-		return (FT_FAIL);
-	return ;
-}
-
-// 읽는거
+// 전위 탐색
 int	ft_tree_node_pre_traversal(t_tree_node *target_tree, char(*f)(unsigned int, char))
 {
 	if (target_tree == BOOL_FALSE)
 		return (FT_FAIL);
 	if ((*f) == BOOL_FALSE)
 		return (FT_FAIL);
+	(*f)();
 	ft_tree_node_traversal(target_tree->left,(*f));
 	ft_tree_node_traversal(target_tree->right,(*f));
-	return ;
+	return (FT_SUCCESS);
 }
 
+// 후위 탐색
+int	ft_tree_node_post_traversal(t_tree_node *target_tree, char(*f)(unsigned int, char))
+{
+	if (target_tree == BOOL_FALSE)
+		return (FT_FAIL);
+	if ((*f) == BOOL_FALSE)
+		return (FT_FAIL);
+	ft_tree_node_traversal(target_tree->left,(*f));
+	ft_tree_node_traversal(target_tree->right,(*f));
+	(*f)();
+	return (FT_SUCCESS);
+}
+
+// 삭제
+void	ft_tree_delete_node()
+{
 
 
 
-
+}
