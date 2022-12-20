@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:01:52 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/19 14:26:50 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/20 14:04:54 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ int	main(void)
 		token_list = (t_list *)ft_tokenizer(input);
 		test_print_token_lst(token_list);
 		ft_syntax_analysis(token_list);
+		//ft_syntax_parse_tree(token_list);
 	}
 	return (0);
 }

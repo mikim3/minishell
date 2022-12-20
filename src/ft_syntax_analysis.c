@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 11:41:04 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/20 13:43:47 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/20 13:46:57 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int	ft_syntax_analysis(t_list *token_list)
 		return (FT_SUCCESS);
 	if (ft_stx_a_pipeline(token_list, token_list, 1) == -1)
 	{
-		printf("syntax error\n");
+		printf("\nsyntax error\n\n");
 		return (FT_ERROR);
 	}
-	printf("syntax appropriate\n");
+	printf("\nsyntax appropriate\n\n");
 	return (FT_SUCCESS);
 }
 
