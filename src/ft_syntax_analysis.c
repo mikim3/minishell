@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 11:41:04 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/20 12:11:37 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/20 13:43:47 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,25 @@ int	ft_stx_a_pipeline(t_list *token_list, t_list *token, int token_pos)
 	token = ft_lst_num(token_list, token_pos);
 	if (token == 0)
 		return(-1);
+	if (((t_tkn *)token->content)->type == TKN_PIPE)
+		return (-1);
 	token_pos = ft_stx_a_simple_cmd(token_list, token, token_pos);
 	if (token_pos == -1)
 		return (-1);
 	token = ft_lst_num(token_list, token_pos);
 	if (((t_tkn *)token->content)->type == TKN_NULL)
 		return (token_pos);
-	if (((t_tkn *)token_list->content)->type == TKN_PIPE)
+	if (((t_tkn *)token->content)->type == TKN_PIPE)
 	{
-		token_pos = ft_stx_a_pipeline(token_list, token->next, token_pos++);
+		token_pos = ft_stx_a_pipeline(token_list, token->next, token_pos + 1);
 		if (token_pos == -1)
 			return (-1);
 	}
-	// pipe 안오는데 null 아니면 실패 아닌가?
+	else
+	{
+		// pipe 안오는데 null 아니면 실패 아닌가?
+		return (-1);
+	}
 	return (token_pos);
 }
 
@@ -77,6 +83,9 @@ int ft_stx_a_simple_cmd(t_list *token_list, t_list *token, int token_pos)
 	if (token_pos != -1)
 	{
 		stack_pos = token_pos;
+		token = ft_lst_num(token_list, stack_pos);
+		if (token == 0)
+			return (-1);
 		token_pos = ft_stx_a_word(token_list, token, stack_pos);
 		// cmd_prefix 뒤에 cmd 못올 경우 동작이 이런 식이 맞나?
 		if (token_pos == -1)
@@ -84,6 +93,9 @@ int ft_stx_a_simple_cmd(t_list *token_list, t_list *token, int token_pos)
 		else
 		{
 			stack_pos = token_pos;
+			token = ft_lst_num(token_list, stack_pos);
+			if (token == 0)
+				return (-1);
 			token_pos = ft_stx_a_cmd_suffix(token_list, token, stack_pos);
 			if (token_pos == -1)
 				return (stack_pos);
@@ -93,12 +105,15 @@ int ft_stx_a_simple_cmd(t_list *token_list, t_list *token, int token_pos)
 	}
 	else
 	{
-		ft_stx_a_word(token_list, token, stack_pos);
+		token_pos = ft_stx_a_word(token_list, token, stack_pos);
 		if (token_pos == -1)
-			return (-1);
+			return (stack_pos);
 		else
 		{
 			stack_pos = token_pos;
+			token = ft_lst_num(token_list, stack_pos);
+			if (token == 0)
+				return (-1);
 			token_pos = ft_stx_a_cmd_suffix(token_list, token, stack_pos);
 			if (token_pos == -1)
 				return (stack_pos);
@@ -124,6 +139,8 @@ int ft_stx_a_cmd_prefix(t_list *token_list, t_list *token, int token_pos)
 		// 근데 tree 저장 알고리즘 바꾸면 그만이니 그냥 뒤 보게하는게 편한거 아닌가?
 			// 현재까지 읽은 위치도 반환할 수 있으니.
 	token = ft_lst_num(token_list, token_pos);
+	if (token == 0)
+		return (-1);
 	if (((t_tkn *)token->content)->type == TKN_NULL)
 		return (token_pos);
 	// 재귀했을 때 -1 반환되는 경우와 token_pos 반환되는 경우의 차이.
@@ -141,23 +158,25 @@ int ft_stx_a_cmd_suffix(t_list *token_list, t_list *token, int token_pos)
 {
 	// 우선 현재 token이 null인지 보고, null이 아니라면 그 token이 redir 혹은 word인지 확인한다.
 	if (((t_tkn *)token->content)->type == TKN_NULL)
-	{
 		return (token_pos);
-	}
-	else if (((t_tkn *)token->content)->type != TKN_WORD)
-	{
-		token_pos = ft_stx_a_redir(token_list, token, token_pos);
-		if (token_pos == -1)
-			return (-1);
-	}
-	else
+	else if (((t_tkn *)token->content)->type == TKN_WORD)
 	{
 		token_pos = ft_stx_a_word(token_list, token, token_pos);
 		if (token_pos == -1)
 			return (-1);
 	}
+	else
+	{
+		token_pos = ft_stx_a_redir(token_list, token, token_pos);
+		if (token_pos == -1)
+			return (-1);
+	}
 	token = ft_lst_num(token_list, token_pos);
+	if (token == 0)
+		return (-1);
 	if (((t_tkn *)token->content)->type == TKN_NULL)
+		return (token_pos);
+	if (((t_tkn *)token->content)->type == TKN_PIPE)
 		return (token_pos);
 	// 재귀했을 때 -1 반환되는 경우와 token_pos 반환되는 경우의 차이.
 	token_pos = ft_stx_a_cmd_suffix(token_list, token, token_pos);
@@ -170,8 +189,6 @@ int ft_stx_a_cmd_suffix(t_list *token_list, t_list *token, int token_pos)
 int ft_stx_a_redir(t_list *token_list, t_list *token, int token_pos)
 {
 	token = ft_lst_num(token_list, token_pos);
-	if (((t_tkn *)token->content)->type == TKN_NULL)
-		return (-1);
 	if (((t_tkn *)token->content)->type == TKN_REDIRECT
 		|| ((t_tkn *)token->content)->type == TKN_FD_REDIRECT)
 	{
@@ -179,6 +196,8 @@ int ft_stx_a_redir(t_list *token_list, t_list *token, int token_pos)
 		if (token_pos == -1)
 			return (-1);
 	}
+	else
+		return (-1);
 	return (token_pos);
 }
 
@@ -186,6 +205,8 @@ int ft_stx_a_redir(t_list *token_list, t_list *token, int token_pos)
 int	ft_stx_a_word(t_list *token_list, t_list *token, int token_pos)
 {
 	token = ft_lst_num(token_list, token_pos);
+	if (token == 0)
+		return (-1);
 	if (((t_tkn *)token->content)->type == TKN_NULL)
 		return (-1);
 	if (((t_tkn *)token->content)->type != TKN_WORD)
