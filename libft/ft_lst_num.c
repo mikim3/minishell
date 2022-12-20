@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 14:23:15 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/19 14:25:14 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/20 12:02:51 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@ t_list	*ft_lst_num(t_list *lst, int num)
 {
 	int	i;
 
-	if (lst == NULL)
-		return (NULL);
+	if (lst == 0)
+		return (0);
 	i = 1;
-	while (lst -> next != NULL && i < num)
+	while (i < num)
 	{
-		lst = lst -> next;
+		if (lst == 0)
+			return (0);
+		lst = lst->next;
 		i++;
 	}
 	return (lst);

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:04:24 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/19 14:28:25 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/20 10:44:14 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,13 @@ void	test_print_token_lst(t_list *token_list);
 
 int	ft_syntax_analysis(t_list *token_list);
 
-int	ft_stx_a_pipeline(t_list *token_pos);
-int ft_stx_a_simple_cmd(t_list *token_pos);
-int ft_stx_a_cmd_prefix(t_list *token_pos);
-int ft_stx_a_cmd_suffix(t_list *token_pos);
-int ft_stx_a_io_redir(t_list *token_pos);
+int	ft_stx_a_pipeline(t_list *token_list, t_list *token, int token_pos);
+int ft_stx_a_simple_cmd(t_list *token_list, t_list *token, int token_pos);
+int ft_stx_a_cmd_prefix(t_list *token_list, t_list *token, int token_pos);
+int ft_stx_a_cmd_suffix(t_list *token_list, t_list *token, int token_pos);
+int ft_stx_a_io_redir(t_list *token_list, t_list *token, int token_pos);
 
-int ft_stx_a_redir(t_list *token_pos);
-int	ft_stx_a_word(t_list *token_pos);
+int ft_stx_a_redir(t_list *token_list, t_list *token, int token_pos);
+int	ft_stx_a_word(t_list *token_list, t_list *token, int token_pos);
 
 #endif
