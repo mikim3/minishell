@@ -6,39 +6,56 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 10:36:56 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/20 15:49:20 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/22 15:52:30 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_tree.h"
 
 
+
+#include "../include/ft_tokenizer.h"
 #include <stdio.h>
 
-t_tree_node	*ft_tree_init(void *node_content)
+t_tree_node	*ft_tree_init(int type, void *node_content)
 {
 	t_tree_node	*new;
 
-	new = (t_tree_node *)malloc(sizeof(tt_tree_node));
-	if (new == BOOL_FALSE)
-		return (FT_FAIL);
+	new = (t_tree_node *)malloc(sizeof(t_tree_node));
+	if (new == 0)
+		return (0);
+	new->type = type;
 	new->content = node_content;
+	new->left = 0;
+	new->right = 0;
 	return (new);
 }
 
-// 좌우 순서로 적절한 위치에 추가하는 함수 (이름이 존재할까?) - 함수 이름 수정 
-	// 해당 노드 아래 노드들의 깊이를 기준으로 해당 깊이를 '채우도록' 할당
-void	ft_tree_add_node_bfs(t_tree_node *target_tree, t_tree_node *new_node)
+int	ft_tree_node_pre_traversal(t_tree_node *target_tree, void (*function)(void *))
 {
-	if (target_tree->left == 0)
-		target_tree->left = new_node;
-	else if (target_tree->right == 0)
-		target_tree->right = new_node;
-	else
-		ft_tree_add_node_fulfill_depth(target_tree->left, new_node);
-	return ;
+	if (target_tree == BOOL_FALSE)
+		return (FT_ERROR);
+	if ((*function) == BOOL_FALSE)
+		return (FT_ERROR);
+	function((t_tree_node *)target_tree);
+	ft_tree_node_pre_traversal(target_tree->left,(*function));
+	ft_tree_node_pre_traversal(target_tree->right,(*function));
+	return (FT_SUCCESS);
 }
 
+int	ft_tree_node_post_traversal(t_tree_node *target_tree, void (*function)(void *))
+{
+	if (target_tree == BOOL_FALSE)
+		return (FT_ERROR);
+	if ((*function) == BOOL_FALSE)
+		return (FT_ERROR);
+	ft_tree_node_post_traversal(target_tree->left,(*function));
+	ft_tree_node_post_traversal(target_tree->right,(*function));
+	function((t_tree_node *)target_tree);
+	return (FT_SUCCESS);
+}
+
+/*
 
 // 좌측 가지 대체
 void	ft_tree_add_node_left(t_tree_node *target_tree, t_tree_node *new_node)
@@ -74,9 +91,9 @@ void	ft_tree_add_node_right(t_tree_node *target_tree, t_tree_node *new_node)
 int	ft_tree_node_pre_traversal(t_tree_node *target_tree, char(*f)(unsigned int, char))
 {
 	if (target_tree == BOOL_FALSE)
-		return (FT_FAIL);
+		return (FT_ERROR);
 	if ((*f) == BOOL_FALSE)
-		return (FT_FAIL);
+		return (FT_ERROR);
 	(*f)();
 	ft_tree_node_traversal(target_tree->left,(*f));
 	ft_tree_node_traversal(target_tree->right,(*f));
@@ -87,9 +104,9 @@ int	ft_tree_node_pre_traversal(t_tree_node *target_tree, char(*f)(unsigned int, 
 int	ft_tree_node_post_traversal(t_tree_node *target_tree, char(*f)(unsigned int, char))
 {
 	if (target_tree == BOOL_FALSE)
-		return (FT_FAIL);
+		return (FT_ERROR);
 	if ((*f) == BOOL_FALSE)
-		return (FT_FAIL);
+		return (FT_ERROR);
 	ft_tree_node_traversal(target_tree->left,(*f));
 	ft_tree_node_traversal(target_tree->right,(*f));
 	(*f)();
@@ -103,3 +120,5 @@ void	ft_tree_delete_node()
 
 
 }
+
+*/

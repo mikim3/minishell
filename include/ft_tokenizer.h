@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:04:24 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/20 13:48:14 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/22 15:50:15 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,10 @@ void	ft_token_start_set(t_tknizer *tknizer);
 int		ft_is_quote(char cha);
 int		ft_can_become_operator(char diff_target, char cha, int *oper_len);
 int		ft_is_operator(char cha);
+void	ft_free_a_token_list_content(void *target);
 
 void	test_print_token_lst(t_list *token_list);
+void	test_tree_node_check_for_content(void *tree_node);
 
 int	ft_syntax_analysis(t_list *token_list);
 
@@ -77,5 +79,8 @@ int ft_stx_a_io_redir(t_list *token_list, t_list *token, int token_pos);
 
 int ft_stx_a_redir(t_list *token_list, t_list *token, int token_pos);
 int	ft_stx_a_word(t_list *token_list, t_list *token, int token_pos);
+
+int	ft_token_what_type(t_list *token);
+char	*ft_token_what_str(t_list *token);
 
 #endif

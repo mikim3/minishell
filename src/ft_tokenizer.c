@@ -6,16 +6,18 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:01:52 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/20 15:49:36 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/22 16:07:20 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <readline/readline.h>
+#include "../include/ft_tree.h"
 #include "../include/ft_tokenizer.h"
 
 // 예외처리를 임시로 exit로 해둠. exit 사용을 위한 헤더
 #include <stdlib.h>
+#include <unistd.h>
 
 void	*ft_tokenizer(char *str)
 {
@@ -118,14 +120,25 @@ int	main(void)
 {
 	t_list		*token_list;
 	char		*input;
-//	t_tree_node	*token_tree;
+	t_tree_node	*token_tree;
+
 	while (1)
 	{
 		input = readline("minishell$ ");
 		token_list = (t_list *)ft_tokenizer(input);
+		if (ft_syntax_analysis(token_list) == FT_SUCCESS)
+			token_tree = ft_syntax_parse_tree(token_list);
+
+			// token_tree 해제 타이밍은?
+		// test
 		test_print_token_lst(token_list);
-		ft_syntax_analysis(token_list);
-		//ft_syntax_parse_tree(token_list, BOOL_TRUE);
+		ft_tree_node_pre_traversal(token_tree, &test_tree_node_check_for_content);
+		
+		// token_list 해제
+		ft_lstclear(&token_list, &ft_free_a_token_list_content);
+		// token_tree 해제
+		ft_tree_node_post_traversal(token_tree, &ft_free_a_tree_node);
+		system("leaks minishell");
 	}
 	return (0);
 }
@@ -142,6 +155,36 @@ void	test_print_token_lst(t_list *token_list)
 		printf("type %s\n", type[((t_tkn *)token_list->content)->type]);
 		token_list = token_list->next;
 		i++;
+	}
+	return ;
+}
+
+void	test_tree_node_check_for_content(void *tree_node)
+{
+	t_tree_node *node;
+	int	i;
+
+	i = 0;
+	node = (t_tree_node *)tree_node;
+	if (node->type == NODE_CMD)
+	{
+		if (node->content == 0)
+			return ;
+		printf("node_cmd_name : %s\n", ((t_tree_cmd *)node->content)->cmd_name);
+		while (((t_tree_cmd *)node->content)->cmd_argv[i] != 0)
+		{
+			printf("node_cmd_argv : %s\n", ((t_tree_cmd *)node->content)->cmd_argv[i]);
+			i++;
+		}
+		printf("\n");
+	}
+	else if (node->type == NODE_REDIR
+		|| node->type == NODE_FD_REDIR)
+	{
+		if (node -> content == 0)
+			return ;
+		printf("node_redir : %s\n", ((t_tree_redir *)node->content)->redir);
+		printf("node_file_name : %s\n", ((t_tree_redir *)node->content)->file_name);
 	}
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:51:56 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/16 12:45:09 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/22 16:21:31 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,22 @@ int	ft_is_operator(char cha)
 	if (cha == '<' || cha == '>' || cha == '|')
 		return (BOOL_TRUE);
 	return (BOOL_FALSE);
+}
+
+void	ft_free_a_token_list_content(void *target)
+{
+	t_tkn *token;
+
+	token = (t_tkn *)((t_list *)target)->content;
+	if (token == 0)
+		return ;
+	if (token->type != TKN_NULL)
+	{
+		free(token->str);
+		token->str = 0;
+	}
+	token->type = 0;
+	free(token);
+	token = 0;
+	return ;
 }
