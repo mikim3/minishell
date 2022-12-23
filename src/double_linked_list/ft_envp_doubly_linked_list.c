@@ -3,19 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_envp_doubly_linked_list.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 14:00:14 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/23 16:51:30 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/23 17:26:26 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_doubly_linked_list.h"
-
-#include "../include/ft_tokenizer.h"
-
-#include "../include/ft_tree.h"
-
+#include "../../include/ft_doubly_linked_list.h"
+#include "../../include/ft_tokenizer.h"
+#include "../../include/ft_tree.h"
 #include <stdio.h>
 
 t_detower *ft_set_envp_dll(char **envp)
