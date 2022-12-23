@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 13:46:11 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/22 17:01:18 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/23 13:19:07 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,19 @@ t_tree_node	*ft_syntax_parse_tree(t_list *token_list)
 	int			status;
 
 	if (ft_token_what_type(token_list) == TKN_NULL)
-		return (0 /* 빈 pipeline 만들어서 반환 - 0 반환하면 예외처리 힘듬 */);
+	{
+		ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
+		return (0);
+	}
 	status = ft_syntax_parse_pipeline(token_list, &parse_tree);
 	if (status == FT_ERROR)
 	{
 		printf("parse tree fail\n");
-		// 해제 작업
+		ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
+		ft_tree_node_post_traversal(parse_tree, &ft_free_a_tree_node);
 		return (0);
 	}
 	printf("parse tree done\n");
-	// token_list 해제 - 밖에서 처리하는게 나을까?
 	return (parse_tree);
 }
 
@@ -46,16 +49,16 @@ int ft_syntax_parse_pipeline(t_list *token, t_tree_node **parse)
 	cur_redirects = 0;
 	*parse = ft_tree_init(NODE_PIPELINE, 0);
 	if (*parse == 0)
-		return (0);
+		return (FT_ERROR);
 	simple_cmd = ft_tree_init(NODE_SIMPLE_CMD, 0);
 	if (simple_cmd == 0)
-		return (0);
+		return (FT_ERROR);
 	simple_cmd->left = ft_tree_init(NODE_REDIRECTIONS, 0);
 	if (simple_cmd->left == 0)
-		return (0);
+		return (FT_ERROR);
 	simple_cmd->right = ft_tree_init(NODE_CMD, 0);
 	if (simple_cmd->right == 0)
-		return (0);
+		return (FT_ERROR);
 	(*parse)->left = simple_cmd;
 	cur_redirects = simple_cmd->left;
 	token_type = ft_token_what_type(token);
@@ -64,19 +67,13 @@ int ft_syntax_parse_pipeline(t_list *token, t_tree_node **parse)
 		if (token_type == TKN_REDIRECT || token_type == TKN_FD_REDIRECT)
 		{
 			if (ft_syntax_parse_redirections(&token, cur_redirects, token_type) == FT_ERROR)
-			{
-				// tree 해제
 				return (FT_ERROR);
-			}
 			cur_redirects = cur_redirects->right;
 		}
 		else if (token_type == TKN_WORD)
 		{
 			if (ft_syntax_parse_cmd(&token, simple_cmd->right) == FT_ERROR)
-			{
-				// tree 해제
 				return (FT_ERROR);
-			}
 		}
 		token = token->next;
 		token_type = ft_token_what_type(token);
@@ -85,10 +82,7 @@ int ft_syntax_parse_pipeline(t_list *token, t_tree_node **parse)
 	{
 		token = token->next;
 		if (ft_syntax_parse_pipeline(token, &recur_parse) == FT_ERROR)
-		{
-			// tree 해제
 			return (FT_ERROR);
-		}
 		(*parse)->right = recur_parse;
 	}
 	return (FT_SUCCESS);
@@ -191,6 +185,8 @@ void	ft_free_parse_argv(char **argv)
 	int	i;
 
 	i = 0;
+	if (argv == 0)
+		return ;
 	while (argv[i] != 0)
 	{
 		free(argv[i]);

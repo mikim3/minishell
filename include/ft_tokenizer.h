@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:04:24 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/22 15:50:15 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/23 13:05:13 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ typedef enum e_error{
 	FT_SUCCESS = 0,
 	FT_ERROR
 }		t_error;
+
+typedef enum e_tknizer_error_state{
+	TKN_TKNIZE_FAIL = 0,
+	TKN_TKNIZE_SUCCESSED
+}		t_tknizer_error;
 
 typedef struct s_token{
 	char	*str;
@@ -64,6 +69,7 @@ void	ft_token_start_set(t_tknizer *tknizer);
 int		ft_is_quote(char cha);
 int		ft_can_become_operator(char diff_target, char cha, int *oper_len);
 int		ft_is_operator(char cha);
+void	ft_free_tokenizer_list_and_token(t_list **token_list, t_tkn **token, int procedure);
 void	ft_free_a_token_list_content(void *target);
 
 void	test_print_token_lst(t_list *token_list);

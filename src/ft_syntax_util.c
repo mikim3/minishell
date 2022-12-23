@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 08:38:58 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/22 16:10:04 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/23 13:20:03 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,13 @@ void	ft_free_a_tree_node(void *target)
 	t_tree_redir	*redir_content;
 	
 	node = (t_tree_node *)target;
+	if (node == 0)
+		return ;
 	if (node->type == NODE_CMD)
 	{
 		cmd_content = (t_tree_cmd *)node->content;
-		free(cmd_content->cmd_name);
+		if (cmd_content->cmd_name != 0)
+			free(cmd_content->cmd_name);
 		cmd_content->cmd_name = 0;
 		ft_free_parse_argv(cmd_content->cmd_argv);
 		cmd_content->cmd_argv = 0;

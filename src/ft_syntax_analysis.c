@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 11:41:04 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/22 08:46:34 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/23 13:06:28 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	ft_syntax_analysis(t_list *token_list)
 	if (ft_stx_a_pipeline(token_list, token_list, 1) == -1)
 	{
 		printf("\nsyntax error\n\n");
+		ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
 		return (FT_ERROR);
 	}
 	printf("\nsyntax appropriate\n\n");
@@ -47,10 +48,7 @@ int	ft_stx_a_pipeline(t_list *token_list, t_list *token, int token_pos)
 			return (-1);
 	}
 	else
-	{
-		// pipe 안오는데 null 아니면 실패 아닌가?
 		return (-1);
-	}
 	return (token_pos);
 }
 
@@ -100,8 +98,6 @@ int ft_stx_a_simple_cmd(t_list *token_list, t_list *token, int token_pos)
 				return (token_pos);
 		}
 	}
-	// 조건문 빠져 나오는 경우가 존재할 수 있나?
-	// 만약 존재할 경우에는 무엇을 반환해야하는가?
 	stack_pos = token_pos;
 	return (stack_pos);
 }

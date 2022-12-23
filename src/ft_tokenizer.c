@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:01:52 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/22 16:07:20 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/23 13:25:49 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,25 @@ void	*ft_tokenizer(char *str)
 	prev_type = TKN_WORD;
 	error = BOOL_FALSE;
 	if (ft_initialize_tokenizer(&tknizer, str) == FT_ERROR)
-		exit(1);
+		return (0);
 	while (*(tknizer.str_pos) != '\0')
 	{
 		error = ft_tokenizing_loop(&tknizer, error, &prev_type);
 		if (error == BOOL_TRUE)
-			exit(1);
+		{
+			ft_free_tokenizer_list_and_token(&(tknizer.tkn_list), &(tknizer.tkn), TKN_TKNIZE_FAIL);
+			return (0);
+		}
 	}
 	if (ft_token_processor(&tknizer, &prev_type) == FT_ERROR)
-		exit(1);
+	{
+		ft_free_tokenizer_list_and_token(&(tknizer.tkn_list), &(tknizer.tkn), TKN_TKNIZE_FAIL);
+		return (0);
+	}
 	return ((void *)(tknizer.tkn_list));
 }
 
-int	ft_initialize_tokenizer( t_tknizer *tknizer, char *str)
+int	ft_initialize_tokenizer(t_tknizer *tknizer, char *str)
 {
 	tknizer->tkn_list = 0;
 	tknizer->tkn = ft_new_token();
@@ -126,19 +132,28 @@ int	main(void)
 	{
 		input = readline("minishell$ ");
 		token_list = (t_list *)ft_tokenizer(input);
-		if (ft_syntax_analysis(token_list) == FT_SUCCESS)
-			token_tree = ft_syntax_parse_tree(token_list);
+		if (token_list != 0)
+		{
+			if (ft_syntax_analysis(token_list) == FT_SUCCESS)
+			{
+				token_tree = ft_syntax_parse_tree(token_list);
+				if (token_tree != 0)
+				{
+					//작업 임시 테스트
+					test_print_token_lst(token_list);
 
-			// token_tree 해제 타이밍은?
-		// test
-		test_print_token_lst(token_list);
-		ft_tree_node_pre_traversal(token_tree, &test_tree_node_check_for_content);
-		
-		// token_list 해제
-		ft_lstclear(&token_list, &ft_free_a_token_list_content);
-		// token_tree 해제
-		ft_tree_node_post_traversal(token_tree, &ft_free_a_tree_node);
-		system("leaks minishell");
+					ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
+
+
+					ft_tree_node_pre_traversal(token_tree, &test_tree_node_check_for_content);
+					
+					
+					ft_tree_node_post_traversal(token_tree, &ft_free_a_tree_node);
+				}
+			}
+
+		}
+		system("leaks minishell | grep LEAK");
 	}
 	return (0);
 }
