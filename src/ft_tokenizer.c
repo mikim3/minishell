@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:01:52 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/23 13:25:49 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/23 16:53:50 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <readline/readline.h>
 #include "../include/ft_tree.h"
 #include "../include/ft_tokenizer.h"
+#include "../include/ft_doubly_linked_list.h"
 
 // 예외처리를 임시로 exit로 해둠. exit 사용을 위한 헤더
 #include <stdlib.h>
@@ -122,12 +123,24 @@ int	ft_close_quote(t_tknizer *tknizer, int *prev_type)
 	return (FT_SUCCESS);
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	t_list		*token_list;
 	char		*input;
 	t_tree_node	*token_tree;
+	t_detower	*dll_envp_tower;
+	char		**mnsh_envp;
 
+	if (argc >= 2 || argv[1] != 0)
+		return (FT_ERROR);
+	dll_envp_tower = ft_set_envp_dll(envp);
+	if (dll_envp_tower == 0)
+		return (FT_ERROR);
+	mnsh_envp = ft_set_char_envp_from_dll(dll_envp_tower, 0);
+	if (mnsh_envp == 0)
+		return (FT_ERROR);
+	// envp 추가 함수 - A _ a 순서에 맞게 배열하는 함수 -> 실행부에 넘김
+	// envp 제거 함수???? -> 실행부에 넘김
 	while (1)
 	{
 		input = readline("minishell$ ");
@@ -141,13 +154,10 @@ int	main(void)
 				{
 					//작업 임시 테스트
 					test_print_token_lst(token_list);
-
 					ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
 
 
 					ft_tree_node_pre_traversal(token_tree, &test_tree_node_check_for_content);
-					
-					
 					ft_tree_node_post_traversal(token_tree, &ft_free_a_tree_node);
 				}
 			}
@@ -155,7 +165,7 @@ int	main(void)
 		}
 		system("leaks minishell | grep LEAK");
 	}
-	return (0);
+	return (FT_SUCCESS);
 }
 
 void	test_print_token_lst(t_list *token_list)
@@ -201,5 +211,34 @@ void	test_tree_node_check_for_content(void *tree_node)
 		printf("node_redir : %s\n", ((t_tree_redir *)node->content)->redir);
 		printf("node_file_name : %s\n", ((t_tree_redir *)node->content)->file_name);
 	}
+	return ;
+}
+
+void	test_print_dll_envp(t_detower *dll)
+{
+	t_d_list		*node;
+	
+	node = dll->head;
+	printf("dll_envp\n\n");
+	while (node != 0)
+	{
+		printf("%s\n",((t_envp_content *)node->content)->key);
+		node = node->next;
+	}
+	printf("\n");
+}
+
+void	test_print_mnsh_envp(char **mnsh_envp)
+{
+	int	iter;
+
+	iter = 0;
+	printf("mnsh_envp\n\n");
+	while (mnsh_envp[iter] != 0)
+	{
+		printf("%s\n", mnsh_envp[iter]);
+		iter++;
+	}
+	printf("\n");
 	return ;
 }

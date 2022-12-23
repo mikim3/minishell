@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 10:37:05 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/22 15:54:16 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/23 15:18:06 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_tree_redir	*ft_node_content_redir(t_list **token);
 int	ft_syntax_parse_cmd(t_list **token, t_tree_node *cmd);
 char **ft_set_cmd_argv(char **argv, char *str);
 
-void	ft_free_parse_argv(char **argv);
+void	ft_free_string_ptr_arr(char **argv);
 
 void	ft_free_a_tree_node(void *target);
 

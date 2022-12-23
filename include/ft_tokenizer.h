@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:04:24 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/23 13:05:13 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/23 16:37:40 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int		ft_is_operator(char cha);
 void	ft_free_tokenizer_list_and_token(t_list **token_list, t_tkn **token, int procedure);
 void	ft_free_a_token_list_content(void *target);
 
+void	test_print_mnsh_envp(char **mnsh_envp);
 void	test_print_token_lst(t_list *token_list);
 void	test_tree_node_check_for_content(void *tree_node);
 
