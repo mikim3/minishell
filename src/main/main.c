@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/23 18:33:00 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/23 20:56:03 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,19 @@ int	main(int argc, char **argv, char **envp)
 	if (dll_envp_tower == 0)
 		return (FT_ERROR);
 	mnsh_envp = ft_set_char_envp_from_dll(dll_envp_tower, 0);
+	// int i = -1;
+	// while (mnsh_envp[++i])
+	// 	printf("%s\n",mnsh_envp[i]);
 	if (mnsh_envp == 0)
 		return (FT_ERROR);
+		
 	// envp 추가 함수 - A _ a 순서에 맞게 배열하는 함수 -> 실행부에 넘김
 	// envp 제거 함수???? -> 실행부에 넘김
 	while (1)
 	{
 		input = readline("minishell$ ");
+		if (*input != '\0')
+			add_history(input);
 		token_list = (t_list *)ft_tokenizer(input);
 		if (token_list != 0)
 		{
