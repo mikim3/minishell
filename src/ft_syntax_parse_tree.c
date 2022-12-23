@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 13:46:11 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/23 13:19:07 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/23 15:18:16 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ char **ft_set_cmd_argv(char **argv, char *str)
 	new_argv[argv_size - 1] = ft_strdup(str);
 	if (new_argv[argv_size - 1] == 0)
 	{
-		ft_free_parse_argv(new_argv);
+		ft_free_string_ptr_arr(new_argv);
 		return (0);
 	}
 	if (argv == 0)
@@ -171,16 +171,16 @@ char **ft_set_cmd_argv(char **argv, char *str)
 		new_argv[i] = ft_strdup(argv[i]);
 		if (new_argv[i] == 0)
 		{
-			ft_free_parse_argv(new_argv);
+			ft_free_string_ptr_arr(new_argv);
 			return (0);
 		}
 		i++;
 	}
-	ft_free_parse_argv(argv);
+	ft_free_string_ptr_arr(argv);
 	return (new_argv);
 }
 
-void	ft_free_parse_argv(char **argv)
+void	ft_free_string_ptr_arr(char **argv)
 {
 	int	i;
 
@@ -194,5 +194,5 @@ void	ft_free_parse_argv(char **argv)
 		i++;
 	}
 	free(argv);
-	return ;	
+	return ;
 }
