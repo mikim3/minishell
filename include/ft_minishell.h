@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_common.h                                        :+:      :+:    :+:   */
+/*   ft_minishell.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/23 17:52:44 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/23 18:32:15 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef FT_MINISHELL_H
+# define FT_MINISHELL_H
 
 #include "../libft/libft.h"
+#include "ft_tokenizer.h"
+#include "ft_tree.h"
+#include "ft_doubly_linked_list.h"
 
 #include <unistd.h>
 #include <stdlib.h>
@@ -30,7 +33,7 @@
 
 int g_exit_code;  //  $? 종료상태 코드 
 
-typedef struct s_pipe 
+typedef struct s_pipe
 {
     int     fd[2];
     int     infile_fd;
@@ -43,7 +46,7 @@ typedef struct s_simple_cmd {
     char    **argv; // minishell $> export a=10 b=20 c=30  cmd->argv[0] == "export"  , argv[1] == "a=10" , argv[2] == "b=10"
 }   t_simple_cmd;
 
-// next
+
 typedef struct s_env
 {
     // char    *original_text;  // ex) PATH=/Users/mikim3/brew/bin:/Users/mikim3/goinfre/brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki 
@@ -52,11 +55,5 @@ typedef struct s_env
 	struct s_env	*prev;
 	struct s_env	*next;
 }   t_env;
-
-
-
-
-
-
 
 #endif

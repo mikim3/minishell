@@ -6,11 +6,22 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/23 17:54:49 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/23 18:33:00 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ft_common.h"
+#include "../../include/ft_minishell.h"
+
+void	main_init()
+{
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~(ECHOCTL);  //  시그널 ^C 출력안되게 설장하기
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+	// set_signal(SHE, SHE); // 시그널
+	g_exit_code = 0;
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -19,7 +30,12 @@ int	main(int argc, char **argv, char **envp)
 	t_tree_node	*token_tree;
 	t_detower	*dll_envp_tower;
 	char		**mnsh_envp;
+	// struct termios		term;
 
+	// 터미널제어 함수 
+	// tcgetattr(STDIN_FILENO, &term);
+
+	// main_init();
 	if (argc >= 2 || argv[1] != 0)
 		return (FT_ERROR);
 	dll_envp_tower = ft_set_envp_dll(envp);
@@ -50,8 +66,8 @@ int	main(int argc, char **argv, char **envp)
 					ft_tree_node_post_traversal(token_tree, &ft_free_a_tree_node);
 				}
 			}
-
 		}
+		// tcsetattr(STDIN_FILENO, TCSANOW, &term);
 		system("leaks minishell | grep LEAK");
 	}
 	return (FT_SUCCESS);
