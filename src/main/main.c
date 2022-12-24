@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/23 20:56:03 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/24 22:35:24 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		input = readline("minishell$ ");
+		if (input == NULL) //  Ctrl + D를 누르면 input은 NULL이 들어옴
+		{
+			printf("see you later \n");
+		}
 		if (*input != '\0')
 			add_history(input);
 		token_list = (t_list *)ft_tokenizer(input);
@@ -60,6 +64,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			if (ft_syntax_analysis(token_list) == FT_SUCCESS)
 			{
+				// 
 				token_tree = ft_syntax_parse_tree(token_list);
 				if (token_tree != 0)
 				{
@@ -74,7 +79,7 @@ int	main(int argc, char **argv, char **envp)
 			}
 		}
 		// tcsetattr(STDIN_FILENO, TCSANOW, &term);
-		system("leaks minishell | grep LEAK");
+		// system("leaks minishell | grep LEAK");
 	}
 	return (FT_SUCCESS);
 }
