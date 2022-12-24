@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/24 22:35:24 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/24 22:41:46 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	main(int argc, char **argv, char **envp)
 	t_tree_node	*token_tree;
 	t_detower	*dll_envp_tower;
 	char		**mnsh_envp;
+	char		**mnsh_envp2;
 	// struct termios		term;
 
 	// 터미널제어 함수 
@@ -42,9 +43,14 @@ int	main(int argc, char **argv, char **envp)
 	if (dll_envp_tower == 0)
 		return (FT_ERROR);
 	mnsh_envp = ft_set_char_envp_from_dll(dll_envp_tower, 0);
-	// int i = -1;
-	// while (mnsh_envp[++i])
-	// 	printf("%s\n",mnsh_envp[i]);
+	mnsh_envp2 = ft_set_char_envp_from_dll(dll_envp_tower, mnsh_envp); 
+	int i = -1;
+	while (mnsh_envp[++i]) //출력 안됨 기존것은 사라진다.
+		printf("%s\n",mnsh_envp[i]);
+	i = -1;
+	printf("it's 2\n\n\n");
+	while (mnsh_envp2[++i])
+		printf("%s\n",mnsh_envp2[i]);
 	if (mnsh_envp == 0)
 		return (FT_ERROR);
 		
