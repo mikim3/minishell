@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/23 18:32:15 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/25 22:50:20 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,14 @@ int g_exit_code;  //  $? 종료상태 코드
 
 typedef struct s_pipe
 {
-    int     fd[2];
-    int     infile_fd;
-    int     outfile_fd;
+	int		fd[2];
+	int		infile_fd;
+	int		outfile_fd;
+	int		next_pipe_check;	// next_pipe_check 
+	int		pre_pipe_check;		
+	int		pipe_read_end;		// 처음에 STDIN_FILENO로시작 // pipe_read_end인 4
+	int		pipe_write_end;		// 처음에 STDOUT_FILENO로시작 // 
+    
 } t_pipe;
 
 typedef struct s_simple_cmd {

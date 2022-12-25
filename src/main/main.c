@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/24 22:41:46 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/26 00:07:24 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,17 @@ void	main_init()
 	g_exit_code = 0;
 }
 
+void	init_pipe(t_pipe *m_pipe)
+{
+	m_pipe->next_pipe_check = 0;
+	m_pipe->pre_pipe_check = 0;
+	m_pipe->pipe_read_end = STDIN_FILENO;
+	m_pipe->pipe_write_end = STDOUT_FILENO;
+	m_pipe->infile_fd = STDIN_FILENO;
+	m_pipe->outfile_fd = STDOUT_FILENO;
+}
+
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_list		*token_list;
@@ -30,7 +41,7 @@ int	main(int argc, char **argv, char **envp)
 	t_tree_node	*token_tree;
 	t_detower	*dll_envp_tower;
 	char		**mnsh_envp;
-	char		**mnsh_envp2;
+	t_pipe		m_pipe;
 	// struct termios		term;
 
 	// 터미널제어 함수 
@@ -43,14 +54,9 @@ int	main(int argc, char **argv, char **envp)
 	if (dll_envp_tower == 0)
 		return (FT_ERROR);
 	mnsh_envp = ft_set_char_envp_from_dll(dll_envp_tower, 0);
-	mnsh_envp2 = ft_set_char_envp_from_dll(dll_envp_tower, mnsh_envp); 
-	int i = -1;
-	while (mnsh_envp[++i]) //출력 안됨 기존것은 사라진다.
-		printf("%s\n",mnsh_envp[i]);
-	i = -1;
-	printf("it's 2\n\n\n");
-	while (mnsh_envp2[++i])
-		printf("%s\n",mnsh_envp2[i]);
+	// int i = -1;
+	// while (mnsh_envp[++i])
+	// 	printf("%s\n",mnsh_envp[i]);
 	if (mnsh_envp == 0)
 		return (FT_ERROR);
 		
@@ -62,6 +68,7 @@ int	main(int argc, char **argv, char **envp)
 		if (input == NULL) //  Ctrl + D를 누르면 input은 NULL이 들어옴
 		{
 			printf("see you later \n");
+			exit(0);
 		}
 		if (*input != '\0')
 			add_history(input);
@@ -76,9 +83,10 @@ int	main(int argc, char **argv, char **envp)
 				{
 					//작업 임시 테스트
 					test_print_token_lst(token_list);
+					init_pipe(&m_pipe);
+					
 					ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
-
-
+					ft_execute_tree(token_tree,dll_envp_tower,m_pipe);
 					ft_tree_node_pre_traversal(token_tree, &test_tree_node_check_for_content);
 					ft_tree_node_post_traversal(token_tree, &ft_free_a_tree_node);
 				}
