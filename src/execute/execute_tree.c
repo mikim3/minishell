@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 23:21:44 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/26 18:56:38 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/26 22:06:19 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	ft_execute_tree(t_tree_node *node,t_detower *dll_envp_tower,t_pipe *m_pipe)
 	{
 		printf("ft_execute_tree in NODE_CMD\n");
 		
-		// set_simplecmd_by_cmd(node);
 
 		execute_cmd(node,dll_envp_tower,m_pipe);
 	}
@@ -59,13 +58,6 @@ void	ft_execute_tree(t_tree_node *node,t_detower *dll_envp_tower,t_pipe *m_pipe)
 
 // ((t_tree_cmd *)token_tree->content)->cmd_name 처럼 t_tree_cmd안에 있는걸 simple_cmd에 넣는다.
 	
-void	set_simplecmd_by_cmd(t_tree_node *node)
-{
-
-
-}
-
-
 void	ft_execute_tree_node(void *tree_node)
 {
 	t_tree_node	 *node;

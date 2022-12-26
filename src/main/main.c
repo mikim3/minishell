@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/26 17:38:12 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/26 22:17:39 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,11 @@ int	main(int argc, char **argv, char **envp)
 					ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
 					// ft_execute_tree(token_tree,dll_envp_tower, &m_pipe);
 					// ft_tree_node_pre_traversal(token_tree, &test_tree_node_check_for_content);
+					
+					// simple_cmd set용함수   입력받은 값이 있어야함  token_tree로 탐색하면서 NODE_SIMPLE_CMD
+					ft_tree_node_pre_traversal_simple_cmd_set(token_tree, input, &simple_cmd_set);
+
+					// 실행용
 					ft_tree_node_pre_traversal2(token_tree, dll_envp_tower, &m_pipe, &ft_execute_tree);
 					// ft_tree_node_pre_traversal(token_tree, &ft_execute_tree_node);
 					ft_tree_node_post_traversal(token_tree, &ft_free_a_tree_node);
@@ -98,4 +103,32 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (FT_SUCCESS);
 }
+
+
+void simple_cmd_set(t_tree_node *token_tree, char *input)
+{
+	t_simple_cmd *simple_cmd;
+
+	if (token_tree->type == NODE_SIMPLE_CMD)
+	{
+		printf("in simple_cmd_set token_tree->type == NODE_SIMPLE_CMD \n");
+		printf("%s \n",input);
+		// malloc 같은거 다시 생각해보기
+
+		simple_cmd->argv = 
+
+		// 파일 위치 set
+		// simple_cmd->file_path = set_file_path();
+
+		token_tree->content = 
+		
+		// cmd에 있는걸 simple_cmd에 어떻게 넣지??
+		// 
+
+	}
+
+}
+
+
+
 
