@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/25 22:50:20 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/26 09:57:52 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ typedef struct s_pipe
 } t_pipe;
 
 typedef struct s_simple_cmd {
-    char    *cmd_name;  // minishell $> export a=10 b=20  cmd->cmd == "export"
+    char    *cmd_name;  // minishell $> export a=10 b=20  t_simple_cmd->cmd_name == "export"
     char    *file_path;  //    ex) minishell > cd  -->  file_path == /usr/bin/cd
-    char    **argv; // minishell $> export a=10 b=20 c=30  cmd->argv[0] == "export"  , argv[1] == "a=10" , argv[2] == "b=10"
+    char    **argv; // minishell $> export a=10 b=20 c=30  t_simple_cmd->argv[0] == "export"  , argv[1] == "a=10" , argv[2] == "b=10"
 }   t_simple_cmd;
 
 
