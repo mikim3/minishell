@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 14:00:14 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/25 23:47:43 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/26 16:08:43 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	**ft_set_char_envp_from_dll(t_detower *dll_envp_tower, char **old_mnsh_envp
 	while (iter < ptr_arr_len)
 	{
 		new_envp[iter] = ft_set_new_envp_string(lst_node);
-		printf("new_envp[iter] %s\n",new_envp[iter]);
+		// printf("new_envp[iter] %s\n",new_envp[iter]);
 		if (new_envp == 0)
 		{
 			ft_free_string_ptr_arr(new_envp);

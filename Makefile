@@ -1,7 +1,8 @@
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+# CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS =  -g
 RM = rm
 RMFLAGS = -f
 
@@ -17,6 +18,8 @@ SRCDIR = ./src
 
 SRC_BUILTIN_DIR		= $(SRCDIR)/builtin
 SRC_DOUBLY_LINKED_LIST_DIR	= $(SRCDIR)/double_linked_list
+SRC_ENV_DIR	= $(SRCDIR)/env
+SRC_EXECUTE_DIR	= $(SRCDIR)/execute
 SRC_MAIN_DIR		= $(SRCDIR)/main
 SRC_PARSER_DIR	= $(SRCDIR)/parser
 
@@ -26,13 +29,19 @@ SRC_BUILTIN	:= $(addprefix $(SRC_BUILTIN_DIR)/, $(SRC_BUILTIN))
 SRC_DOUBLY_LINKED_LIST	= ft_doubly_linked_list_1.c ft_doubly_linked_list_2.c ft_doubly_linked_list_3.c ft_envp_doubly_linked_list.c
 SRC_DOUBLY_LINKED_LIST	:= $(addprefix $(SRC_DOUBLY_LINKED_LIST_DIR)/, $(SRC_DOUBLY_LINKED_LIST))
 
+SRC_ENV	= env_set.c
+SRC_ENV	:= $(addprefix $(SRC_ENV_DIR)/, $(SRC_ENV))
+
+SRC_EXECUTE	= execute_cmd.c execute_tree.c
+SRC_EXECUTE	:= $(addprefix $(SRC_EXECUTE_DIR)/, $(SRC_EXECUTE))
+
 SRC_MAIN	= main.c
 SRC_MAIN	:= $(addprefix $(SRC_MAIN_DIR)/, $(SRC_MAIN))
 
 SRC_PARSER	= ft_tokenizer.c ft_token_processing.c ft_tokenizer_util.c ft_syntax_analysis.c ft_syntax_parse_tree.c ft_syntax_util.c ft_tree.c
 SRC_PARSER 	:= $(addprefix $(SRC_PARSER_DIR)/,$(SRC_PARSER))
 
-SRCS = $(SRC_BUILTIN) $(SRC_DOUBLY_LINKED_LIST) $(SRC_MAIN) $(SRC_PARSER)  
+SRCS = $(SRC_BUILTIN) $(SRC_DOUBLY_LINKED_LIST) $(SRC_ENV) $(SRC_EXECUTE) $(SRC_MAIN) $(SRC_PARSER)  
 
 OBJS = $(SRCS:.c=.o)
 

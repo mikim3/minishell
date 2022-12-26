@@ -6,13 +6,13 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/26 00:07:24 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/26 16:06:13 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ft_minishell.h"
 
-void	main_init()
+void	main_init(void)
 {
 	struct termios	term;
 
@@ -86,8 +86,9 @@ int	main(int argc, char **argv, char **envp)
 					init_pipe(&m_pipe);
 					
 					ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
-					ft_execute_tree(token_tree,dll_envp_tower,m_pipe);
-					ft_tree_node_pre_traversal(token_tree, &test_tree_node_check_for_content);
+					// ft_execute_tree(token_tree,dll_envp_tower, &m_pipe);
+					// ft_tree_node_pre_traversal(token_tree, &test_tree_node_check_for_content);
+					ft_tree_node_pre_traversal(token_tree, &ft_execute_tree_node);
 					ft_tree_node_post_traversal(token_tree, &ft_free_a_tree_node);
 				}
 			}

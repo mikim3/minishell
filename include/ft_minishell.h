@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/26 09:57:52 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/26 16:07:03 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,35 @@ typedef struct s_env
 	struct s_env	*prev;
 	struct s_env	*next;
 }   t_env;
+
+
+/*
+	env
+*/
+void 	execute_cmd(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
+void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
+int		is_built_in(t_simple_cmd *simple_cmd);
+void	execute_print_builtin(t_simple_cmd *simple_cmd, t_detower *dll_envp_tower, t_pipe *m_pipe);
+void	execute_external(t_tree_node *token_tree,t_detower *dll_envp_tower,t_pipe *m_pipe);
+int		execute_noprint_builtin(t_simple_cmd *simple_cmd, t_detower *dll_envp_tower,t_pipe *m_pipe);
+void	wait_child(void);
+
+void    next_pipe_check(t_tree_node *token_tree,t_pipe *m_pipe);
+void    ft_execute_tree(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
+void    ft_execute_tree_node(void *tree_node);
+
+
+/*
+	execute
+*/
+
+/*
+	main
+
+*/
+
+void	main_init(void);
+void	init_pipe(t_pipe *m_pipe);
+
 
 #endif
