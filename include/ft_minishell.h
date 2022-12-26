@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/26 16:07:03 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/26 16:38:28 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ typedef struct s_pipe
 	int		pre_pipe_check;		
 	int		pipe_read_end;		// 처음에 STDIN_FILENO로시작 // pipe_read_end인 4
 	int		pipe_write_end;		// 처음에 STDOUT_FILENO로시작 // 
-    
-} t_pipe;
+} 	t_pipe;
 
 typedef struct s_simple_cmd {
     char    *cmd_name;  // minishell $> export a=10 b=20  t_simple_cmd->cmd_name == "export"
@@ -65,6 +64,12 @@ typedef struct s_env
 /*
 	env
 */
+
+
+/*
+	execute
+*/
+
 void 	execute_cmd(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
 void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
 int		is_built_in(t_simple_cmd *simple_cmd);
@@ -78,9 +83,8 @@ void    ft_execute_tree(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pi
 void    ft_execute_tree_node(void *tree_node);
 
 
-/*
-	execute
-*/
+int	ft_tree_node_pre_traversal2(t_tree_node *token_tree,t_detower *dll_envp_tower,t_pipe *m_pipe, void (*function)(void *,t_detower *,t_pipe *));
+
 
 /*
 	main

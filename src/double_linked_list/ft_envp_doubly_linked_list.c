@@ -6,13 +6,14 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 14:00:14 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/26 16:08:43 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/26 16:37:06 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ft_doubly_linked_list.h"
 #include "../../include/ft_tokenizer.h"
 #include "../../include/ft_tree.h"
+#include "../../include/ft_minishell.h"
 #include <stdio.h>
 
 t_detower *ft_set_envp_dll(char **envp)
