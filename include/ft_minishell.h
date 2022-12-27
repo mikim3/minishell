@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/26 22:07:35 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/27 15:01:34 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void    ft_execute_tree_node(void *tree_node);
 
 
 int	ft_tree_node_pre_traversal2(t_tree_node *token_tree,t_detower *dll_envp_tower,t_pipe *m_pipe, void (*function)(void *,t_detower *,t_pipe *));
-int	ft_tree_node_pre_traversal_simple_cmd_set(t_tree_node *target_tree, char *input, void (*function)(void *, char *));
+int	ft_tree_node_pre_traversal_exe_cmd_set(t_tree_node *target_tree, char *input, void (*function)(void *, char *));
 
 
 /*
@@ -94,7 +94,7 @@ int	ft_tree_node_pre_traversal_simple_cmd_set(t_tree_node *target_tree, char *in
 
 void	main_init(void);
 void	init_pipe(t_pipe *m_pipe);
-void	simple_cmd_set(t_tree_node *token_tree, char *input);
+void	exe_cmd_set(t_tree_node *node);
 
 
 #endif

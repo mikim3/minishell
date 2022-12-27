@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 10:36:56 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/26 22:00:26 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/27 14:53:23 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,15 @@ int	ft_tree_node_pre_traversal2(t_tree_node *token_tree,t_detower *dll_envp_towe
 }
 
 
-int	ft_tree_node_pre_traversal_simple_cmd_set(t_tree_node *target_tree, char *input, void (*function)(void *, char *))
+int	ft_tree_node_pre_traversal_exe_cmd_set(t_tree_node *target_tree, char *input, void (*function)(void *, char *))
 {
 	if (target_tree == BOOL_FALSE)
 		return (FT_ERROR);
 	if ((*function) == BOOL_FALSE)
 		return (FT_ERROR);
 	function((t_tree_node *)target_tree, input);
-	ft_tree_node_pre_traversal_simple_cmd_set(target_tree->left, input, (*function));
-	ft_tree_node_pre_traversal_simple_cmd_set(target_tree->right, input, (*function));
+	ft_tree_node_pre_traversal_exe_cmd_set(target_tree->left, input, (*function));
+	ft_tree_node_pre_traversal_exe_cmd_set(target_tree->right, input, (*function));
 	return (FT_SUCCESS);
 }
 
