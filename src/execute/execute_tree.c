@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 23:21:44 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/27 15:00:54 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/28 13:15:04 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ void	ft_execute_tree(t_tree_node *node,t_detower *dll_envp_tower,t_pipe *m_pipe)
 	{
 		printf("ft_execute_tree in NODE_CMD\n");
 		// exe_cmd_set cmd_argv를 이용해서 그 위치에 t_exe_cmd를 넣어야 되겠다.
-		exe_cmd_set(((t_tree_cmd *)node->content)->cmd_argv, char *input)
-		exe_cmd_set(node)
+		
+		// exe_cmd_set(((t_tree_cmd *)node->content)->cmd_argv, char *input);
+		// exe_cmd_set(node)
 
 
 		execute_cmd(node,dll_envp_tower,m_pipe);
@@ -58,41 +59,6 @@ void	ft_execute_tree(t_tree_node *node,t_detower *dll_envp_tower,t_pipe *m_pipe)
 		// execute_cmd(node, dll_envp_tower,m_pipe);
 	}
 }
-
-// ((t_tree_cmd *)token_tree->content)->cmd_name 처럼 t_tree_cmd안에 있는걸 simple_cmd에 넣는다.
-	
-void	ft_execute_tree_node(void *tree_node)
-{
-	t_tree_node	 *node;
-	t_tree_cmd	  *cmd_content;
-	t_tree_redir	*redir_content;
-	t_pipe		  *m_pipe;
-	t_detower	   *dll_envp_tower;
-	// printf("ft_execute_tree \n");
-
-	node = (t_tree_node *)tree_node;
-	printf("node->type == %d\n", node->type);
-	if (node->type == NODE_PIPELINE) 
-	{
-		printf("ft_execute_tree_node in NODE_PIPELINE\n");
-		// next_pipe_check(token_tree,m_pipe);
-	}
-	if (node->type == NODE_REDIR) //REDIRECTIONS랑 헷갈림
-	{
-		printf("ft_execute_tree_node in NODE_REDIR\n");
-		// 리다이렉션
-	}
-	if (node->type == NODE_CMD)
-	{
-		printf("ft_execute_tree_node in NODE_CMD\n");
-	}
-	if (node->type == NODE_SIMPLE_CMD)
-	{
-		printf("ft_execute_tree in NODE_SIMPLE_CMD\n");
-		execute_cmd(node,dll_envp_tower,m_pipe);
-	}
-}
-
 
 
 // void ft_execute_tree()

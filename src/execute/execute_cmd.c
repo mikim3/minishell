@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:49:10 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/26 18:20:00 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/28 13:13:32 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,49 +46,139 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 	}
 	else //에러 출력
 		printf("pid error\n");
-
-
 }
 
-int	is_built_in(t_simple_cmd *simple_cmd)
+int	is_built_in(t_tree_cmd *cmd)
 {
-	if (!ft_strcmp(simple_cmd->cmd_name, "cd"))
+	if (!ft_strcmp(cmd->cmd_name, "cd"))
 		return (1);
-	if (!ft_strcmp(simple_cmd->cmd_name, "env"))
+	if (!ft_strcmp(cmd->cmd_name, "env"))
 		return (1);
-	if (!ft_strcmp(simple_cmd->cmd_name, "export"))
+	if (!ft_strcmp(cmd->cmd_name, "export"))
 		return (1);
-	if (!ft_strcmp(simple_cmd->cmd_name, "unset"))
+	if (!ft_strcmp(cmd->cmd_name, "unset"))
 		return (1);
-	if (!ft_strcmp(simple_cmd->cmd_name, "pwd"))
+	if (!ft_strcmp(cmd->cmd_name, "pwd"))
 		return (1);
-	if (!ft_strcmp(simple_cmd->cmd_name, "echo"))
+	if (!ft_strcmp(cmd->cmd_name, "echo"))
 		return (1);
-	if (!ft_strcmp(simple_cmd->cmd_name, "exit"))
+	if (!ft_strcmp(cmd->cmd_name, "exit"))
 		return (1);
 	return (0);
 }
 
-
-void	execute_print_builtin(t_simple_cmd *simple_cmd, t_detower *dll_envp_tower, t_pipe *m_pipe)
+void	execute_print_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe)
 {
-	if (!ft_strcmp(simple_cmd->cmd_name, "env"))
-		// ft_env(simple_cmd, dll_envp_tower, m_pipe);
-	if (!ft_strcmp(simple_cmd->cmd_name, "export"))
-		// ft_export(simple_cmd, dll_envp_tower, m_pipe);
-	if (!ft_strcmp(simple_cmd->cmd_name, "pwd"))
-		// ft_pwd(simple_cmd, dll_envp_tower, m_pipe);
-	if (!ft_strcmp(simple_cmd->cmd_name, "echo"))
-		// ft_echo(simple_cmd, dll_envp_tower, m_pipe);
+	if (!ft_strcmp(cmd->cmd_name, "env"))
+		// ft_env(cmd, dll_envp_tower, m_pipe);
+	if (!ft_strcmp(cmd->cmd_name, "export"))
+		// ft_export(cmd, dll_envp_tower, m_pipe);
+	if (!ft_strcmp(cmd->cmd_name, "pwd"))
+		// ft_pwd(cmd, dll_envp_tower, m_pipe);
+	if (!ft_strcmp(cmd->cmd_name, "echo"))
+		// ft_echo(cmd, dll_envp_tower, m_pipe);
 	return ;
+}
+
+// env에 PATH 안에 명령어를 찾아서 그 경로를 반환
+
+
+char	*get_file_path_from_env_path(char *command)
+{
+	//
+	char	*file_path;
+	char	**env_path_values;
+	char	*tmp;
+	int		index;
+
+	file_path = NULL;
+
+	// key가 PATH인 환경변수의 value값을 split(:)으로 나누어서 env_path_values에 저장
+	// get_env_path()  <- 인자로 env필요
+	env_path_values = get_env_path();
+
+
+	//env_path_values를 한칸씩 
+	index = 0;
+	while(env_path_values[index])
+	{
+		tmp = ft_strjoin(ft_strdup("/"), ft_strdup(command)); 				// command 
+		file_path = ft_strjoin(ft_strdup(env_path_values[index]), tmp);		// 
+		//존재하지 않으면 free(), file_path에 NULL값 넣기후 다음 인덱스
+		// if()
+		// 실행권한 없음
+		if (access(file_path,X_OK) == -1)
+		{
+			free(file_path);
+			file_path = NULL;
+		}
+		else
+			break ;
+		index++;
+	}
+	if (env_path_values != NULL)  
+		// 이차원배열 free 있는지 찾아보고 없으면 함수 만들기
+		double_char_free(env_path_values);
+	return	(file_path);
+}
+
+char	*get_current_path(void)
+{
+	char	*current_path;
+
+	current_path = getcwd(NULL, 0); //현재 경로 
+	return (current_path);
+}
+
+char	*set_file_path(char *command)
+{
+	char	*file_path;
+	char	*current_path;
+
+	if (ft_strncmp(command, "/", 1) == 0) // 절대경로는 그대로 준다.
+	{
+		file_path = ft_strdup(command);
+	}
+	else if (ft_strncmp("./", command, 2) == 0) // 상대경로 ./bash_exe_ex hahaha 현재경로에 bash를 실행한다고 생각  
+	{
+		command = ft_substr(command, 2, ft_strlen(command) - 2);
+		current_path = get_current_path();
+		printf("current_path == %s \n",current_path);
+		file_path = ft_strjoin(current_path, ft_strdup("/"));
+		printf("file_path == %s \n",file_path);
+		file_path = ft_strjoin(file_path, command);
+		printf("file_path == %s \n",file_path);
+	}
+	else // 환경변수 PATH에 세팅되어서 명령어로 실행할수 있는 명령어
+	{
+		// PATH=/Users/mikim3/brew/bin:/Users/mikim3/goinfre/brew/bin:/usr/local/bin 
+		// :/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
+		// (:)콜론으로 구분된다.
+		// 절대경로로 PATH안에 있는 값들에 해당하는 폴더까지 간 다음에 해당 명령어에 해당하는 파일이 있는지 확인
+		// 없으면 다음 : 확인 반복
+		
+		// 
+		file_path = get_file_path_from_env_path(command);
+		
+		
+	}
+	return (file_path);
 }
 
 // 외부함수 실제 실행
 void	execute_external(t_tree_node *node,t_detower *dll_envp_tower,t_pipe *m_pipe)
 {
 	extern	char	**environ;
-	
+	char			*file_path;
+
 	printf("in the execute_external \n");
+
+	// file_path를 여기서만 쓰기
+
+	file_path = set_file_path(((t_tree_cmd *)node->content)->cmd_name);
+
+	// t_tree_cmd
+
 
 	printf("node->content)->cmd_name %s\n",((t_tree_cmd *)node->content)->cmd_name);
 	// printf("node->content)->file_path %s\n",((t_tree_cmd *)node->content)->file_path);
@@ -100,43 +190,45 @@ void	execute_external(t_tree_node *node,t_detower *dll_envp_tower,t_pipe *m_pipe
 	}
 
 
-	// 바뀐 환경변수를 넣어야 될것 같은데 일단은 이렇게 만듬
+	// dll_envp_tower 바뀐 환경변수를 넣어야 될것 같은데 일단은 이렇게 만듬
 	// 실행 성공시에는 리턴을 받을수가 없다.
-	if (execve(((t_simple_cmd *)node->content)->file_path,((t_simple_cmd *)node->content)->argv, environ)== -1)
+	// if (execve((file_path,((t_tree_cmd *)node->content)->cmd_argv, environ)== -1))
+	if (execve(file_path,((t_tree_cmd *)node->content)->cmd_argv, environ)== -1)
 	{
-		//execve실패
+		//execve실패 명령어를 못찾은 상태 
 		printf("execve 실패 \n");
 	}
-
+	//필요한지 다시 생각해보기
+	free(file_path);
 }
 
 // 프린트 안하는 빌트인 함수 실행
-int		execute_noprint_builtin(t_simple_cmd *simple_cmd, t_detower *dll_envp_tower,t_pipe *m_pipe)
+int		execute_noprint_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower,t_pipe *m_pipe)
 {
 	printf("execute_noprint_builtin\n");
-	if (simple_cmd->cmd_name == NULL)
+	if (cmd->cmd_name == NULL)
 	{
-		printf("simple_cmd->cmd_name == NULL \n");
+		printf("cmd->cmd_name == NULL \n");
 	}
-	if (!ft_strcmp(simple_cmd->cmd_name, "exit"))
+	if (!ft_strcmp(cmd->cmd_name, "exit"))
 	{
-		// ft_exit(simple_cmd,dll_envp_tower,m_pipe);
+		// ft_exit(cmd,dll_envp_tower,m_pipe);
 		return (1);
 	}
-	if (!ft_strcmp(simple_cmd->cmd_name, "unset"))
+	if (!ft_strcmp(cmd->cmd_name, "unset"))
 	{
-		// ft_unset(simple_cmd,dll_envp_tower,m_pipe);
+		// ft_unset(cmd,dll_envp_tower,m_pipe);
 		return (1);
 	}
-	if (!ft_strcmp(simple_cmd->cmd_name, "cd"))
+	if (!ft_strcmp(cmd->cmd_name, "cd"))
 	{
-		// ft_cd(simple_cmd,dll_envp_tower,m_pipe);
+		// ft_cd(cmd,dll_envp_tower,m_pipe);
 		return (1);
 	}
 	// export가 인자가 있으면 출력을 해야만함
-	if (!ft_strcmp(simple_cmd->cmd_name, "export") && simple_cmd->argv[1] != NULL)
+	if (!ft_strcmp(cmd->cmd_name, "export") && cmd->argv[1] != NULL)
 	{
-		// ft_export(simple_cmd,dll_envp_tower,m_pipe);
+		// ft_export(cmd,dll_envp_tower,m_pipe);
 		return (1);
 	}
 	printf("execute_noprint_builtin don't execve and finish\n");

@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/27 15:01:34 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/28 13:15:23 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 #include <sys/termios.h> //tcsetattr, tcgetattr
 #include <signal.h> // signal, 
 #include <errno.h> // errno
+#include <sys/stat.h>  // 
 
 #include <readline/readline.h> // readline, rl_replace_line, rl_on_new_line, rl_redisplay
 #include <readline/history.h> // add_history
@@ -44,21 +45,20 @@ typedef struct s_pipe
 	int		pipe_write_end;		// 처음에 STDOUT_FILENO로시작 // 
 } 	t_pipe;
 
-typedef struct s_simple_cmd {
-    char    *cmd_name;  // minishell $> export a=10 b=20  t_simple_cmd->cmd_name == "export"
-    char    *file_path;  //    ex) minishell > cd  -->  file_path == /usr/bin/cd
-    char    **argv; // minishell $> export a=10 b=20 c=30  t_simple_cmd->argv[0] == "export"  , argv[1] == "a=10" , argv[2] == "b=10"
-}   t_simple_cmd;
+// typedef struct s_exe_cmd {
+//     char    *cmd_name;  // minishell $> export a=10 b=20  t_exe_cmd->cmd_name == "export"
+//     char    *file_path;  //    ex) minishell > cd  -->  file_path == /usr/bin/cd
+//     char    **argv; // minishell $> export a=10 b=20 c=30  t_exe_cmd->argv[0] == "export"  , argv[1] == "a=10" , argv[2] == "b=10"
+// }   t_exe_cmd;
 
-
-typedef struct s_env
-{
-    // char    *original_text;  // ex) PATH=/Users/mikim3/brew/bin:/Users/mikim3/goinfre/brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki 
-    char    *key; //  ex) PATH
-    char    *value; //  ex) /Users/mikim3/brew/bin:/Users/mikim3/goinfre/brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki 
-	struct s_env	*prev;
-	struct s_env	*next;
-}   t_env;
+// typedef struct s_env
+// {
+//     // char    *original_text;  // ex) PATH=/Users/mikim3/brew/bin:/Users/mikim3/goinfre/brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki 
+//     char    *key; //  ex) PATH
+//     char    *value; //  ex) /Users/mikim3/brew/bin:/Users/mikim3/goinfre/brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki 
+// 	struct s_env	*prev;
+// 	struct s_env	*next;
+// }   t_env;
 
 
 /*
@@ -72,15 +72,14 @@ typedef struct s_env
 
 void 	execute_cmd(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
 void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
-int		is_built_in(t_simple_cmd *simple_cmd);
-void	execute_print_builtin(t_simple_cmd *simple_cmd, t_detower *dll_envp_tower, t_pipe *m_pipe);
+int		is_built_in(t_tree_cmd *cmd);
+void	execute_print_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe);
 void	execute_external(t_tree_node *token_tree,t_detower *dll_envp_tower,t_pipe *m_pipe);
-int		execute_noprint_builtin(t_simple_cmd *simple_cmd, t_detower *dll_envp_tower,t_pipe *m_pipe);
+int		execute_noprint_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower,t_pipe *m_pipe);
 void	wait_child(void);
 
 void    next_pipe_check(t_tree_node *token_tree,t_pipe *m_pipe);
 void    ft_execute_tree(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
-void    ft_execute_tree_node(void *tree_node);
 
 
 int	ft_tree_node_pre_traversal2(t_tree_node *token_tree,t_detower *dll_envp_tower,t_pipe *m_pipe, void (*function)(void *,t_detower *,t_pipe *));
