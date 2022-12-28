@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:57:52 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/28 15:45:30 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/28 16:10:44 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	ft_token_str_expansion(t_tkn *token, t_d_list *mnsh_envp)
 		else 
 		{
 			pos++;
-			len++;	
+			len++;
 		}
 	}
 	free(token->str);
