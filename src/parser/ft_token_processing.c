@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_processing.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:49:46 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/23 18:08:26 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/28 11:07:25 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ft_tokenizer.h"
+#include "../include/ft_tokenizer.h"
+#include "../libft/libft.h"
 
 int	ft_token_processor(
 		t_tknizer *tknizer, int *prev_type)
@@ -61,6 +62,8 @@ int	ft_token_set(t_tknizer *tknizer, int type)
 	}
 	else
 		tknizer->tkn->type = type;
+	if (tknizer->expandable == BOOL_TRUE)
+		tknizer->tkn->expandable = BOOL_TRUE;
 	return (FT_SUCCESS);
 }
 
