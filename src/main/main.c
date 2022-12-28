@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/28 11:50:12 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/28 15:33:17 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,6 @@ int	main(int argc, char **argv, char **envp)
 					// ft_execute_tree(token_tree,dll_envp_tower, &m_pipe);
 					ft_tree_node_pre_traversal(token_tree, &test_tree_node_check_for_content);
 					
-					// exe_cmd set용함수   입력받은 값이 있어야함  token_tree로 탐색하면서 NODE_SIMPLE_CMD
-					ft_tree_node_pre_traversal_exe_cmd_set(token_tree, input, &exe_cmd_set);
-
 					// 실행용
 					ft_tree_node_pre_traversal2(token_tree, dll_envp_tower, &m_pipe, &ft_execute_tree);
 					// ft_tree_node_pre_traversal(token_tree, &ft_execute_tree_node);

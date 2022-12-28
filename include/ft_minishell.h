@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/28 13:15:23 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/28 15:05:48 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,17 +74,20 @@ void 	execute_cmd(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
 int		is_built_in(t_tree_cmd *cmd);
 void	execute_print_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe);
+char	**get_env_path(t_detower *dll_envp_tower);
+void	double_char_free(char **double_char);
+char	*get_file_path_from_env_path(char *command,t_detower *dll_envp_tower);
+char	*get_current_path(void);
+char	*set_file_path(char *command, t_detower *dll_envp_tower);
 void	execute_external(t_tree_node *token_tree,t_detower *dll_envp_tower,t_pipe *m_pipe);
 int		execute_noprint_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower,t_pipe *m_pipe);
 void	wait_child(void);
-
 void    next_pipe_check(t_tree_node *token_tree,t_pipe *m_pipe);
 void    ft_execute_tree(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
 
 
-int	ft_tree_node_pre_traversal2(t_tree_node *token_tree,t_detower *dll_envp_tower,t_pipe *m_pipe, void (*function)(void *,t_detower *,t_pipe *));
-int	ft_tree_node_pre_traversal_exe_cmd_set(t_tree_node *target_tree, char *input, void (*function)(void *, char *));
-
+int		ft_tree_node_pre_traversal2(t_tree_node *token_tree,t_detower *dll_envp_tower,t_pipe *m_pipe, void (*function)(void *,t_detower *,t_pipe *));
+int		ft_tree_node_pre_traversal_exe_cmd_set(t_tree_node *target_tree, char *input, void (*function)(void *, char *));
 
 /*
 	main
