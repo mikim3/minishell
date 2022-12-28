@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:01:52 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/23 16:53:50 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/28 15:49:11 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "../include/ft_tree.h"
 #include "../include/ft_tokenizer.h"
 #include "../include/ft_doubly_linked_list.h"
+#include "../include/ft_token_expansion.h"
 
 // 예외처리를 임시로 exit로 해둠. exit 사용을 위한 헤더
 #include <stdlib.h>
@@ -57,6 +58,7 @@ int	ft_initialize_tokenizer(t_tknizer *tknizer, char *str)
 	tknizer->tkn_start = str;
 	tknizer->tkn_len = 0;
 	tknizer->oper_len = 0;
+	tknizer->expandable = BOOL_FALSE;
 	if (ft_isdigit(*str) == BOOL_TRUE)
 		tknizer->io_num_mode = BOOL_TRUE;
 	else
@@ -68,6 +70,8 @@ int	ft_tokenizing_loop(t_tknizer *tknizer, int error, int *prev_type)
 {
 	if (ft_is_quote(*(tknizer->str_pos)) == BOOL_TRUE)
 		error = ft_close_quote(tknizer, prev_type);
+	if (*(tknizer->str_pos) == '$')
+		tknizer->expandable = BOOL_TRUE;
 	if (error == BOOL_FALSE && *prev_type == TKN_OPERATOR)
 	{
 		if (tknizer->oper_len == 1
@@ -117,8 +121,9 @@ int	ft_close_quote(t_tknizer *tknizer, int *prev_type)
 	if (*(tknizer->str_pos) == '\0')
 		return (FT_ERROR);
 	tknizer->io_num_mode = BOOL_FALSE;
-	tknizer->tkn_len++;
-	tknizer->str_pos++;
+	tknizer->expandable = BOOL_TRUE;
+	//tknizer->tkn_len++;
+	//tknizer->str_pos++;
 	*prev_type = TKN_WORD;
 	return (FT_SUCCESS);
 }
@@ -149,16 +154,20 @@ int	main(int argc, char **argv, char **envp)
 		{
 			if (ft_syntax_analysis(token_list) == FT_SUCCESS)
 			{
-				token_tree = ft_syntax_parse_tree(token_list);
-				if (token_tree != 0)
+				// 성공한 경우에만 환경 변수 확장
+				if (ft_token_expansion(token_list, dll_envp_tower) == FT_SUCCESS)
 				{
-					//작업 임시 테스트
-					test_print_token_lst(token_list);
-					ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
+					token_tree = ft_syntax_parse_tree(token_list);
+					if (token_tree != 0)
+					{
+						//작업 임시 테스트
+						test_print_token_lst(token_list);
+						ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
 
 
-					ft_tree_node_pre_traversal(token_tree, &test_tree_node_check_for_content);
-					ft_tree_node_post_traversal(token_tree, &ft_free_a_tree_node);
+						ft_tree_node_pre_traversal(token_tree, &test_tree_node_check_for_content);
+						ft_tree_node_post_traversal(token_tree, &ft_free_a_tree_node);
+					}
 				}
 			}
 

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 13:46:11 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/23 15:18:16 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/28 14:24:18 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,8 @@ char **ft_set_cmd_argv(char **argv, char *str)
 	char	**new_argv;
 	int		i;
 
+	if (str == 0 || ft_strcmp(str, "") == FT_SUCCESS)
+		return (argv);
 	argv_size = 1;
 	if (argv != 0)
 	{
