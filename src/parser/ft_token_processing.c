@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_processing.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:49:46 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/28 11:07:25 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/28 16:48:19 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_tokenizer.h"
-#include "../libft/libft.h"
+#include "../../include/ft_tokenizer.h"
+#include "../../libft/libft.h"
 
 int	ft_token_processor(
 		t_tknizer *tknizer, int *prev_type)

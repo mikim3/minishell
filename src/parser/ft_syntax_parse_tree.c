@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_syntax_parse_tree.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 13:46:11 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/28 14:24:18 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/28 16:48:02 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_tree.h"
-#include "../include/ft_tokenizer.h"
+#include "../../include/ft_tree.h"
+#include "../../include/ft_tokenizer.h"
 
 ////
 #include <stdio.h>

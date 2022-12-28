@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/28 15:05:48 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/28 16:54:06 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "ft_tokenizer.h"
 #include "ft_tree.h"
 #include "ft_doubly_linked_list.h"
+#include "ft_token_expansion.h"
 
 #include <unistd.h>
 #include <stdlib.h>

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_expansion.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:57:52 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/28 16:10:44 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/28 16:49:14 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_tokenizer.h"
-#include "../include/ft_doubly_linked_list.h"
-#include "../include/ft_token_expansion.h"
+#include "../../include/ft_tokenizer.h"
+#include "../../include/ft_doubly_linked_list.h"
+#include "../../include/ft_token_expansion.h"
 
 
 #include <stdio.h>

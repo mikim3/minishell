@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_syntax_analysis.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 11:41:04 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/23 13:06:28 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/28 16:47:51 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_tokenizer.h"
+#include "../../include/ft_tokenizer.h"
 
 #include <stdio.h>
 
