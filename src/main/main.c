@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/28 16:28:41 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/28 16:54:20 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	init_pipe(t_pipe *m_pipe)
 	m_pipe->outfile_fd = STDOUT_FILENO;
 }
 
-
+/*
 int	main(int argc, char **argv, char **envp)
 {
 	t_list		*token_list;
@@ -100,10 +100,10 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (FT_SUCCESS);
 }
-
+*/
 
 /* expand 기능 추가된 main
-
+*/
 int	main(int argc, char **argv, char **envp)
 {
 	t_list		*token_list;
@@ -152,7 +152,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (FT_SUCCESS);
 }
-*/
+
 
 
 // 원하는 동작 기존에 ((t_tree_cmd *)node->content)->argv에 있는 값을 이용해서

@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tokenizer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:01:52 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/28 16:19:02 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/28 16:49:47 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <readline/readline.h>
-#include "../include/ft_tree.h"
-#include "../include/ft_tokenizer.h"
-#include "../include/ft_doubly_linked_list.h"
-#include "../include/ft_token_expansion.h"
+#include "../../include/ft_tree.h"
+#include "../../include/ft_tokenizer.h"
+#include "../../include/ft_doubly_linked_list.h"
+#include "../../include/ft_token_expansion.h"
 
 // 예외처리를 임시로 exit로 해둠. exit 사용을 위한 헤더
 #include <stdlib.h>

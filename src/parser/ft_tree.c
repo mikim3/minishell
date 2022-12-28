@@ -6,15 +6,15 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 10:36:56 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/22 15:52:30 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/28 16:49:53 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_tree.h"
+#include "../../include/ft_tree.h"
 
 
 
-#include "../include/ft_tokenizer.h"
+#include "../../include/ft_tokenizer.h"
 #include <stdio.h>
 
 t_tree_node	*ft_tree_init(int type, void *node_content)

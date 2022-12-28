@@ -6,12 +6,12 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:49:46 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/28 11:07:25 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/28 16:49:32 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_tokenizer.h"
-#include "../libft/libft.h"
+#include "../../include/ft_tokenizer.h"
+#include "../../libft/libft.h"
 
 int	ft_token_processor(
 		t_tknizer *tknizer, int *prev_type)

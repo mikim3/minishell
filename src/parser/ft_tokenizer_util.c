@@ -6,11 +6,11 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:51:56 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/23 12:51:28 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/28 16:49:40 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_tokenizer.h"
+#include "../../include/ft_tokenizer.h"
 
 int	ft_is_quote(char cha)
 {

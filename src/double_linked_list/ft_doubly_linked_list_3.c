@@ -6,11 +6,11 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 11:56:25 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/23 16:15:22 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/28 16:48:58 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_doubly_linked_list.h"
+#include "../../include/ft_doubly_linked_list.h"
 
 void	ft_deque_add_prev_node(t_detower *detower,
 		t_d_list *pos, t_d_list *new_elem)
