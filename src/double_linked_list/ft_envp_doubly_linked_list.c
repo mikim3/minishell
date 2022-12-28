@@ -3,19 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_envp_doubly_linked_list.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 14:00:14 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/28 12:16:14 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/28 19:33:51 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_doubly_linked_list.h"
-
-#include "../include/ft_tokenizer.h"
-
-#include "../include/ft_tree.h"
-
+#include "../../include/ft_doubly_linked_list.h"
+#include "../../include/ft_tokenizer.h"
+#include "../../include/ft_tree.h"
 #include <stdio.h>
 
 t_detower *ft_set_envp_dll(char **envp)
@@ -107,7 +104,7 @@ char	**ft_set_char_envp_from_dll(t_detower *dll_envp_tower, char **old_mnsh_envp
 	new_envp[ptr_arr_len] = 0;
 	lst_node = dll_envp_tower->head;
 	iter = 0;
-	printf("\n\n char**\n");
+	// printf("\n\n char**\n");
 	while (iter < ptr_arr_len)
 	{
 		new_envp[iter] = ft_set_new_envp_string(lst_node);
@@ -156,7 +153,7 @@ char	*ft_set_new_envp_string(t_d_list *lst_node)
 			return (0);
 		}
 		free(tmp_str);
-		printf("%s\n", ret_str);
+		// printf("%s\n", ret_str);
 	}
 	return (ret_str);	
 }

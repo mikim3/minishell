@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_doubly_linked_list_1.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:07:29 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/23 14:16:04 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/28 16:51:14 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_doubly_linked_list.h"
+#include "../../include/ft_doubly_linked_list.h"
 #include <stdlib.h>
 
 t_detower	*ft_dequetower(void)
