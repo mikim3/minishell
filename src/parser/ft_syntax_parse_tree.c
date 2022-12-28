@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_syntax_parse_tree.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 13:46:11 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/23 18:11:48 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/28 14:24:18 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ft_tree.h"
-#include "../../include/ft_tokenizer.h"
+#include "../include/ft_tree.h"
+#include "../include/ft_tokenizer.h"
+
+////
 #include <stdio.h>
 
 t_tree_node	*ft_syntax_parse_tree(t_list *token_list)
@@ -145,6 +147,8 @@ char **ft_set_cmd_argv(char **argv, char *str)
 	char	**new_argv;
 	int		i;
 
+	if (str == 0 || ft_strcmp(str, "") == FT_SUCCESS)
+		return (argv);
 	argv_size = 1;
 	if (argv != 0)
 	{

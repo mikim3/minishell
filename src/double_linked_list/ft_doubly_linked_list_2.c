@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_doubly_linked_list_2.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:30:11 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/23 17:26:07 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/23 14:16:01 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ft_doubly_linked_list.h"
+#include "../include/ft_doubly_linked_list.h"
 #include <stdlib.h>
 
 void	ft_deque_add_back(t_detower *detower, t_d_list *new_elem)

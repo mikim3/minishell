@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tree.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 10:37:05 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/25 20:21:47 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/23 15:18:06 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct s_minishell_tree_node_redir{
 	char	*file_name;
 }	t_tree_redir;
 
-// ex) ls haha | cat hhh    --> cmd_name = ls  cmd_argv = ls, haha , cmd_name = cat cmd_argv = cat, hhhh 
 typedef struct s_minishell_tree_node_cmd{
 	char	*cmd_name;
 	char	**cmd_argv;

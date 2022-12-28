@@ -6,15 +6,16 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:01:52 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/23 18:08:32 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/28 16:19:02 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <readline/readline.h>
-#include "../../include/ft_tree.h"
-#include "../../include/ft_tokenizer.h"
-#include "../../include/ft_doubly_linked_list.h"
+#include "../include/ft_tree.h"
+#include "../include/ft_tokenizer.h"
+#include "../include/ft_doubly_linked_list.h"
+#include "../include/ft_token_expansion.h"
 
 // 예외처리를 임시로 exit로 해둠. exit 사용을 위한 헤더
 #include <stdlib.h>
@@ -57,6 +58,7 @@ int	ft_initialize_tokenizer(t_tknizer *tknizer, char *str)
 	tknizer->tkn_start = str;
 	tknizer->tkn_len = 0;
 	tknizer->oper_len = 0;
+	tknizer->expandable = BOOL_FALSE;
 	if (ft_isdigit(*str) == BOOL_TRUE)
 		tknizer->io_num_mode = BOOL_TRUE;
 	else
@@ -68,6 +70,8 @@ int	ft_tokenizing_loop(t_tknizer *tknizer, int error, int *prev_type)
 {
 	if (ft_is_quote(*(tknizer->str_pos)) == BOOL_TRUE)
 		error = ft_close_quote(tknizer, prev_type);
+	if (*(tknizer->str_pos) == '$')
+		tknizer->expandable = BOOL_TRUE;
 	if (error == BOOL_FALSE && *prev_type == TKN_OPERATOR)
 	{
 		if (tknizer->oper_len == 1
@@ -117,11 +121,14 @@ int	ft_close_quote(t_tknizer *tknizer, int *prev_type)
 	if (*(tknizer->str_pos) == '\0')
 		return (FT_ERROR);
 	tknizer->io_num_mode = BOOL_FALSE;
-	tknizer->tkn_len++;
-	tknizer->str_pos++;
+	tknizer->expandable = BOOL_TRUE;
+	//tknizer->tkn_len++;
+	//tknizer->str_pos++;
 	*prev_type = TKN_WORD;
 	return (FT_SUCCESS);
 }
+
+
 
 void	test_print_token_lst(t_list *token_list)
 {

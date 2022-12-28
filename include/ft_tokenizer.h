@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tokenizer.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:04:24 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/23 18:06:51 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/28 14:00:32 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef enum e_tknizer_error_state{
 typedef struct s_token{
 	char	*str;
 	int		type;
+	int		expandable;
 }		t_tkn;
 
 typedef struct s_tokenizer_data{
@@ -52,6 +53,7 @@ typedef struct s_tokenizer_data{
 	int		tkn_len;
 	int		io_num_mode;
 	int		oper_len;
+	int		expandable;
 }		t_tknizer;
 
 void	*ft_tokenizer(char *str);
@@ -82,7 +84,6 @@ int	ft_stx_a_pipeline(t_list *token_list, t_list *token, int token_pos);
 int ft_stx_a_simple_cmd(t_list *token_list, t_list *token, int token_pos);
 int ft_stx_a_cmd_prefix(t_list *token_list, t_list *token, int token_pos);
 int ft_stx_a_cmd_suffix(t_list *token_list, t_list *token, int token_pos);
-int ft_stx_a_io_redir(t_list *token_list, t_list *token, int token_pos);
 
 int ft_stx_a_redir(t_list *token_list, t_list *token, int token_pos);
 int	ft_stx_a_word(t_list *token_list, t_list *token, int token_pos);

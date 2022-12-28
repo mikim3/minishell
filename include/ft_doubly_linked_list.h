@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 13:33:18 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/23 16:37:43 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/28 12:12:35 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int					ft_deque_lstsize(t_detower *detower);
 
 t_detower *ft_set_envp_dll(char **envp);
 t_envp_content	*ft_set_envp_content(char *env);
+int	ft_seperate_env_key_value(t_envp_content *content, char *env);
 char	**ft_set_char_envp_from_dll(t_detower *dll_envp_tower, char **old_mnsh_envp);
 char	*ft_set_new_envp_string(t_d_list *lst_node);
 void	ft_free_t_envp_content(void	*content);

@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tree.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 10:36:56 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/27 14:53:23 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/22 15:52:30 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ft_tree.h"
-#include "../../include/ft_tokenizer.h"
-#include "../../include/ft_minishell.h"
+#include "../include/ft_tree.h"
+
+
+
+#include "../include/ft_tokenizer.h"
 #include <stdio.h>
 
 t_tree_node	*ft_tree_init(int type, void *node_content)
@@ -40,32 +42,6 @@ int	ft_tree_node_pre_traversal(t_tree_node *target_tree, void (*function)(void *
 	ft_tree_node_pre_traversal(target_tree->right,(*function));
 	return (FT_SUCCESS);
 }
-
-int	ft_tree_node_pre_traversal2(t_tree_node *token_tree,t_detower *dll_envp_tower,t_pipe *m_pipe, void (*function)(void *,t_detower *,t_pipe *))
-{
-	if (token_tree == BOOL_FALSE)
-		return (FT_ERROR);
-	if ((*function) == BOOL_FALSE)
-		return (FT_ERROR);
-	function((t_tree_node *)token_tree,(t_detower *)dll_envp_tower,(t_pipe *)m_pipe);
-	ft_tree_node_pre_traversal2(token_tree->left, dll_envp_tower, m_pipe, (*function));
-	ft_tree_node_pre_traversal2(token_tree->right, dll_envp_tower, m_pipe, (*function));
-	return (FT_SUCCESS);
-}
-
-
-int	ft_tree_node_pre_traversal_exe_cmd_set(t_tree_node *target_tree, char *input, void (*function)(void *, char *))
-{
-	if (target_tree == BOOL_FALSE)
-		return (FT_ERROR);
-	if ((*function) == BOOL_FALSE)
-		return (FT_ERROR);
-	function((t_tree_node *)target_tree, input);
-	ft_tree_node_pre_traversal_exe_cmd_set(target_tree->left, input, (*function));
-	ft_tree_node_pre_traversal_exe_cmd_set(target_tree->right, input, (*function));
-	return (FT_SUCCESS);
-}
-
 
 int	ft_tree_node_post_traversal(t_tree_node *target_tree, void (*function)(void *))
 {

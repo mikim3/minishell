@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tokenizer_util.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:51:56 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/23 18:07:30 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/23 12:51:28 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ft_tokenizer.h"
+#include "../include/ft_tokenizer.h"
 
 int	ft_is_quote(char cha)
 {
