@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/29 22:08:07 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/29 22:29:49 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int		execute_noprint_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower,t_pipe *
 void	wait_child(void);
 void    next_pipe_check(t_tree_node *token_tree,t_pipe *m_pipe);
 void    ft_execute_tree(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
+void	init_pipe_in_execute(t_pipe *m_pipe);
 
 
 int		ft_tree_node_pre_traversal2(t_tree_node *token_tree,t_detower *dll_envp_tower,t_pipe *m_pipe, void (*function)(void *,t_detower *,t_pipe *));
