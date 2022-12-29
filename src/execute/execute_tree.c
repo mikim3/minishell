@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 23:21:44 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/28 13:15:04 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/29 18:03:06 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,6 @@ void	ft_execute_tree(t_tree_node *node,t_detower *dll_envp_tower,t_pipe *m_pipe)
 	if (node->type == NODE_CMD)
 	{
 		printf("ft_execute_tree in NODE_CMD\n");
-		// exe_cmd_set cmd_argv를 이용해서 그 위치에 t_exe_cmd를 넣어야 되겠다.
-		
-		// exe_cmd_set(((t_tree_cmd *)node->content)->cmd_argv, char *input);
-		// exe_cmd_set(node)
-
-
 		execute_cmd(node,dll_envp_tower,m_pipe);
 	}
 	if (node->type == NODE_SIMPLE_CMD)

@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:49:10 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/28 19:31:33 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/29 18:02:49 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void execute_cmd(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe)
 {
-	if (execute_noprint_builtin(token_tree->content, dll_envp_tower, m_pipe) == 1)
-		return ;
+	// if (execute_noprint_builtin(token_tree->content, dll_envp_tower, m_pipe) == 1)
+	// 	return ;
 	// 출력을 하려면  포크를 해야 됨
     execute_fork(token_tree,dll_envp_tower,m_pipe); 
 }
@@ -31,7 +31,7 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 	{
 		//파이프 관련처리
 		if (is_built_in(token_tree->content))
-			execute_print_builtin(token_tree->content, dll_envp_tower, m_pipe);
+			execute_builtin(token_tree->content, dll_envp_tower, m_pipe);
 		else
 			execute_external(token_tree, dll_envp_tower, m_pipe);
 	}
@@ -64,18 +64,24 @@ int	is_built_in(t_tree_cmd *cmd)
 	return (0);
 }
 
-void	execute_print_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe)
+void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe)
 {
-	if (!ft_strcmp(cmd->cmd_name, "env"))
-		// ft_env(cmd, dll_envp_tower, m_pipe);
-	if (!ft_strcmp(cmd->cmd_name, "export"))
-		// ft_export(cmd, dll_envp_tower, m_pipe);
-	if (!ft_strcmp(cmd->cmd_name, "pwd"))
-		// ft_pwd(cmd, dll_envp_tower, m_pipe);
 	if (!ft_strcmp(cmd->cmd_name, "echo"))
 		// ft_echo(cmd, dll_envp_tower, m_pipe);
+	if (!ft_strcmp(cmd->cmd_name, "cd"))
+	if (!ft_strcmp(cmd->cmd_name, "pwd"))
+		// ft_pwd(cmd, dll_envp_tower, m_pipe);
+	if (!ft_strcmp(cmd->cmd_name, "export"))
+		// ft_export(cmd, dll_envp_tower, m_pipe);
+	if (!ft_strcmp(cmd->cmd_name, "unset"))
+	if (!ft_strcmp(cmd->cmd_name, "env"))
+		// ft_env(cmd, dll_envp_tower, m_pipe);
+	if (!ft_strcmp(cmd->cmd_name, "exit"))
+
+
 	return ;
 }
+
 
 // env에 PATH 안에 명령어를 찾아서 그 경로를 반환
 char	**get_env_path(t_detower *dll_envp_tower)
@@ -111,7 +117,6 @@ void	double_char_free(char **double_char)
 	}
 	free(double_char);
 }
-
 
 char	*get_file_path_from_env_path(char *command,t_detower *dll_envp_tower)
 {
@@ -206,35 +211,35 @@ void	execute_external(t_tree_node *node,t_detower *dll_envp_tower,t_pipe *m_pipe
 }
 
 // 프린트 안하는 빌트인 함수 실행
-int		execute_noprint_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower,t_pipe *m_pipe)
-{
-	if (cmd->cmd_name == NULL)
-	{
-		printf("cmd->cmd_name == NULL \n");
-	}
-	if (!ft_strcmp(cmd->cmd_name, "exit"))
-	{
-		// ft_exit(cmd,dll_envp_tower,m_pipe);
-		return (1);
-	}
-	if (!ft_strcmp(cmd->cmd_name, "unset"))
-	{
-		// ft_unset(cmd,dll_envp_tower,m_pipe);
-		return (1);
-	}
-	if (!ft_strcmp(cmd->cmd_name, "cd"))
-	{
-		// ft_cd(cmd,dll_envp_tower,m_pipe);
-		return (1);
-	}
-	// export가 인자가 있으면 출력을 해야만함
-	if (!ft_strcmp(cmd->cmd_name, "export") && cmd->cmd_argv[1] != NULL)
-	{
-		// ft_export(cmd,dll_envp_tower,m_pipe);
-		return (1);
-	}
-	return (0);
-}
+// int		execute_noprint_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower,t_pipe *m_pipe)
+// {
+// 	if (cmd->cmd_name == NULL)
+// 	{
+// 		printf("cmd->cmd_name == NULL \n");
+// 	}
+// 	if (!ft_strcmp(cmd->cmd_name, "exit"))
+// 	{
+// 		// ft_exit(cmd,dll_envp_tower,m_pipe);
+// 		return (1);
+// 	}
+// 	if (!ft_strcmp(cmd->cmd_name, "unset"))
+// 	{
+// 		// ft_unset(cmd,dll_envp_tower,m_pipe);
+// 		return (1);
+// 	}
+// 	if (!ft_strcmp(cmd->cmd_name, "cd"))
+// 	{
+// 		// ft_cd(cmd,dll_envp_tower,m_pipe);
+// 		return (1);
+// 	}
+// 	// export가 인자가 있으면 출력을 해야만함
+// 	if (!ft_strcmp(cmd->cmd_name, "export") && cmd->cmd_argv[1] != NULL)
+// 	{
+// 		// ft_export(cmd,dll_envp_tower,m_pipe);
+// 		return (1);
+// 	}
+// 	return (0);
+// }
 
 
 
