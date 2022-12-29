@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:49:10 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/29 18:02:49 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/29 22:07:00 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,44 @@ int	is_built_in(t_tree_cmd *cmd)
 void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe)
 {
 	if (!ft_strcmp(cmd->cmd_name, "echo"))
-		// ft_echo(cmd, dll_envp_tower, m_pipe);
+	{
+		printf("execute echo\n");
+		ft_echo(cmd, m_pipe);
+	}
 	if (!ft_strcmp(cmd->cmd_name, "cd"))
+	{
+		printf("execute cd \n");
+		ft_cd(cmd, m_pipe);
+	}
 	if (!ft_strcmp(cmd->cmd_name, "pwd"))
-		// ft_pwd(cmd, dll_envp_tower, m_pipe);
+	{
+		printf("execute pwd \n");
+		ft_pwd(cmd, m_pipe);
+	}
 	if (!ft_strcmp(cmd->cmd_name, "export"))
+	{
+		printf("execute pwd \n");
+		// ft_pwd(cmd, m_pipe);
+	
+	}
 		// ft_export(cmd, dll_envp_tower, m_pipe);
 	if (!ft_strcmp(cmd->cmd_name, "unset"))
+	{
+		printf("execute unset\n");
+		// ft_pwd(cmd, m_pipe);
+	}
+	
 	if (!ft_strcmp(cmd->cmd_name, "env"))
+	{
+		printf("execute env \n");
+		// ft_pwd(cmd, m_pipe);
+	}
 		// ft_env(cmd, dll_envp_tower, m_pipe);
 	if (!ft_strcmp(cmd->cmd_name, "exit"))
-
-
+	{
+		printf("execute exit \n");
+		// ft_pwd(cmd, m_pipe);
+	}
 	return ;
 }
 

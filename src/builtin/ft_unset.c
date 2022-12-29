@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:17:03 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/29 18:13:04 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/29 19:48:01 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,23 @@
 
 #include "../../include/ft_minishell.h"
 
-void	ft_unset(t_tree_cmd *cmd, t_list *env, t_pipe *pipe_value)
-{
-	int		index;
-	char	*key;
+// void	ft_unset(t_tree_cmd *cmd, t_d_list *env, t_pipe *pipe_value)
+// {
+// 	int		index;
+// 	char	*key;
 
-	index = -1;
-	if (cmd->cmd_argv[1] == NULL)
-		return ;
-	while (cmd->cmd_argv[++index])
-	{
-		key = cmd->cmd_argv[++index];  // unset a
-		if (check_env_key(key)) // 인자값이 unset가능한 인자값 인가??
-		{
-			env_key_error(key); // 키를 찾을수 없을때 에러문 출력 ex) bash: unset: `c====': not a valid identifier
-		}
-		else
-			unset_env(&env, key); //  unset실제로 하기 
-	}
-	g_exit_code = 0;
-}
+// 	index = -1;
+// 	if (cmd->cmd_argv[1] == NULL)
+// 		return ;
+// 	while (cmd->cmd_argv[++index])
+// 	{
+// 		key = cmd->cmd_argv[++index];  // unset a
+// 		if (check_env_key(key)) // 인자값이 unset가능한 인자값 인가??
+// 		{
+// 			env_key_error(key); // 키를 찾을수 없을때 에러문 출력 ex) bash: unset: `c====': not a valid identifier
+// 		}
+// 		else
+// 			unset_env(&env, key); //  unset실제로 하기 
+// 	}
+// 	g_exit_code = 0;
+// }

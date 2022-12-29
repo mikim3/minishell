@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/29 18:13:50 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/29 22:08:07 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 #include <sys/termios.h> //tcsetattr, tcgetattr
 #include <signal.h> // signal, 
 #include <errno.h> // errno
-#include <sys/stat.h>  // 
+#include <sys/stat.h>  //
+#include <string.h> // strerror() 
 
 #include <readline/readline.h> // readline, rl_replace_line, rl_on_new_line, rl_redisplay
 #include <readline/history.h> // add_history
@@ -60,6 +61,15 @@ typedef struct s_pipe
 // 	struct s_env	*prev;
 // 	struct s_env	*next;
 // }   t_env;
+
+/*
+	builtin
+*/
+
+void	ft_cd(t_tree_cmd *cmd, t_pipe *pipe_value);
+void	ft_echo(t_tree_cmd *cmd, t_pipe *pipe_value);
+void	ft_pwd(t_tree_cmd *cmd, t_pipe *pipe_value);
+
 
 
 /*
