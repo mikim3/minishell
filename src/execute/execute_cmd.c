@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:49:10 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/29 22:07:00 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/30 15:18:45 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,73 @@
 
 void execute_cmd(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe)
 {
-	// if (execute_noprint_builtin(token_tree->content, dll_envp_tower, m_pipe) == 1)
-	// 	return ;
-	// 출력을 하려면  포크를 해야 됨
-    execute_fork(token_tree,dll_envp_tower,m_pipe); 
+	if (is_built_in(token_tree->content))
+		execute_builtin(token_tree->content, dll_envp_tower, m_pipe);
+	else
+		execute_external(token_tree, dll_envp_tower, m_pipe);
 }
 
 void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe)
 {
-	pid_t	pid;
-	pid_t	w_pid;
-	int		status;
+	t_tree_node *pipeline;
+	pid_t		pid;
+	pid_t		w_pid;
+	int			status;
+	int			iter;
 
-	pid = fork();
-	if (pid == 0)
+	pipeline = token_tree;
+	// 파이프 사전 처리
+	iter = 0;
+	while (pipeline != 0)
 	{
-		//파이프 관련처리
-		if (is_built_in(token_tree->content))
-			execute_builtin(token_tree->content, dll_envp_tower, m_pipe);
-		else
-			execute_external(token_tree, dll_envp_tower, m_pipe);
+		next_pipe_check(pipeline, m_pipe);
+		pid = fork();
+		if (pid == 0)
+		{	
+			// 다중 파이프에서 자식 프로세스에게 fork할 때 stdin, out이 없어지지 않는게 나을 것 같음.
+			// 이 동작을 다르게 하거나, 필요가 없을지도 모르겠다.
+			// 아니면 자식에서 하나? 좀 고민 중
+			if (m_pipe->pre_pipe_check == BOOL_TRUE)
+			{
+				dup2(m_pipe->pre_pipe_read_end, STDIN_FILENO);
+				close(m_pipe->pre_pipe_read_end);
+				m_pipe->infile_fd = STDIN_FILENO;
+			}
+			if (m_pipe->next_pipe_check == BOOL_TRUE)
+			{
+				close(m_pipe->pipe[P_READ]);
+				dup2(m_pipe->pipe[P_WRITE], STDOUT_FILENO);
+				close(m_pipe->pipe[P_WRITE]);
+				m_pipe->outfile_fd = STDOUT_FILENO;
+			}
+			ft_tree_node_pre_traversal2(pipeline->left, dll_envp_tower, m_pipe, &ft_execute_tree);
+		}
+		else if (pid > 0) // 부모
+		{
+			// 파이프 사후 처리
+			if (m_pipe->next_pipe_check == BOOL_TRUE)
+			{
+				close(m_pipe->pipe[P_WRITE]);
+				m_pipe->pre_pipe_check = BOOL_TRUE;
+				m_pipe->pre_pipe_read_end = m_pipe->pipe[P_READ];
+			}
+			else
+			{
+				m_pipe->pre_pipe_check = BOOL_FALSE;
+			}
+		}
+		else //에러 출력
+			printf("pid error\n");
+		pipeline = pipeline->right;
+		iter++;
 	}
-	else if (pid > 0) // 부모
+	//자식 프로세스 기다리기,
+	while (iter != 0)
 	{
-		//자식 프로세스 기다리기, 파이프처리
-
-		wait_child();
+		wait(&status);
+		iter--;
 	}
-	else //에러 출력
-		printf("pid error\n");
+	return ;
 }
 
 int	is_built_in(t_tree_cmd *cmd)
@@ -270,27 +308,24 @@ void	execute_external(t_tree_node *node,t_detower *dll_envp_tower,t_pipe *m_pipe
 
 
 // 
-void	wait_child(void)
-{
-	int		status;
-	int		signo;
-	int		i;
+// void	wait_child()
+// {
+// 	int		status;
+// 	int		signo;
 
-	i = 0;
-	while (wait(&status) != -1)
-	{
-		if (WIFSIGNALED(status))
-		{
-			signo = WTERMSIG(status);
-			if (signo == SIGINT && i++ == 0)
-				ft_putstr_fd("^C\n", STDERR_FILENO);
-			else if (signo == SIGQUIT && i++ == 0)
-				ft_putstr_fd("^\\Quit: 3\n", STDERR_FILENO);
-			g_exit_code = 128 + signo;
-		}
-		else
-			g_exit_code = WEXITSTATUS(status);
-	}
+// 	while (wait(&status) != -1)
+// 	{
+// 		if (WIFSIGNALED(status))
+// 		{
+// 			signo = WTERMSIG(status);
+// 			if (signo == SIGINT && i++ == 0)
+// 				ft_putstr_fd("^C\n", STDERR_FILENO);
+// 			else if (signo == SIGQUIT && i++ == 0)
+// 				ft_putstr_fd("^\\Quit: 3\n", STDERR_FILENO);
+// 			g_exit_code = 128 + signo;
+// 		}
+// 		else
+// 			g_exit_code = WEXITSTATUS(status);
+// 	}
 
-	
-}
+// }

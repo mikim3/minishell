@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 11:06:25 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/30 14:41:11 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "ft_tree.h"
 #include "ft_doubly_linked_list.h"
 #include "ft_token_expansion.h"
+#include "ft_pipe.h"
 
 #include <unistd.h>
 #include <stdlib.h>
@@ -36,6 +37,7 @@
 
 int g_exit_code;  //  $? 종료상태 코드 
 
+/*
 typedef struct s_pipe
 {
 	int		fd[2];
@@ -46,6 +48,7 @@ typedef struct s_pipe
 	int		pipe_read_end;		// 처음에 STDIN_FILENO로시작 // pipe_read_end인 4
 	int		pipe_write_end;		// 처음에 STDOUT_FILENO로시작 // 
 } 	t_pipe;
+*/
 
 // typedef struct s_exe_cmd {
 //     char    *cmd_name;  // minishell $> export a=10 b=20  t_exe_cmd->cmd_name == "export"
@@ -82,7 +85,7 @@ void	ft_pwd(t_tree_cmd *cmd, t_pipe *pipe_value);
 */
 
 void 	execute_cmd(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
-void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
+// void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
 int		is_built_in(t_tree_cmd *cmd);
 void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe);
 char	**get_env_path(t_detower *dll_envp_tower);
@@ -93,12 +96,12 @@ char	*set_file_path(char *command, t_detower *dll_envp_tower);
 void	execute_external(t_tree_node *token_tree,t_detower *dll_envp_tower,t_pipe *m_pipe);
 int		execute_noprint_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower,t_pipe *m_pipe);
 void	wait_child(void);
-void    next_pipe_check(t_tree_node *token_tree,t_pipe *m_pipe);
-void    ft_execute_tree(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
+void    next_pipe_check(t_tree_node *node,t_pipe *m_pipe);
+void    ft_execute_tree(t_tree_node *node, t_detower *dll_envp_tower, t_pipe *m_pipe);
 void	init_pipe_in_execute(t_pipe *m_pipe);
 
 
-int		ft_tree_node_pre_traversal2(t_tree_node *token_tree,t_detower *dll_envp_tower,t_pipe *m_pipe, void (*function)(void *,t_detower *,t_pipe *));
+int		ft_tree_node_pre_traversal2(t_tree_node *token_tree,t_detower *dll_envp_tower,t_pipe *m_pipe, void (*function)(t_tree_node *,t_detower *,t_pipe *));
 int		ft_tree_node_pre_traversal_exe_cmd_set(t_tree_node *target_tree, char *input, void (*function)(void *, char *));
 
 /*

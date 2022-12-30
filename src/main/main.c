@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 11:07:17 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/30 14:35:13 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	main_init(void)
 
 void	init_pipe(t_pipe *m_pipe)
 {
-	m_pipe->next_pipe_check = 0;
-	m_pipe->pre_pipe_check = 0;
-	m_pipe->pipe_read_end = STDIN_FILENO;
-	m_pipe->pipe_write_end = STDOUT_FILENO;
+	m_pipe->next_pipe_check = BOOL_FALSE;
+	m_pipe->pre_pipe_check = BOOL_FALSE;
+	m_pipe->pre_pipe_read_end = -1;
+//	m_pipe->pipe_write_end = STDOUT_FILENO;
 	m_pipe->infile_fd = STDIN_FILENO;
 	m_pipe->outfile_fd = STDOUT_FILENO;
 }
@@ -91,20 +91,24 @@ int	main(int argc, char **argv, char **envp)
 						ft_tree_node_pre_traversal(token_tree, &test_tree_node_check_for_content);
 						
 						// 실행용
-						ft_tree_node_pre_traversal2(token_tree, dll_envp_tower, &m_pipe, &ft_execute_tree);
+						//ft_tree_node_pre_traversal2(token_tree, dll_envp_tower, &m_pipe, &ft_execute_tree);
+						execute_fork(token_tree, dll_envp_tower, &m_pipe);
 						// ft_tree_node_pre_traversal(token_tree, &ft_execute_tree_node);
+
+						// tree 해제
 						ft_tree_node_post_traversal(token_tree, &ft_free_a_tree_node);
 					}
 				}
 			}
 		}
 		// tcsetattr(STDIN_FILENO, TCSANOW, &term);
+		free(input);
 		system("leaks minishell | grep LEAK");
 	}
 	return (FT_SUCCESS);
 }
 
-int	ft_tree_node_pre_traversal2(t_tree_node *token_tree,t_detower *dll_envp_tower,t_pipe *m_pipe, void (*function)(void *,t_detower *,t_pipe *))
+int	ft_tree_node_pre_traversal2(t_tree_node *token_tree,t_detower *dll_envp_tower,t_pipe *m_pipe, void (*function)(t_tree_node *,t_detower *,t_pipe *))
 {
 	if (token_tree == BOOL_FALSE)
 		return (FT_ERROR);
