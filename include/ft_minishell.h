@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 09:20:41 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/30 11:06:25 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 #include <sys/termios.h> //tcsetattr, tcgetattr
 #include <signal.h> // signal, 
 #include <errno.h> // errno
-#include <sys/stat.h>  // 
+#include <sys/stat.h>  //
+#include <string.h> // strerror() 
 
 #include <readline/readline.h> // readline, rl_replace_line, rl_on_new_line, rl_redisplay
 #include <readline/history.h> // add_history
@@ -61,6 +62,15 @@ typedef struct s_pipe
 // 	struct s_env	*next;
 // }   t_env;
 
+/*
+	builtin
+*/
+
+void	ft_cd(t_tree_cmd *cmd, t_pipe *pipe_value);
+void	ft_echo(t_tree_cmd *cmd, t_pipe *pipe_value);
+void	ft_pwd(t_tree_cmd *cmd, t_pipe *pipe_value);
+
+
 
 /*
 	env
@@ -74,7 +84,7 @@ typedef struct s_pipe
 void 	execute_cmd(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
 void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
 int		is_built_in(t_tree_cmd *cmd);
-void	execute_print_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe);
+void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe);
 char	**get_env_path(t_detower *dll_envp_tower);
 void	double_char_free(char **double_char);
 char	*get_file_path_from_env_path(char *command,t_detower *dll_envp_tower);
@@ -85,6 +95,7 @@ int		execute_noprint_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower,t_pipe *
 void	wait_child(void);
 void    next_pipe_check(t_tree_node *token_tree,t_pipe *m_pipe);
 void    ft_execute_tree(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
+void	init_pipe_in_execute(t_pipe *m_pipe);
 
 
 int		ft_tree_node_pre_traversal2(t_tree_node *token_tree,t_detower *dll_envp_tower,t_pipe *m_pipe, void (*function)(void *,t_detower *,t_pipe *));

@@ -3,29 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/10 14:38:33 by kshim             #+#    #+#             */
-/*   Updated: 2022/03/24 08:35:23 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/29 20:39:59 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include <stddef.h>
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+void	*ft_memcpy(void *dest, const void *src, size_t len)
 {
-	unsigned char		*str1;
-	const unsigned char	*str2;
-	size_t				i;
+	char		*tmp;
+	const char	*src_c;
 
-	if (dst == NULL && src == NULL)
-		return (dst);
-	str1 = (unsigned char *)dst;
-	str2 = (const unsigned char *)src;
-	i = 0;
-	while (i < n)
-	{
-		str1[i] = str2[i];
-		i++;
-	}
-	return (dst);
+	src_c = src;
+	if (!len || dest == src)
+		return (dest);
+	tmp = dest;
+	while (len--)
+		*tmp++ = *src_c++;
+	return (dest);
 }
