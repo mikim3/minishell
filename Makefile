@@ -32,7 +32,7 @@ SRC_DOUBLY_LINKED_LIST	:= $(addprefix $(SRC_DOUBLY_LINKED_LIST_DIR)/, $(SRC_DOUB
 SRC_ENV	= env_set.c
 SRC_ENV	:= $(addprefix $(SRC_ENV_DIR)/, $(SRC_ENV))
 
-SRC_EXECUTE	= execute_cmd.c execute_tree.c
+SRC_EXECUTE	= execute_cmd.c execute_tree.c execute_pipe.c
 SRC_EXECUTE	:= $(addprefix $(SRC_EXECUTE_DIR)/, $(SRC_EXECUTE))
 
 SRC_MAIN	= main.c
