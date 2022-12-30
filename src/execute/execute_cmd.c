@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:49:10 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 15:29:28 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/30 15:32:54 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,7 @@ void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe)
 	if (!ft_strcmp(cmd->cmd_name, "export"))
 	{
 		printf("execute export \n");
-		// ft_export(cmd, dll_envp_tower, m_pipe);
-	
+		ft_export(cmd, dll_envp_tower, m_pipe);
 	}
 	if (!ft_strcmp(cmd->cmd_name, "unset"))
 	{

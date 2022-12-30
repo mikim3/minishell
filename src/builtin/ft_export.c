@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 21:58:13 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 15:21:09 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/30 15:36:1ß by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ void	ft_export(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
 			printf("check_env_key return 1  ERROR\n");
 			exit(1);
 		}
-		set_env(env_tower, key, value);
-		free(key);
-		free(value);
+		// set_env(env_tower, key, value);
+		// free(key);
+		// free(value);
 	}
 	g_exit_code = 0;
 	system("leaks minishell | grep LEAK");
@@ -118,7 +118,9 @@ void	set_env(t_detower *env_tower, char *key, char *value)
 
 	// set_new_env는 새로운 노드도 추가해야함
 	if (set_target == NULL)
-		set_new_env(env_tower, key, value);
+	{
+		// set_new_env(env_tower, key, value);
+	}
 	else if (value != NULL)
 	{
 		free(set_target->key);
