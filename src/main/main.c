@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/28 19:34:10 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/30 09:21:41 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	init_pipe(t_pipe *m_pipe)
 	m_pipe->infile_fd = STDIN_FILENO;
 	m_pipe->outfile_fd = STDOUT_FILENO;
 }
-
 
 int	main(int argc, char **argv, char **envp)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_processing.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:49:46 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/28 16:48:19 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/30 09:19:57 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ int	ft_token_set(t_tknizer *tknizer, int type)
 	else
 		tknizer->tkn->type = type;
 	if (tknizer->expandable == BOOL_TRUE)
+	{
 		tknizer->tkn->expandable = BOOL_TRUE;
+	}
 	return (FT_SUCCESS);
 }
 
