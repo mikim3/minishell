@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:49:46 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/28 16:49:32 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/30 08:39:37 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ int	ft_token_set(t_tknizer *tknizer, int type)
 	else
 		tknizer->tkn->type = type;
 	if (tknizer->expandable == BOOL_TRUE)
+	{
 		tknizer->tkn->expandable = BOOL_TRUE;
+	}
 	return (FT_SUCCESS);
 }
 

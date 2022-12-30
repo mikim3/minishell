@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/28 16:54:20 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/30 08:35:58 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,10 @@ int	main(int argc, char **argv, char **envp)
 		token_list = (t_list *)ft_tokenizer(input);
 		if (token_list != 0)
 		{
+			test_print_token_lst(token_list);
 			if (ft_syntax_analysis(token_list) == FT_SUCCESS)
 			{
+				test_print_token_lst(token_list);
 				// 성공한 경우에만 환경 변수 확장
 				if (ft_token_expansion(token_list, dll_envp_tower) == FT_SUCCESS)
 				{
@@ -148,6 +150,8 @@ int	main(int argc, char **argv, char **envp)
 			}
 
 		}
+		else
+			printf("fail to tokenize\n");
 		system("leaks minishell | grep LEAK");
 	}
 	return (FT_SUCCESS);
