@@ -1,25 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   execute_file_path.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/07 15:27:18 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/29 20:54:26 by mikim3           ###   ########.fr       */
+/*   Created: 2022/12/29 17:25:19 by mikim3            #+#    #+#             */
+/*   Updated: 2022/12/29 17:25:40 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "../../include/ft_minishell.h"
 
-size_t	ft_strlen(const char *str)
-{
-	size_t	n;
 
-	n = 0;
-	if (str == NULL)
-		return (0);
-	while (str[n])
-		n++;
-	return (n);
-}
+
+

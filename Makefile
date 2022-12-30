@@ -23,7 +23,7 @@ SRC_EXECUTE_DIR	= $(SRCDIR)/execute
 SRC_MAIN_DIR		= $(SRCDIR)/main
 SRC_PARSER_DIR	= $(SRCDIR)/parser
 
-SRC_BUILTIN	= 
+SRC_BUILTIN	= ft_cd.c ft_echo.c ft_env.c ft_exit.c ft_export.c ft_pwd.c ft_unset.c 
 SRC_BUILTIN	:= $(addprefix $(SRC_BUILTIN_DIR)/, $(SRC_BUILTIN))
 
 SRC_DOUBLY_LINKED_LIST	= ft_doubly_linked_list_1.c ft_doubly_linked_list_2.c ft_doubly_linked_list_3.c ft_envp_doubly_linked_list.c
@@ -32,7 +32,7 @@ SRC_DOUBLY_LINKED_LIST	:= $(addprefix $(SRC_DOUBLY_LINKED_LIST_DIR)/, $(SRC_DOUB
 SRC_ENV	= env_set.c
 SRC_ENV	:= $(addprefix $(SRC_ENV_DIR)/, $(SRC_ENV))
 
-SRC_EXECUTE	= execute_cmd.c execute_tree.c
+SRC_EXECUTE	= execute_cmd.c execute_tree.c execute_pipe.c
 SRC_EXECUTE	:= $(addprefix $(SRC_EXECUTE_DIR)/, $(SRC_EXECUTE))
 
 SRC_MAIN	= main.c
