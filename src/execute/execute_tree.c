@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 23:21:44 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/29 22:44:59 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/30 12:18:06 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	next_pipe_check(t_tree_node *node,t_pipe *m_pipe)
 	// ex) bash-3.2$ echo hahhahh | echo vvfsdv --> 화면출력 vvfsdv
 	// 이 경우 echo hahhahh 는 출력이 안돼야함
 	// if (node->right != NULL && node->right->type == NODE_PIPELINE)
-	if (node->right->type == NODE_PIPELINE)
+	if (node->right != NULL && node->right->type == NODE_PIPELINE)
 	{
 		if (pipe(m_pipe->fd) < 0)
 		{
