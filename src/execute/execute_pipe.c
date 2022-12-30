@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 11:01:23 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 15:15:50 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/30 15:35:34 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,9 @@
 	// 동작
 		
 
-//
-//// filename에 경로 붙이기 getcwd
+////
+//// filename에 경로 붙이기 getcwd해서 나온 경로를 
+///////// 그 전에 open 동작에서 경로 어떻게 처리하는지를 찾아보기
 
 int	execute_redir(t_tree_node *node, t_pipe *m_pipe)
 {
@@ -95,9 +96,7 @@ int	execute_redir(t_tree_node *node, t_pipe *m_pipe)
 int	ft_redir_infile(char *file_name, t_pipe *m_pipe, int redir_fd)
 {
 	int	file_fd;
-	// file_name = ft_상대경로_해석_함수();
-	// if (file_name == 0)
-	// 	return (FT_ERROR);
+
 	if (access(file_name, F_OK | R_OK) == 0)
 	{
 		// pipex와 동작 다르니 주의 (파일 redir 전에 redir이미 했을 수가 있음)
@@ -123,9 +122,7 @@ int	ft_redir_infile(char *file_name, t_pipe *m_pipe, int redir_fd)
 int	ft_redir_outfile(char *file_name, t_pipe *m_pipe, int redir_fd)
 {
 	int	file_fd;
-	// file_name = ft_상대경로_해석_함수();
-	// if (file_name == 0)
-	// 	return (FT_ERROR);
+
 	file_fd= open(file_name, O_CREAT | O_TRUNC | O_RDWR, 0666);
 	if (file_fd== -1)
 		return (FT_ERROR);
@@ -145,9 +142,7 @@ int	ft_redir_outfile(char *file_name, t_pipe *m_pipe, int redir_fd)
 int	ft_redir_append(char *file_name, t_pipe *m_pipe, int redir_fd)
 {
 	int	file_fd;
-	// file_name = ft_상대경로_해석_함수();
-	// if (file_name == 0)
-	// 	return (FT_ERROR);
+
 	file_fd= open(file_name, O_CREAT | O_APPEND | O_RDWR, 0666);
 	if (file_fd== -1)
 		return (FT_ERROR);
