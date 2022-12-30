@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 11:02:05 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 15:00:13 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/30 16:28:45 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ int	execute_redir(t_tree_node *node, t_pipe *m_pipe);
 int	ft_redir_infile(char *file_name, t_pipe *m_pipe, int redir_fd);
 int	ft_redir_outfile(char *file_name, t_pipe *m_pipe, int redir_fd);
 int	ft_redir_append(char *file_name, t_pipe *m_pipe, int redir_fd);
+int	ft_redir_here_doc(t_pipe *m_pipe, int redir_fd);
 
 #endif

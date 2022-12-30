@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:49:10 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 15:43:55 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/30 15:49:14 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,12 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 			{
 				dup2(m_pipe->pre_pipe_read_end, m_pipe->infile_fd);
 				close(m_pipe->pre_pipe_read_end);
-				m_pipe->infile_fd = m_pipe->infile_fd;
 			}
 			if (m_pipe->next_pipe_check == BOOL_TRUE)
 			{
 				close(m_pipe->pipe[P_READ]);
-				dup2(m_pipe->pipe[P_WRITE], STDOUT_FILENO);
+				dup2(m_pipe->pipe[P_WRITE], m_pipe->outfile_fd);
 				close(m_pipe->pipe[P_WRITE]);
-				m_pipe->outfile_fd = STDOUT_FILENO;
 			}
 			ft_tree_node_pre_traversal2(pipeline->left, dll_envp_tower, m_pipe, &ft_execute_tree);
 		}

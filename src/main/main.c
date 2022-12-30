@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 15:30:04 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/30 16:29:24 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int	main(int argc, char **argv, char **envp)
 		{
 			if (ft_syntax_analysis(token_list) == FT_SUCCESS)
 			{
+				// 문맥 분석 완료한 경우 here_doc 작성 - delimiter의 특징 때문에 확장보다 우선함
+				
 				// 성공한 경우에만 환경 변수 확장
 				if (ft_token_expansion(token_list, dll_envp_tower) == FT_SUCCESS)
 				{

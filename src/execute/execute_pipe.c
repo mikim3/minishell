@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 11:01:23 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 15:35:34 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/30 16:28:40 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	execute_redir(t_tree_node *node, t_pipe *m_pipe)
 	}
 	else if (ft_strcmp(redir, "<<") == FT_SUCCESS)
 	{
+		ret_val = ft_redir_here_doc(m_pipe, redir_fd);
 		printf("redir - heredoc\n");
 	}
 	if (ret_val == FT_ERROR)
@@ -159,10 +160,23 @@ int	ft_redir_append(char *file_name, t_pipe *m_pipe, int redir_fd)
 	return (FT_SUCCESS);
 }
 
-// int	ft_redir_here_doc()
-// {
+int	ft_redir_here_doc(t_pipe *m_pipe, int redir_fd)
+{
+	int	file_fd;
 
-// }
-
-
-// 상대 경로 가져오는 함수
+	file_fd = open("/tmp/.mnsh_here_doc.tmp", O_RDONLY);
+	if (file_fd== -1)
+		return (FT_ERROR);
+	unlink("/tmp/.mnsh_here_doc.tmp");
+	if (redir_fd == -1)
+	{
+		dup2(file_fd, m_pipe->infile_fd);
+		close(file_fd);
+	}
+	else
+	{
+		dup2(file_fd, redir_fd);
+		close(file_fd);
+	}
+	return (FT_SUCCESS);
+}
