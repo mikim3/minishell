@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:16:16 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/29 19:45:37 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/30 12:21:34 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,8 @@ void	ft_exit(t_tree_cmd *cmd, t_pipe *pipe_value)
 		return ;
 	}
 	else
+	{
+		printf("exit() go \n");
 		exit(g_exit_code);
+	}
 }

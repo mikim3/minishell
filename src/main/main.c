@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/29 21:16:28 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/30 12:10:38 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,9 @@ int	main(int argc, char **argv, char **envp)
 				}
 			}
 		}
+		free(input);
 		// tcsetattr(STDIN_FILENO, TCSANOW, &term);
-		system("leaks minishell | grep LEAK");
+		// system("leaks minishell | grep LEAK");
 	}
 	return (FT_SUCCESS);
 }

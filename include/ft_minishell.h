@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 13:23:19 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/30 15:19:46 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,9 @@ void	ft_exit(t_tree_cmd	*cmd, t_pipe	*pipe_value);
 void	ft_export(t_tree_cmd	*cmd, t_detower	*env, t_pipe	*pipe_value);
 char	*show_env_in_export(t_d_list	*env);
 void	div_key_value(char *arg, char **key, char **value);
+void	set_env(t_detower *env_tower, char *key, char *value);
+t_envp_content	*find_env_keycmp(t_d_list *env, char *env_key);
+void	set_env_value(t_envp_content *env, char *key, char *value);
 
 
 void	ft_unset(t_tree_cmd *cmd, t_detower *env, t_pipe *pipe_value);
