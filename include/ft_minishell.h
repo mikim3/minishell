@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/29 22:29:49 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/30 13:23:19 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,26 @@ typedef struct s_pipe
 	builtin
 */
 
-void	ft_cd(t_tree_cmd *cmd, t_pipe *pipe_value);
-void	ft_echo(t_tree_cmd *cmd, t_pipe *pipe_value);
-void	ft_pwd(t_tree_cmd *cmd, t_pipe *pipe_value);
+void	ft_cd(t_tree_cmd	*cmd, t_pipe	*pipe_value);
+void	ft_echo(t_tree_cmd	*cmd, t_pipe	*pipe_value);
+void	ft_env(t_tree_cmd	*cmd, t_detower	*env, t_pipe	*pipe_value);
+void	ft_pwd(t_tree_cmd	*cmd, t_pipe	*pipe_value);
+void	ft_exit(t_tree_cmd	*cmd, t_pipe	*pipe_value);
+void	ft_export(t_tree_cmd	*cmd, t_detower	*env, t_pipe	*pipe_value);
+char	*show_env_in_export(t_d_list	*env);
+void	div_key_value(char *arg, char **key, char **value);
+
+
+void	ft_unset(t_tree_cmd *cmd, t_detower *env, t_pipe *pipe_value);
 
 
 
 /*
 	env
 */
+
+int	check_env_key(char *key);
+int	allowed_character(char *str);
 
 
 /*
