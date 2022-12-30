@@ -21,8 +21,7 @@ void	ft_pwd(t_tree_cmd *cmd, t_pipe *pipe_value)
 	//PWD , OLDPWD
 	output = getcwd(NULL, 0); // getcwd가 malloc으로 내부에서 할당해주니까 외부에서 free해줘야함
 	output = ft_strjoin(output, ft_strdup("\n")); //
-	// write(pipe_value->outfile_fd, output, ft_strlen(output));
-	write(STDOUT_FILENO, output, ft_strlen(output));
+	write(pipe_value->outfile_fd, output, ft_strlen(output));
 	free(output);
     //정상 종료 코드
 	g_exit_code = 0;

@@ -69,29 +69,36 @@ typedef struct s_pipe
 	builtin
 */
 
-void	ft_cd(t_tree_cmd	*cmd, t_pipe	*pipe_value);
+void	ft_cd(t_tree_cmd *cmd,t_detower *env_tower ,t_pipe *pipe_value);
 void	ft_echo(t_tree_cmd	*cmd, t_pipe	*pipe_value);
 void	ft_env(t_tree_cmd	*cmd, t_detower	*env, t_pipe	*pipe_value);
 void	ft_pwd(t_tree_cmd	*cmd, t_pipe	*pipe_value);
 void	ft_exit(t_tree_cmd	*cmd, t_pipe	*pipe_value);
 void	ft_export(t_tree_cmd	*cmd, t_detower	*env, t_pipe	*pipe_value);
 char	*show_env_in_export(t_d_list	*env);
-void	div_key_value(char *arg, char **key, char **value);
-void	set_env(t_detower *env_tower, char *key, char *value);
+void			div_key_value(char *arg, char **key, char **value);
 t_envp_content	*find_env_keycmp(t_d_list *env, char *env_key);
-void	set_env_value(t_envp_content *env, char *key, char *value);
-
 
 void	ft_unset(t_tree_cmd *cmd, t_detower *env, t_pipe *pipe_value);
-
+void    unset_env(t_detower *env_tower,char *key);
+void	delete_t_d_list(t_detower *env_tower, t_d_list	*env, t_d_list	*prev);
+void	free_env_list(t_d_list **target);
 
 
 /*
 	env
 */
 
+void	change_PWD_OLDPWD(t_detower *env_tower);
+
 int	check_env_key(char *key);
-int	allowed_character(char *str);
+int	available_character(char *str);
+
+void			set_env(t_detower *env_tower, char *key, char *value);
+void	set_new_env(t_detower	**env_tower, char	*key, char	*value);
+void	set_env_value(t_envp_content *env, char *key, char *value);
+t_envp_content	*env_new(void);
+
 
 
 /*
@@ -105,7 +112,6 @@ void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe)
 char	**get_env_path(t_detower *dll_envp_tower);
 void	double_char_free(char **double_char);
 char	*get_file_path_from_env_path(char *command,t_detower *dll_envp_tower);
-char	*get_current_path(void);
 char	*set_file_path(char *command, t_detower *dll_envp_tower);
 void	execute_external(t_tree_node *token_tree,t_detower *dll_envp_tower,t_pipe *m_pipe);
 int		execute_noprint_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower,t_pipe *m_pipe);

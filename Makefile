@@ -29,7 +29,7 @@ SRC_BUILTIN	:= $(addprefix $(SRC_BUILTIN_DIR)/, $(SRC_BUILTIN))
 SRC_DOUBLY_LINKED_LIST	= ft_doubly_linked_list_1.c ft_doubly_linked_list_2.c ft_doubly_linked_list_3.c ft_envp_doubly_linked_list.c
 SRC_DOUBLY_LINKED_LIST	:= $(addprefix $(SRC_DOUBLY_LINKED_LIST_DIR)/, $(SRC_DOUBLY_LINKED_LIST))
 
-SRC_ENV	= env_set.c env_check.c
+SRC_ENV	= env_set.c env_check.c env_change_PWD.c
 SRC_ENV	:= $(addprefix $(SRC_ENV_DIR)/, $(SRC_ENV))
 
 SRC_EXECUTE	= execute_cmd.c execute_tree.c execute_pipe.c

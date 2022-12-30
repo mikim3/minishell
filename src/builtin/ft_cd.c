@@ -12,7 +12,7 @@
 
 #include "../../include/ft_minishell.h"
 
-void	ft_cd(t_tree_cmd *cmd, t_pipe *pipe_value)
+void	ft_cd(t_tree_cmd *cmd,t_detower *env_tower ,t_pipe *pipe_value)
 {
 	int		return_value;
 	char	*output;
@@ -22,7 +22,7 @@ void	ft_cd(t_tree_cmd *cmd, t_pipe *pipe_value)
 	// 상대경로 테스트하기  // 
 	// PWD의 환경변수를 set해주기 
 
-
+	change_PWD_OLDPWD(env_tower);
 	output = ft_strjoin(ft_strdup(strerror(errno)),ft_strdup("\n"));  // strdup해야 되는지 헷갈리네
 	if (return_value == -1)
 		write(STDERR_FILENO, output, ft_strlen(output) + 1);

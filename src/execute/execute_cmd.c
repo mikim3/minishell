@@ -112,7 +112,7 @@ void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe)
 	if (!ft_strcmp(cmd->cmd_name, "cd"))
 	{
 		printf("execute cd \n");
-		ft_cd(cmd, m_pipe);
+		ft_cd(cmd, dll_envp_tower, m_pipe);
 	}
 	if (!ft_strcmp(cmd->cmd_name, "pwd"))
 	{
@@ -127,16 +127,13 @@ void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe)
 	if (!ft_strcmp(cmd->cmd_name, "unset"))
 	{
 		printf("execute unset\n");
-		// ft_pwd(cmd, m_pipe);
+		ft_unset(cmd, dll_envp_tower, m_pipe);
 	}
-	
 	if (!ft_strcmp(cmd->cmd_name, "env"))
 	{
 		printf("execute env \n");
 		ft_env(cmd, dll_envp_tower, m_pipe);
-		// ft_pwd(cmd, m_pipe);
 	}
-		// ft_env(cmd, dll_envp_tower, m_pipe);
 	if (!ft_strcmp(cmd->cmd_name, "exit"))
 	{
 		printf("execute exit \n");
@@ -215,14 +212,6 @@ char	*get_file_path_from_env_path(char *command,t_detower *dll_envp_tower)
 	return	(file_path);
 }
 
-char	*get_current_path(void)
-{
-	char	*current_path;
-
-	current_path = getcwd(NULL, 0); //현재 경로 
-	return (current_path);
-}
-
 char	*set_file_path(char *command, t_detower *dll_envp_tower)
 {
 	char	*file_path;
@@ -236,7 +225,7 @@ char	*set_file_path(char *command, t_detower *dll_envp_tower)
 	else if (ft_strncmp("./", command, 2) == 0) // 상대경로 ./bash_exe_ex hahaha 현재경로에 bash를 실행한다고 생각  
 	{
 		command = ft_substr(command, 2, ft_strlen(command) - 2);
-		current_path = get_current_path();
+		current_path = getcwd(NULL, 0);
 		printf("current_path == %s \n",current_path);
 		file_path = ft_strjoin(current_path, ft_strdup("/"));
 		printf("file_path == %s \n",file_path);

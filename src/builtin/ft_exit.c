@@ -30,7 +30,6 @@ void	ft_exit(t_tree_cmd *cmd, t_pipe *pipe_value)
 	}
 	else
 	{
-		printf("exit() go \n");
 		exit(g_exit_code);
 	}
 }

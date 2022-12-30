@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_check.c                                        :+:      :+:    :+:   */
+/*   env_change_PWD.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,33 +12,23 @@
 
 #include "../../include/ft_minishell.h"
 
-int	check_env_key(char *key)
+void	change_PWD_OLDPWD(t_detower *env_tower)
 {
-	if (ft_strcmp(key, "$?") == 0)
-		return (1);
-	if (available_character(key))
-		return (0);
-	return (1);
-}
+	t_d_list		*env;
+	t_envp_content	*set_pwd;
+	t_envp_content	*set_OLDPWD;
+	char			*pwd_path;
 
-int	available_character(char *str)
-{
-	int	index;
+	pwd_path = getcwd(NULL, 0); // getcwd가 malloc으로 내부에서 할당해주니까 외부에서 free해줘야함
 
-	index = 0;
-    //key값으로 첫글자 숫자는 불허
-	if ('0' <= str[0] && str[0] <= '9')
-		return (0);
-	while (str[index])
+	env = env_tower->head;
+	set_pwd = find_env_keycmp(env, "PWD");
+	if (set_pwd != NULL)
 	{
-		if (!(('a' <= str[index] && str[index] <= 'z')
-				|| ('A' <= str[index] && str[index] <= 'Z')
-				|| ('0' <= str[index] && str[index] <= '9')
-				|| '_' == str[index]))
-		{
-		    return (0);
-		}
-        index++;
+		free(set_pwd->key);
+		if (set_pwd->value != NULL)
+			free(set_pwd->value);
+		set_env_value(set_pwd, "PWD", pwd_path);
 	}
-	return (1);
+	free(pwd_path);
 }

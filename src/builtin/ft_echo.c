@@ -85,7 +85,6 @@ void	ft_echo(t_tree_cmd *cmd, t_pipe *pipe_value)
 	index = 0;
 	argv_start_str = 0;
 	use_u_option = use_u_option_check(cmd, &(argv_start_str));  //return 두개가 필요할경우 이렇게 넣는게 아니라 인자로 주소값 줘서 함수안에서 삽입할 필요가 있을수도 // index옵션이 argv[]를 차지하는 만큼 넘긴다.
-	// printf("strart index == %d\n", index);
 	output = NULL;
     index = argv_start_str; // echo -n -n hellow word 다음과 같은 경우 index 가 3부터(출력을 3부터 값 넣는거는 처음에 ++이니까 2)시작해야함
 	while (cmd->cmd_argv[index])
