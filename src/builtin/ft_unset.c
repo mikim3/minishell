@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:17:03 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/29 19:48:01 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/30 12:23:53 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 #include "../../include/ft_minishell.h"
 
-// void	ft_unset(t_tree_cmd *cmd, t_d_list *env, t_pipe *pipe_value)
+// void	ft_unset(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
 // {
 // 	int		index;
 // 	char	*key;

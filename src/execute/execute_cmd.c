@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:49:10 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 15:18:45 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/30 15:32:54 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,11 +121,9 @@ void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe)
 	}
 	if (!ft_strcmp(cmd->cmd_name, "export"))
 	{
-		printf("execute pwd \n");
-		// ft_pwd(cmd, m_pipe);
-	
+		printf("execute export \n");
+		ft_export(cmd, dll_envp_tower, m_pipe);
 	}
-		// ft_export(cmd, dll_envp_tower, m_pipe);
 	if (!ft_strcmp(cmd->cmd_name, "unset"))
 	{
 		printf("execute unset\n");
@@ -135,13 +133,14 @@ void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe)
 	if (!ft_strcmp(cmd->cmd_name, "env"))
 	{
 		printf("execute env \n");
+		ft_env(cmd, dll_envp_tower, m_pipe);
 		// ft_pwd(cmd, m_pipe);
 	}
 		// ft_env(cmd, dll_envp_tower, m_pipe);
 	if (!ft_strcmp(cmd->cmd_name, "exit"))
 	{
 		printf("execute exit \n");
-		// ft_pwd(cmd, m_pipe);
+		ft_exit(cmd, m_pipe);
 	}
 	return ;
 }
@@ -211,7 +210,7 @@ char	*get_file_path_from_env_path(char *command,t_detower *dll_envp_tower)
 
 	if (env_path_values)  
 		// 이차원배열 free 있는지 찾아보고 없으면 함수 만들기
-		double_char_free(env_path_values);
+		ft_free_string_ptr_arr(env_path_values);
 
 	return	(file_path);
 }
