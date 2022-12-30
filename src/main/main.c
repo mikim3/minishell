@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 14:35:13 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/30 15:30:04 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		// tcsetattr(STDIN_FILENO, TCSANOW, &term);
 		free(input);
-		system("leaks minishell | grep LEAK");
+		//system("leaks minishell | grep LEAK");
 	}
 	return (FT_SUCCESS);
 }
