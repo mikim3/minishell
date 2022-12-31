@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 16:29:24 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/31 14:43:21 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,30 +77,33 @@ int	main(int argc, char **argv, char **envp)
 			if (ft_syntax_analysis(token_list) == FT_SUCCESS)
 			{
 				// 문맥 분석 완료한 경우 here_doc 작성 - delimiter의 특징 때문에 확장보다 우선함
-				
-				// 성공한 경우에만 환경 변수 확장
-				if (ft_token_expansion(token_list, dll_envp_tower) == FT_SUCCESS)
+				if (ft_here_doc_expansion(token_list, dll_envp_tower) == FT_SUCCESS)
 				{
-					token_tree = ft_syntax_parse_tree(token_list);
-					if (token_tree != 0)
+					// 성공한 경우에만 환경 변수 확장
+					if (ft_token_expansion(token_list, dll_envp_tower) == FT_SUCCESS)
 					{
-						//작업 임시 테스트
-						test_print_token_lst(token_list);
-						init_pipe(&m_pipe);
-						
-						ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
-						// ft_execute_tree(token_tree,dll_envp_tower, &m_pipe);
-						ft_tree_node_pre_traversal(token_tree, &test_tree_node_check_for_content);
-						
-						// 실행용
-						//ft_tree_node_pre_traversal2(token_tree, dll_envp_tower, &m_pipe, &ft_execute_tree);
-						execute_fork(token_tree, dll_envp_tower, &m_pipe);
-						// ft_tree_node_pre_traversal(token_tree, &ft_execute_tree_node);
+						token_tree = ft_syntax_parse_tree(token_list);
+						if (token_tree != 0)
+						{
+							//작업 임시 테스트
+							test_print_token_lst(token_list);
+							init_pipe(&m_pipe);
+							
+							ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
+							// ft_execute_tree(token_tree,dll_envp_tower, &m_pipe);
+							ft_tree_node_pre_traversal(token_tree, &test_tree_node_check_for_content);
+							
+							// 실행용
+							//ft_tree_node_pre_traversal2(token_tree, dll_envp_tower, &m_pipe, &ft_execute_tree);
+							execute_fork(token_tree, dll_envp_tower, &m_pipe);
+							// ft_tree_node_pre_traversal(token_tree, &ft_execute_tree_node);
 
-						// tree 해제
-						ft_tree_node_post_traversal(token_tree, &ft_free_a_tree_node);
+							// tree 해제
+							ft_tree_node_post_traversal(token_tree, &ft_free_a_tree_node);
+						}
 					}
 				}
+	
 			}
 		}
 		// tcsetattr(STDIN_FILENO, TCSANOW, &term);

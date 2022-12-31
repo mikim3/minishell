@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:01:52 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/30 09:20:02 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/31 14:53:35 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	*ft_tokenizer(char *str)
 		ft_free_tokenizer_list_and_token(&(tknizer.tkn_list), &(tknizer.tkn), TKN_TKNIZE_FAIL);
 		return (0);
 	}
+	printf("tknizer done\n");
 	return ((void *)(tknizer.tkn_list));
 }
 
@@ -104,7 +105,7 @@ int	ft_tokenizing_loop(t_tknizer *tknizer, int error, int *prev_type)
 int	ft_close_quote(t_tknizer *tknizer, int *prev_type)
 {
 	char	target;
-	// 형태 마음에 안든다. 반복 조건 조정해서 리팩토링.
+
 	if (*prev_type == TKN_OPERATOR
 		&& ft_token_processor(tknizer, prev_type) == FT_ERROR)
 		return (FT_ERROR);
@@ -122,8 +123,6 @@ int	ft_close_quote(t_tknizer *tknizer, int *prev_type)
 		return (FT_ERROR);
 	tknizer->io_num_mode = BOOL_FALSE;
 	tknizer->expandable = BOOL_TRUE;
-	//tknizer->tkn_len++;
-	//tknizer->str_pos++;
 	*prev_type = TKN_WORD;
 	return (FT_SUCCESS);
 }
