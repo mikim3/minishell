@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:01:52 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/31 14:53:35 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/31 16:37:31 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	*ft_tokenizer(char *str)
 		ft_free_tokenizer_list_and_token(&(tknizer.tkn_list), &(tknizer.tkn), TKN_TKNIZE_FAIL);
 		return (0);
 	}
-	printf("tknizer done\n");
 	return ((void *)(tknizer.tkn_list));
 }
 
@@ -90,7 +89,12 @@ int	ft_tokenizing_loop(t_tknizer *tknizer, int error, int *prev_type)
 	}
 	if (error == BOOL_FALSE
 		&& ft_isspace(*(tknizer->str_pos)) == BOOL_TRUE)
-		error = ft_token_processor(tknizer, prev_type);
+	{
+		if (tknizer->tkn_len != 0)
+			error = ft_token_processor(tknizer, prev_type);
+		tknizer->tkn_start++;
+		tknizer->str_pos++;
+	}
 	else
 	{
 		if (*prev_type != TKN_OPERATOR
@@ -105,7 +109,7 @@ int	ft_tokenizing_loop(t_tknizer *tknizer, int error, int *prev_type)
 int	ft_close_quote(t_tknizer *tknizer, int *prev_type)
 {
 	char	target;
-
+	
 	if (*prev_type == TKN_OPERATOR
 		&& ft_token_processor(tknizer, prev_type) == FT_ERROR)
 		return (FT_ERROR);
@@ -119,8 +123,6 @@ int	ft_close_quote(t_tknizer *tknizer, int *prev_type)
 		tknizer->tkn_len++;
 		tknizer->str_pos++;
 	}
-	if (*(tknizer->str_pos) == '\0')
-		return (FT_ERROR);
 	tknizer->io_num_mode = BOOL_FALSE;
 	tknizer->expandable = BOOL_TRUE;
 	*prev_type = TKN_WORD;
