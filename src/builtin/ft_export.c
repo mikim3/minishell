@@ -22,6 +22,7 @@ void	ft_export(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
 	char	    *output;
     t_d_list    *env;
 
+	g_exit_code = 0;
     env = env_tower->head;
 
 	index = 0;
@@ -29,8 +30,7 @@ void	ft_export(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
 	{
 		output = show_env_in_export(env);  // 출력해야할 값 출력
 		write(pipe_value->outfile_fd, output, ft_strlen(output));
-		g_exit_code = 0;
-		exit(0);
+		exit(g_exit_code);
 	}
 	// export a=10 b=20
 	// =을 기준으로 key,value가 나뉘어진다.
@@ -47,15 +47,15 @@ void	ft_export(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
 		if (check_env_key(key))
 		{
 			env_key_error("export", key);
-			printf("check_env_key return 1  ERROR\n");
+			g_exit_code = 1;
 		}
 		else
 			set_env(env_tower, key, value);
 		free(key);
 		free(value);
 	}
-	g_exit_code = 0;
 	system("leaks minishell | grep LEAK");
+	exit(g_exit_code);
 }
 
 char	*show_env_in_export(t_d_list	*env)

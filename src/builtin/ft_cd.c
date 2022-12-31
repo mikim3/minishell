@@ -24,9 +24,13 @@ void	ft_cd(t_tree_cmd *cmd,t_detower *env_tower)
 	change_pwd_oldpwd(env_tower, "PWD");
 	output = ft_strjoin_infree(ft_strdup(strerror(errno)),ft_strdup("\n"));
 	if (return_value == -1)
+	{
 		write(STDERR_FILENO, output, ft_strlen(output) + 1);
+		g_exit_code = 1;
+	}
 	if (output)
 		free(output);
-	g_exit_code = 0;
-
+	//cd 안에서 오류가 나지 않았다면
+	if (g_exit_code != 1)
+		g_exit_code = 0;
 }

@@ -86,8 +86,8 @@ void	ft_echo(t_tree_cmd *cmd, t_pipe *pipe_value)
     index = argv_start_str; // echo -n -n hellow word 다음과 같은 경우 index 가 3부터(출력을 3부터 값 넣는거는 처음에 ++이니까 2)시작해야함
 	while (cmd->cmd_argv[index])
 	{
-		output = ft_strjoin(output, cmd->cmd_argv[index]);
-		output = ft_strjoin(output, " ");
+		output = ft_strjoin_infree(output, ft_strdup(cmd->cmd_argv[index]));
+		output = ft_strjoin_infree(output, " ");
 		index++;
 	}
 	if (output != NULL)

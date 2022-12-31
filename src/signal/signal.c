@@ -54,7 +54,8 @@ void	signal_handler(int signo)
 // 자식
 void	signal_handler2(int signo)
 {
-	printf("SIG_CHILD_HANDER before \n");
+	//
+	ft_putstr_fd("\n\n\n\nSIG_CHILD_HANDER before \n\n\n\n",STDERR_FILENO);
 	if (signo == SIGINT) // Ctrl + c
 	{
 		// write(1, "^C\n", 3);

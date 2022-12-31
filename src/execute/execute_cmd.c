@@ -39,7 +39,7 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 		pid = fork();
 		if (pid == 0)
 		{	
-			set_signal(SIG_CHILD_HANDLER, SIG_CHILD_HANDLER);
+			set_signal(SIG_DEFAULT, SIG_DEFAULT); //이게 없으면 SIG_QUIT가 IGN상태이지만  그렇다고 이게 있다고 SIG_CHILD_HANDLER대로 작동하지는 않음 뭘까?
 			// 다중 파이프에서 자식 프로세스에게 fork할 때 stdin, out이 없어지지 않는게 나을 것 같음.
 			// 이 동작을 다르게 하거나, 필요가 없을지도 모르겠다.
 			// 아니면 자식에서 하나? 좀 고민 중
