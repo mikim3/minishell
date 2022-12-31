@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 13:53:23 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/31 17:42:14 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/31 18:24:19 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ft_here_doc_expansion(t_list *token_list, t_detower *dll_envp_tower)
 			{
 				token_node = token_node->next;
 				if (ft_token_is_expandable(token_node) == BOOL_TRUE
-					|| ft_token_check_for_quote(token_node) == BOOL_TRUE)
+					&& ft_token_check_for_quote(token_node) == BOOL_TRUE)
 				{
 					if (ft_token_str_expansion(&(((t_tkn *)token_node->content)->str), envp_head, EXPAND_QUOTE_ONLY) == FT_ERROR)
 						return (FT_ERROR);
@@ -70,8 +70,10 @@ int	ft_write_here_doc_with_expand_mode(char *token_str, t_detower *dll_envp_towe
 	int		here_doc_fd;
 	char	*buffer;
 	char	*delimiter;
+	char	*tmp_buf;
 
 	here_doc_fd = -1;
+	tmp_buf = 0;
 	here_doc_fd = open(
 				"/tmp/.mnsh_here_doc.tmp", O_CREAT | O_RDWR | O_TRUNC, 0666);
 	delimiter = ft_strjoin(token_str, "\n");
@@ -88,10 +90,15 @@ int	ft_write_here_doc_with_expand_mode(char *token_str, t_detower *dll_envp_towe
 			free(delimiter);
 			return (FT_ERROR);
 		}
-		// ft_token_str_expansion을 쓰려면 token 넣어야하도록 코드 짰음.
-			// 이걸 string만 넣어도 동작할 수 있게 만드는게 좋을 것 같음.
 		if (is_env_expand == BOOL_TRUE)
+		{
 			ft_token_str_expansion(&buffer, dll_envp_tower->head, EXPAND_ENV_ONLY);
+			// 확장을 한 경우에 '\n'가 붙지 않는다. 
+				// !!!! 근데 이러면 '\n'이 붙어 있는데도 확장했다는 말 아닌가?
+				// 뭔가 느낌이 이상하다.
+			// 확장 안 한 경우에는 원래 문자열이 돌아와서 '\n' 이미 붙어있음.
+				// 확장 수행 '여부'를 알 수 있으면 좋을까?
+		}
 		write(here_doc_fd, buffer, ft_strlen(buffer));
 		free(buffer);
 	}
