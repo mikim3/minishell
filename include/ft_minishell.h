@@ -30,6 +30,8 @@
 #include <readline/readline.h> // readline, rl_replace_line, rl_on_new_line, rl_redisplay
 #include <readline/history.h> // add_history
 
+#include <term.h>
+
 #define SHELL_NAME "BABYSHELL"
 
 typedef enum e_pwd_set{
@@ -39,8 +41,9 @@ typedef enum e_pwd_set{
 
 typedef enum e_signal{
 	SIG_IGNORE = 0,
+	SIG_DEFAULT,
 	SIG_HANDLER,
-	SIG_DEFAULT
+	SIG_CHILD_HANDLER
 }		t_signal;
 
 int g_exit_code;  //  $? 종료상태 코드 
@@ -106,7 +109,7 @@ int		ft_tree_node_pre_traversal_exe_cmd_set(t_tree_node *target_tree, char *inpu
 	main.c
 */
 
-void	main_init(void);
+void	main_init(int argc, char *argv[]);
 void	init_pipe(t_pipe *m_pipe);
 void	exe_cmd_set(t_tree_node *node);
 
@@ -116,6 +119,7 @@ void	exe_cmd_set(t_tree_node *node);
 
 void	set_signal(int sig_int, int sig_quit);
 void	signal_handler(int signo);
+void	signal_handler2(int signo);
 
 
 

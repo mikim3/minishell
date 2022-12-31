@@ -22,6 +22,17 @@ void	init_pipe(t_pipe *m_pipe)
 	m_pipe->outfile_fd = STDOUT_FILENO;
 }
 
+void	main_init(int argc, char *argv[])
+{
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~(ECHOCTL);
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+	// set_signal(SHE, SHE);
+	g_exit_code = 0;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_list		*token_list;
@@ -30,8 +41,10 @@ int	main(int argc, char **argv, char **envp)
 	t_detower	*dll_envp_tower;
 	char		**mnsh_envp;
 	t_pipe		m_pipe;
+	struct termios		term;
 
-
+	tcgetattr(STDIN_FILENO, &term);
+	main_init(argc, argv);
 	if (argc >= 2 || argv[1] != 0)
 		return (FT_ERROR);
 	dll_envp_tower = ft_set_envp_dll(envp);
@@ -43,20 +56,19 @@ int	main(int argc, char **argv, char **envp)
 	// 	printf("%s\n",mnsh_envp[i]);
 	if (mnsh_envp == 0)
 		return (FT_ERROR);
-		
 	// envp 추가 함수 - A _ a 순서에 맞게 배열하는 함수 -> 실행부에 넘김
 	// envp 제거 함수???? -> 실행부에 넘김
+
+	// 기본적으로 INT는 sighandler1 함수 적용   quit는 무시
+	set_signal(SIG_HANDLER,SIG_IGNORE);
 	while (1)
 	{
-		set_signal(SIG_HANDLER,SIG_HANDLER);
 		input = readline("minishell$ ");
 		if (input == NULL) //  Ctrl + D를 누르면 input은 NULL이 들어옴
 		{
 			printf("see you later \n");
 			return (0);
 		}
-
-
 		if (*input != '\0')
 			add_history(input);
 		token_list = (t_list *)ft_tokenizer(input);
@@ -93,6 +105,8 @@ int	main(int argc, char **argv, char **envp)
 		free(input);
 		//system("leaks minishell | grep LEAK");
 	}
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+
 	return (FT_SUCCESS);
 }
 

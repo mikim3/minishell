@@ -37,6 +37,7 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 		pid = fork();
 		if (pid == 0)
 		{	
+			set_signal(SIG_CHILD_HANDLER, SIG_CHILD_HANDLER);
 			// 다중 파이프에서 자식 프로세스에게 fork할 때 stdin, out이 없어지지 않는게 나을 것 같음.
 			// 이 동작을 다르게 하거나, 필요가 없을지도 모르겠다.
 			// 아니면 자식에서 하나? 좀 고민 중
@@ -57,6 +58,8 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 		}
 		else if (pid > 0) // 부모
 		{
+			printf("set_sig  IGN before\n");
+			set_signal(SIG_IGNORE,SIG_IGNORE);
 			// 파이프 사후 처리
 			if (m_pipe->next_pipe_check == BOOL_TRUE)
 			{
@@ -77,7 +80,8 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 	//자식 프로세스 기다리기,
 	while (iter != 0)
 	{
-		wait(&status);
+		wait_child();
+		set_signal(SIG_HANDLER,SIG_IGNORE);
 		iter--;
 	}
 	return ;
