@@ -112,12 +112,12 @@ void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe)
 	if (!ft_strcmp(cmd->cmd_name, "cd"))
 	{
 		printf("execute cd \n");
-		ft_cd(cmd, dll_envp_tower, m_pipe);
+		ft_cd(cmd, dll_envp_tower);
 	}
 	if (!ft_strcmp(cmd->cmd_name, "pwd"))
 	{
 		printf("execute pwd \n");
-		ft_pwd(cmd, m_pipe);
+		ft_pwd(m_pipe);
 	}
 	if (!ft_strcmp(cmd->cmd_name, "export"))
 	{
@@ -127,12 +127,12 @@ void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe)
 	if (!ft_strcmp(cmd->cmd_name, "unset"))
 	{
 		printf("execute unset\n");
-		ft_unset(cmd, dll_envp_tower, m_pipe);
+		ft_unset(cmd, dll_envp_tower);
 	}
 	if (!ft_strcmp(cmd->cmd_name, "env"))
 	{
 		printf("execute env \n");
-		ft_env(cmd, dll_envp_tower, m_pipe);
+		ft_env(dll_envp_tower, m_pipe);
 	}
 	if (!ft_strcmp(cmd->cmd_name, "exit"))
 	{
@@ -259,61 +259,6 @@ void	execute_external(t_tree_node *node,t_detower *dll_envp_tower,t_pipe *m_pipe
 		printf("execve 실패 \n"); 
 	}
 	//필요한지 다시 생각해보기
-	free(file_path);
+	if (!file_path)
+		free(file_path);
 }
-
-// 프린트 안하는 빌트인 함수 실행
-// int		execute_noprint_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower,t_pipe *m_pipe)
-// {
-// 	if (cmd->cmd_name == NULL)
-// 	{
-// 		printf("cmd->cmd_name == NULL \n");
-// 	}
-// 	if (!ft_strcmp(cmd->cmd_name, "exit"))
-// 	{
-// 		// ft_exit(cmd,dll_envp_tower,m_pipe);
-// 		return (1);
-// 	}
-// 	if (!ft_strcmp(cmd->cmd_name, "unset"))
-// 	{
-// 		// ft_unset(cmd,dll_envp_tower,m_pipe);
-// 		return (1);
-// 	}
-// 	if (!ft_strcmp(cmd->cmd_name, "cd"))
-// 	{
-// 		// ft_cd(cmd,dll_envp_tower,m_pipe);
-// 		return (1);
-// 	}
-// 	// export가 인자가 있으면 출력을 해야만함
-// 	if (!ft_strcmp(cmd->cmd_name, "export") && cmd->cmd_argv[1] != NULL)
-// 	{
-// 		// ft_export(cmd,dll_envp_tower,m_pipe);
-// 		return (1);
-// 	}
-// 	return (0);
-// }
-
-
-
-// 
-// void	wait_child()
-// {
-// 	int		status;
-// 	int		signo;
-
-// 	while (wait(&status) != -1)
-// 	{
-// 		if (WIFSIGNALED(status))
-// 		{
-// 			signo = WTERMSIG(status);
-// 			if (signo == SIGINT && i++ == 0)
-// 				ft_putstr_fd("^C\n", STDERR_FILENO);
-// 			else if (signo == SIGQUIT && i++ == 0)
-// 				ft_putstr_fd("^\\Quit: 3\n", STDERR_FILENO);
-// 			g_exit_code = 128 + signo;
-// 		}
-// 		else
-// 			g_exit_code = WEXITSTATUS(status);
-// 	}
-
-// }

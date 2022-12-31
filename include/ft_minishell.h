@@ -22,55 +22,43 @@
 
 #include <unistd.h>
 #include <stdlib.h>
-#include <dirent.h>  //opendir, closedir, readdir
-#include <term.h> // tgetstr, tgoto, tgetent, tgetflag, tgetnum, tputs
-#include <sys/termios.h> //tcsetattr, tcgetattr
 #include <signal.h> // signal, 
 #include <errno.h> // errno
-#include <sys/stat.h>  //
 #include <string.h> // strerror() 
 
+#include <stdio.h>
 #include <readline/readline.h> // readline, rl_replace_line, rl_on_new_line, rl_redisplay
 #include <readline/history.h> // add_history
 
 #define SHELL_NAME "BABYSHELL"
-
-int g_exit_code;  //  $? 종료상태 코드 
-
-/*
-typedef struct s_pipe
-{
-	int		fd[2];
-	int		infile_fd;
-	int		outfile_fd;
-	int		next_pipe_check;	// next_pipe_check 
-	int		pre_pipe_check;		
-	int		pipe_read_end;		// 처음에 STDIN_FILENO로시작 // pipe_read_end인 4
-	int		pipe_write_end;		// 처음에 STDOUT_FILENO로시작 // 
-} 	t_pipe;
-*/
 
 typedef enum e_pwd_set{
 	PWD_SET = 0,
 	OLDPWD_SET
 }		t_pwd_set;
 
+typedef enum e_signal{
+	SIG_IGNORE = 0,
+	SIG_HANDLER,
+	SIG_DEFAULT
+}		t_signal;
+
+int g_exit_code;  //  $? 종료상태 코드 
 
 /*
 	builtin
 */
-
-void	ft_cd(t_tree_cmd *cmd,t_detower *env_tower ,t_pipe *pipe_value);
+void	ft_cd(t_tree_cmd *cmd,t_detower *env_tower);
 void	ft_echo(t_tree_cmd	*cmd, t_pipe	*pipe_value);
-void	ft_env(t_tree_cmd	*cmd, t_detower	*env, t_pipe	*pipe_value);
-void	ft_pwd(t_tree_cmd	*cmd, t_pipe	*pipe_value);
+void	ft_env(t_detower	*env, t_pipe	*pipe_value);
+void	ft_pwd(t_pipe	*pipe_value);
 void	ft_exit(t_tree_cmd	*cmd, t_pipe	*pipe_value);
 void	ft_export(t_tree_cmd	*cmd, t_detower	*env, t_pipe	*pipe_value);
 char	*show_env_in_export(t_d_list	*env);
 void			div_key_value(char *arg, char **key, char **value);
 t_envp_content	*find_env_keycmp(t_d_list *env, char *env_key);
 
-void	ft_unset(t_tree_cmd *cmd, t_detower *env, t_pipe *pipe_value);
+void	ft_unset(t_tree_cmd *cmd, t_detower *env);
 void    unset_env(t_detower *env_tower,char *key);
 void	delete_t_d_list(t_detower *env_tower, t_d_list	*env, t_d_list	*prev);
 void	free_env_list(t_d_list **target);
@@ -115,13 +103,20 @@ int		ft_tree_node_pre_traversal2(t_tree_node *token_tree,t_detower *dll_envp_tow
 int		ft_tree_node_pre_traversal_exe_cmd_set(t_tree_node *target_tree, char *input, void (*function)(void *, char *));
 
 /*
-	main
-
+	main.c
 */
 
 void	main_init(void);
 void	init_pipe(t_pipe *m_pipe);
 void	exe_cmd_set(t_tree_node *node);
+
+/*
+	signal.c
+*/
+
+void	set_signal(int sig_int, int sig_quit);
+void	signal_handler(int signo);
+
 
 
 #endif

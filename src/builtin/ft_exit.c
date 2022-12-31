@@ -15,12 +15,11 @@
 void	ft_exit(t_tree_cmd *cmd, t_pipe *pipe_value)
 {
     // exit는 일단 출력
-	ft_putendl_fd("exit", STDOUT_FILENO);
+	ft_putendl_fd("exit", pipe_value->outfile_fd);
     // ex) mini $>  exit      인자없는경우
 	if (cmd->cmd_argv[1] == NULL)
 		exit(g_exit_code);  // 그냥 종료하고 상태코드 반환
 	g_exit_code = ft_atoi(cmd->cmd_argv[1]);  // 상태코드 저장
-	
 	if (cmd->cmd_argv[2] != NULL)
 	{
 		ft_putstr_fd(SHELL_NAME, STDERR_FILENO);

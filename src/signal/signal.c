@@ -12,20 +12,37 @@
 
 #include "../../include/ft_minishell.h"
 
-// void signal_handler(int signo)
-// {
-//     if (signo == SIGINT) // Ctrl + c
-// 	{
-// 		write(1, "\n", 1);
-// 		rl_replace_line("", 0);
-// 		rl_on_new_line();
-// 		rl_redisplay();
-// 	}
-// 	if (signo == SIGQUIT) /* Ctrl + \ */   
-// 	{
-// 		// write(1, "SIGQUIT\n", 8);
-// 		rl_on_new_line();
-// 		rl_redisplay();
-// 	}
-// }
+void	set_signal(int sig_int, int sig_quit)
+{
+	if (sig_int == SIG_IGNORE)
+		signal(SIGINT, SIG_IGN);
+	if (sig_int == SIG_DEFAULT)
+		signal(SIGINT, SIG_DFL); 
+	if (sig_int == SIG_HANDLER)
+		signal(SIGINT, signal_handler);   
+	if (sig_quit == SIG_IGNORE)
+		signal(SIGQUIT, SIG_IGN);
+	if (sig_quit == SIG_DEFAULT)
+		signal(SIGQUIT, SIG_DFL);
+	if (sig_quit == SIG_HANDLER)
+		signal(SIGQUIT, signal_handler);
+}
+
+
+void	signal_handler(int signo)
+{
+	if (signo == SIGINT) // Ctrl + c
+	{
+		write(1, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+	if (signo == SIGQUIT) /* Ctrl + \ */   
+	{
+		// write(1, "SIGQUIT\n", 8);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+}
 

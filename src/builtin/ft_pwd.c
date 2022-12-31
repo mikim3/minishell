@@ -14,7 +14,7 @@
 
 #include "../../include/ft_minishell.h"
 
-void	ft_pwd(t_tree_cmd *cmd, t_pipe *pipe_value)
+void	ft_pwd(t_pipe *pipe_value)
 {
 	char	*output;
 

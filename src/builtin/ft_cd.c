@@ -12,7 +12,7 @@
 
 #include "../../include/ft_minishell.h"
 
-void	ft_cd(t_tree_cmd *cmd,t_detower *env_tower ,t_pipe *pipe_value)
+void	ft_cd(t_tree_cmd *cmd,t_detower *env_tower)
 {
 	int		return_value;
 	char	*output;

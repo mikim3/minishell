@@ -14,7 +14,7 @@
 
 // 어떤 상황에 어떤 종료코드를 넣는게 가장 옳을지 좀더 고민이 필요함
 
-void	ft_env(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
+void	ft_env(t_detower *env_tower, t_pipe *pipe_value)
 {
 	char	*output;
 	char	*line;
@@ -38,8 +38,8 @@ void	ft_env(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
 		env = env->next;
 	}
 	// printf("output === %s \n",output);
-	write(STDOUT_FILENO, output, ft_strlen(output));
-	// write(pipe_value->outfile_fd, output, ft_strlen(output));
+	// write(STDOUT_FILENO, output, ft_strlen(output));
+	write(pipe_value->outfile_fd, output, ft_strlen(output));
 	free(output);
 	g_exit_code = 0;
 
