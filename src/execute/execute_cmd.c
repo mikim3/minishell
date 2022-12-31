@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:49:10 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 15:32:54 by mikim3           ###   ########.fr       */
+/*   Updated: 2022/12/31 18:01:02 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 	pipeline = token_tree;
 	// 파이프 사전 처리
 	iter = 0;
+	m_pipe->infile_fd = STDIN_FILENO;
+	m_pipe->outfile_fd = STDOUT_FILENO;
 	while (pipeline != 0)
 	{
 		next_pipe_check(pipeline, m_pipe);
@@ -43,16 +45,14 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 			// 아니면 자식에서 하나? 좀 고민 중
 			if (m_pipe->pre_pipe_check == BOOL_TRUE)
 			{
-				dup2(m_pipe->pre_pipe_read_end, STDIN_FILENO);
+				dup2(m_pipe->pre_pipe_read_end, m_pipe->infile_fd);
 				close(m_pipe->pre_pipe_read_end);
-				m_pipe->infile_fd = STDIN_FILENO;
 			}
 			if (m_pipe->next_pipe_check == BOOL_TRUE)
 			{
 				close(m_pipe->pipe[P_READ]);
-				dup2(m_pipe->pipe[P_WRITE], STDOUT_FILENO);
+				dup2(m_pipe->pipe[P_WRITE], m_pipe->outfile_fd);
 				close(m_pipe->pipe[P_WRITE]);
-				m_pipe->outfile_fd = STDOUT_FILENO;
 			}
 			ft_tree_node_pre_traversal2(pipeline->left, dll_envp_tower, m_pipe, &ft_execute_tree);
 		}
@@ -60,6 +60,12 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 		{
 			printf("set_sig  IGN before\n");
 			set_signal(SIG_IGNORE,SIG_IGNORE);
+			// 이전 포크 파이프 처리
+			if (m_pipe->pre_pipe_check == BOOL_TRUE)
+			{
+				close(m_pipe->pre_pipe_read_end);
+				m_pipe->pre_pipe_check = BOOL_FALSE;
+			}
 			// 파이프 사후 처리
 			if (m_pipe->next_pipe_check == BOOL_TRUE)
 			{
@@ -68,9 +74,8 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 				m_pipe->pre_pipe_read_end = m_pipe->pipe[P_READ];
 			}
 			else
-			{
 				m_pipe->pre_pipe_check = BOOL_FALSE;
-			}
+
 		}
 		else //에러 출력
 			printf("pid error\n");

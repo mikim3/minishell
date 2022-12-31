@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:49:46 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/30 09:19:57 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/31 16:35:31 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,20 +93,12 @@ t_tkn	*ft_new_token(void)
 
 void	ft_token_start_set(t_tknizer *tknizer)
 {
-	int	i;
-
-	i = 0;
-	while (ft_isspace(*(tknizer->str_pos)) == BOOL_TRUE)
-	{
-		tknizer->str_pos++;
-		i++;
-	}
 	tknizer->tkn_start = tknizer->str_pos;
 	tknizer->tkn_len = 0;
 	tknizer->oper_len = 0;
-	if (i != 0 && ft_isdigit(*(tknizer->str_pos)) == BOOL_TRUE)
+	if (ft_isdigit(*(tknizer->str_pos)) == BOOL_TRUE)
 		tknizer->io_num_mode = BOOL_TRUE;
-	else if (i == 0 && *(tknizer->str_pos - 1) == '|'
+	else if (*(tknizer->str_pos - 1) == '|'
 		&& ft_isdigit(*(tknizer->str_pos)) == BOOL_TRUE)
 		tknizer->io_num_mode = BOOL_TRUE;
 	else

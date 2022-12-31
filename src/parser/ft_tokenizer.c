@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:01:52 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/30 09:20:02 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/31 16:37:31 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,12 @@ int	ft_tokenizing_loop(t_tknizer *tknizer, int error, int *prev_type)
 	}
 	if (error == BOOL_FALSE
 		&& ft_isspace(*(tknizer->str_pos)) == BOOL_TRUE)
-		error = ft_token_processor(tknizer, prev_type);
+	{
+		if (tknizer->tkn_len != 0)
+			error = ft_token_processor(tknizer, prev_type);
+		tknizer->tkn_start++;
+		tknizer->str_pos++;
+	}
 	else
 	{
 		if (*prev_type != TKN_OPERATOR
@@ -104,7 +109,7 @@ int	ft_tokenizing_loop(t_tknizer *tknizer, int error, int *prev_type)
 int	ft_close_quote(t_tknizer *tknizer, int *prev_type)
 {
 	char	target;
-	// 형태 마음에 안든다. 반복 조건 조정해서 리팩토링.
+	
 	if (*prev_type == TKN_OPERATOR
 		&& ft_token_processor(tknizer, prev_type) == FT_ERROR)
 		return (FT_ERROR);
@@ -118,12 +123,8 @@ int	ft_close_quote(t_tknizer *tknizer, int *prev_type)
 		tknizer->tkn_len++;
 		tknizer->str_pos++;
 	}
-	if (*(tknizer->str_pos) == '\0')
-		return (FT_ERROR);
 	tknizer->io_num_mode = BOOL_FALSE;
 	tknizer->expandable = BOOL_TRUE;
-	//tknizer->tkn_len++;
-	//tknizer->str_pos++;
 	*prev_type = TKN_WORD;
 	return (FT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 13:46:11 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/30 09:22:21 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/31 13:11:38 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,24 +135,24 @@ int	ft_syntax_parse_cmd(t_list **token, t_tree_node *cmd)
 			return (FT_ERROR);
 		((t_tree_cmd *)(cmd->content))->cmd_argv = 0;
 	}
-	((t_tree_cmd *)(cmd->content))->cmd_argv = ft_set_cmd_argv(((t_tree_cmd *)(cmd->content))->cmd_argv, ft_token_what_str(*token));
+	((t_tree_cmd *)(cmd->content))->cmd_argv = ft_set_cmd_argv(&(((t_tree_cmd *)(cmd->content))->cmd_argv), ft_token_what_str(*token));
 	if (((t_tree_cmd *)(cmd->content))->cmd_argv == 0)
 		return (FT_ERROR);
 	return (FT_SUCCESS);
 }
 
-char **ft_set_cmd_argv(char **argv, char *str)
+char **ft_set_cmd_argv(char ***argv, char *str)
 {
 	int		argv_size;
 	char	**new_argv;
 	int		i;
 
 	if (str == 0 || ft_strcmp(str, "") == FT_SUCCESS)
-		return (argv);
+		return (*argv);
 	argv_size = 1;
-	if (argv != 0)
+	if (*argv != 0)
 	{
-		while (argv[argv_size - 1] != 0)
+		while ((*argv)[argv_size - 1] != 0)
 			argv_size++;
 	}
 	new_argv = ft_calloc((argv_size + 1), sizeof(char *));
@@ -165,12 +165,12 @@ char **ft_set_cmd_argv(char **argv, char *str)
 		ft_free_string_ptr_arr(new_argv);
 		return (0);
 	}
-	if (argv == 0)
+	if (*argv == 0)
 		return (new_argv);
 	i = 0;
-	while (argv[i] != 0)
+	while ((*argv)[i] != 0)
 	{
-		new_argv[i] = ft_strdup(argv[i]);
+		new_argv[i] = ft_strdup((*argv)[i]);
 		if (new_argv[i] == 0)
 		{
 			ft_free_string_ptr_arr(new_argv);
@@ -178,7 +178,7 @@ char **ft_set_cmd_argv(char **argv, char *str)
 		}
 		i++;
 	}
-	ft_free_string_ptr_arr(argv);
+	ft_free_string_ptr_arr(*argv);
 	return (new_argv);
 }
 
