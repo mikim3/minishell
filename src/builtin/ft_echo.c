@@ -91,18 +91,10 @@ void	ft_echo(t_tree_cmd *cmd, t_pipe *pipe_value)
 		index++;
 	}
 	if (output != NULL)
-	{
-		// output 디스크립터에 쓰기
-		write(STDOUT_FILENO, output, ft_strlen(output));
-		// write(pipe_value->outfile_fd, output, ft_strlen(output));
+		write(pipe_value->outfile_fd, output, ft_strlen(output));
 		free(output);
-	}
 	if (!use_u_option)
-	{
-		write(STDOUT_FILENO, "\n", 1);
-		// write(pipe_value->outfile_fd, "\n", 1);
-	}
-
+		write(pipe_value->outfile_fd, "\n", 1);
 	// system("leaks minishell");
     exit(0);
 }
