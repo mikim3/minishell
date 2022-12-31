@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 13:53:23 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/31 17:33:34 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/31 17:42:14 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "../../include/ft_token_expansion.h"
 
 #include <fcntl.h>
+#include <unistd.h>
 
 #include <stdio.h>
 
@@ -46,15 +47,15 @@ int	ft_here_doc_expansion(t_list *token_list, t_detower *dll_envp_tower)
 				if (ft_token_is_expandable(token_node) == BOOL_TRUE
 					|| ft_token_check_for_quote(token_node) == BOOL_TRUE)
 				{
-					if (ft_token_str_expansion((t_tkn *)token_node->content, envp_head, EXPAND_QUOTE_ONLY) == FT_ERROR)
+					if (ft_token_str_expansion(&(((t_tkn *)token_node->content)->str), envp_head, EXPAND_QUOTE_ONLY) == FT_ERROR)
 						return (FT_ERROR);
 					((t_tkn *)token_node->content)->expandable = BOOL_FALSE;
-					ft_write_here_doc_with_expand_mode(ft_token_what_str(token_node), BOOL_FALSE);
+					ft_write_here_doc_with_expand_mode(ft_token_what_str(token_node), dll_envp_tower, BOOL_FALSE);
 				}
 				else
 				{
 					((t_tkn *)token_node->content)->expandable = BOOL_FALSE;
-					ft_write_here_doc_with_expand_mode(ft_token_what_str(token_node), BOOL_TRUE);
+					ft_write_here_doc_with_expand_mode(ft_token_what_str(token_node), dll_envp_tower, BOOL_TRUE);
 				}
 			}	
 		}
@@ -64,7 +65,7 @@ int	ft_here_doc_expansion(t_list *token_list, t_detower *dll_envp_tower)
 	return (FT_SUCCESS);
 }
 
-int	ft_write_here_doc_with_expand_mode(char *token_str, int is_env_expand)
+int	ft_write_here_doc_with_expand_mode(char *token_str, t_detower *dll_envp_tower, int is_env_expand)
 {
 	int		here_doc_fd;
 	char	*buffer;
@@ -85,12 +86,12 @@ int	ft_write_here_doc_with_expand_mode(char *token_str, int is_env_expand)
 		{
 			free(buffer);
 			free(delimiter);
-			return ;
+			return (FT_ERROR);
 		}
 		// ft_token_str_expansion을 쓰려면 token 넣어야하도록 코드 짰음.
 			// 이걸 string만 넣어도 동작할 수 있게 만드는게 좋을 것 같음.
-		// if (is_env_expand == BOOL_TRUE)
-		// 	ft_token_str_expansion(token, );
+		if (is_env_expand == BOOL_TRUE)
+			ft_token_str_expansion(&buffer, dll_envp_tower->head, EXPAND_ENV_ONLY);
 		write(here_doc_fd, buffer, ft_strlen(buffer));
 		free(buffer);
 	}

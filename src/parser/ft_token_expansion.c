@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:57:52 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/31 17:20:56 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/31 17:57:27 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_token_expansion(t_list *token_list, t_detower *dll_envp_tower)
 	{
 		if (ft_token_is_expandable(token_node) == BOOL_TRUE)
 		{
-			if (ft_token_str_expansion((t_tkn *)token_node->content, envp_head, EXPAND_ALL) == FT_ERROR)
+			if (ft_token_str_expansion(&(((t_tkn *)token_node->content)->str), envp_head, EXPAND_ALL) == FT_ERROR)
 				return (FT_ERROR);
 		}
 		token_node = token_node->next;
@@ -36,14 +36,14 @@ int	ft_token_expansion(t_list *token_list, t_detower *dll_envp_tower)
 	return (FT_SUCCESS);
 }
 
-int	ft_token_str_expansion(t_tkn *token, t_d_list *mnsh_envp, int expand_mode)
+int	ft_token_str_expansion(char **token_str, t_d_list *mnsh_envp, int expand_mode)
 {
 	char	*pos;
 	char	*ret_str;
 	char	*start;
 	int		len;
 
-	pos = token->str;
+	pos = *token_str;
 	ret_str = 0;
 	start = pos;
 	len = 0;
@@ -89,8 +89,8 @@ int	ft_token_str_expansion(t_tkn *token, t_d_list *mnsh_envp, int expand_mode)
 	}
 	if (ret_str == 0)
 		return (FT_SUCCESS);
-	free(token->str);
-	token->str = ret_str;
+	free(*token_str);
+	*token_str = ret_str;
 	return (FT_SUCCESS);
 }
 
@@ -293,12 +293,12 @@ int	ft_token_is_expandable(t_list *token)
 	return (((t_tkn *)token->content)->expandable);
 }
 
-int	ft_check_for_quotes(t_list *token)
+int	ft_token_check_for_quote(t_list *token)
 {
 	char	*str_pos;
 
 	str_pos = ft_token_what_str(token);
-	while (str_pos != '\0')
+	while (*str_pos != '\0')
 	{
 		if (*str_pos == '\'' || *str_pos == '\"')
 		{

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 13:59:04 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/31 17:20:53 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/31 17:43:17 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ typedef enum e_expansion_mode{
 
 int	ft_here_doc_expansion(t_list *token_list, t_detower *dll_envp_tower);
 
+int	ft_write_here_doc_with_expand_mode(char *token_str, t_detower *dll_envp_tower, int is_env_expand);
+
 int	ft_token_expansion(t_list *token_list, t_detower *dll_envp_tower);
-int	ft_token_str_expansion(t_tkn *token, t_d_list *mnsh_envp, int expand_mode);
+int	ft_token_str_expansion(char **token_str, t_d_list *mnsh_envp, int expand_mode);
 int	ft_token_expand_expansion_sign(char **pos, char **ret_str, t_d_list *mnsh_envp);
 int	ft_token_expand_double_quotes(char **pos, char **ret_str, t_d_list *mnsh_envp, int expand_mode);
 int	ft_token_expand_single_quotes(char **pos, char **ret_str);
@@ -35,5 +37,7 @@ int	ft_token_expand_str_control_without_expand(char **ret_str, char *start, int 
 char	*ft_compare_str_to_mnsh_envp_keys(char *str, t_d_list *mnsh_envp);
 
 int	ft_token_is_expandable(t_list *token);
-int	ft_check_for_quotes(t_list *token);
+int	ft_token_check_for_quote(t_list *token);
+
+char *get_next_line(int fd);
 #endif

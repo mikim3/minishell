@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:49:10 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 15:49:14 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/31 18:01:02 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,12 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 		}
 		else if (pid > 0) // 부모
 		{
+			// 이전 포크 파이프 처리
+			if (m_pipe->pre_pipe_check == BOOL_TRUE)
+			{
+				close(m_pipe->pre_pipe_read_end);
+				m_pipe->pre_pipe_check = BOOL_FALSE;
+			}
 			// 파이프 사후 처리
 			if (m_pipe->next_pipe_check == BOOL_TRUE)
 			{
@@ -65,9 +71,8 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 				m_pipe->pre_pipe_read_end = m_pipe->pipe[P_READ];
 			}
 			else
-			{
 				m_pipe->pre_pipe_check = BOOL_FALSE;
-			}
+
 		}
 		else //에러 출력
 			printf("pid error\n");
