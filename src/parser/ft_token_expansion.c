@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:57:52 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/31 14:42:25 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/31 17:20:56 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	ft_token_str_expansion(t_tkn *token, t_d_list *mnsh_envp, int expand_mode)
 		}
 		else if ((expand_mode == EXPAND_ALL || expand_mode == EXPAND_QUOTE_ONLY) && *pos == '\"')
 		{
-			if (ft_token_expand_double_quotes(&pos, &ret_str, mnsh_envp, EXPAND_D_QUOTE_WITH_ENV) == FT_ERROR)
+			if (ft_token_expand_double_quotes(&pos, &ret_str, mnsh_envp, expand_mode) == FT_ERROR)
 				return (free(ret_str), FT_ERROR);
 			pos++;
 			start = pos;
@@ -87,6 +87,8 @@ int	ft_token_str_expansion(t_tkn *token, t_d_list *mnsh_envp, int expand_mode)
 			len++;
 		}
 	}
+	if (ret_str == 0)
+		return (FT_SUCCESS);
 	free(token->str);
 	token->str = ret_str;
 	return (FT_SUCCESS);
@@ -153,7 +155,7 @@ int	ft_token_expand_double_quotes(char **pos, char **ret_str, t_d_list *mnsh_env
 	tmp_str = 0;
 	while (**pos != '\"')
 	{
-		if ((expand_mode == EXPAND_D_QUOTE_WITH_ENV) && **pos == '$')
+		if ((expand_mode == EXPAND_ALL) && **pos == '$')
 		{
 			if (ft_token_expand_str_control_without_expand(
 				ret_str, start, len) == FT_ERROR)
@@ -289,4 +291,19 @@ int	ft_token_is_expandable(t_list *token)
 {
 	// 각 type에 대한 동작
 	return (((t_tkn *)token->content)->expandable);
+}
+
+int	ft_check_for_quotes(t_list *token)
+{
+	char	*str_pos;
+
+	str_pos = ft_token_what_str(token);
+	while (str_pos != '\0')
+	{
+		if (*str_pos == '\'' || *str_pos == '\"')
+		{
+			return (BOOL_TRUE);
+		}
+	}
+	return (BOOL_FALSE);
 }

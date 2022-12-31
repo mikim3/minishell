@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 13:59:04 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/31 14:32:40 by kshim            ###   ########.fr       */
+/*   Updated: 2022/12/31 17:20:53 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ typedef enum e_expansion_mode{
 	EXPAND_QUOTE_ONLY,
 	EXPAND_ENV_ONLY,
 	EXPAND_D_QUOTE_WITH_ENV,
-	EXPAND_D_QUOTE_WITHOUT_ENV
+	EXPAND_D_QUOTE_WITHOUT_ENV,
+	EXPAND_NOT
 }	t_expand_mode;
 
 int	ft_here_doc_expansion(t_list *token_list, t_detower *dll_envp_tower);
@@ -34,5 +35,5 @@ int	ft_token_expand_str_control_without_expand(char **ret_str, char *start, int 
 char	*ft_compare_str_to_mnsh_envp_keys(char *str, t_d_list *mnsh_envp);
 
 int	ft_token_is_expandable(t_list *token);
-
+int	ft_check_for_quotes(t_list *token);
 #endif
