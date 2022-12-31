@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 
 // https://wiki.kldp.org/HOWTO/html/Adv-Bash-Scr-HOWTO/internal.html
-// unset 명령어는 쉘 변수를 효과적으로 널(null)로 세트를 해서 그 변수를 지우는 효과를 가져옵니다. 이 명령어는 위치 매개변수에 대해서 동작하지 않는 것에 주의하세요.
-
+// unset 명령어는 쉘 변수를 효과적으로 널(null)로 세트를 해서 그 변수를 지우는 효과를 가져옵니다. 이 명령어는 지역 매개변수에 대해서 동작하지 않는 것에 주의하세요.
 
 //// unset 135  처럼 숫자일 때
 // 인자로 숫자가 들어오면 "bash: unset: `인자': not a valid identifier" 라는 오류를 출력한다.
@@ -37,7 +36,8 @@ void	ft_unset(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
 		key = cmd->cmd_argv[index];  
 		if (check_env_key(key)) // 인자값이 unset가능한 인자값 인가??
 		{
-			printf("unset can't find key ERROR\n\n"); // 키를 찾을수 없을때 에러문 출력 ex) bash: unset: `c====': not a valid identifier
+			env_key_error("unset", key);
+			printf("chekc_envkey error\n");
 		}
 		else
 			unset_env(env_tower, key); //  unset실제로 하기 

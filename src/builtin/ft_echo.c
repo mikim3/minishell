@@ -26,8 +26,6 @@
 // 위 결과를 토대로 기준을 정하자면 -뒤에 있는 애들은 그 길이 만큼 확인한다.
 // 길이 만큼 확인하면서 만약에 -nnz처럼 중간에 옵션이 아닌 애들이 껴 있다면 이건 옵션이 아니라고 판정한다. 
 
-
-
 // argv[1] == -nn  다음 argv[2] -nnz 이런식으로 s1을 에 들어올꺼다.
 // 처음 -는 넘기기
 // -nnnnn
@@ -54,7 +52,6 @@ static int	ft_strcmp_option_check(char *s1)
 	}
 	return (1); //결국 끝까지 n만 있다면 이건 option이 맞다.
 }
-
 // no_option_index --> 어디부터 옵션이 아닌 str이 나오는지 판단 여기부터는  
 static int     use_u_option_check(t_tree_cmd *cmd, int *no_option_index)
 {

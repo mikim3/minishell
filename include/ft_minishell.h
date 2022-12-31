@@ -50,20 +50,11 @@ typedef struct s_pipe
 } 	t_pipe;
 */
 
-// typedef struct s_exe_cmd {
-//     char    *cmd_name;  // minishell $> export a=10 b=20  t_exe_cmd->cmd_name == "export"
-//     char    *file_path;  //    ex) minishell > cd  -->  file_path == /usr/bin/cd
-//     char    **argv; // minishell $> export a=10 b=20 c=30  t_exe_cmd->argv[0] == "export"  , argv[1] == "a=10" , argv[2] == "b=10"
-// }   t_exe_cmd;
+typedef enum e_pwd_set{
+	PWD_SET = 0,
+	OLDPWD_SET
+}		t_pwd_set;
 
-// typedef struct s_env
-// {
-//     // char    *original_text;  // ex) PATH=/Users/mikim3/brew/bin:/Users/mikim3/goinfre/brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki 
-//     char    *key; //  ex) PATH
-//     char    *value; //  ex) /Users/mikim3/brew/bin:/Users/mikim3/goinfre/brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki 
-// 	struct s_env	*prev;
-// 	struct s_env	*next;
-// }   t_env;
 
 /*
 	builtin
@@ -89,17 +80,16 @@ void	free_env_list(t_d_list **target);
 	env
 */
 
-void	change_PWD_OLDPWD(t_detower *env_tower);
+void	change_pwd_oldpwd(t_detower *env_tower,char *select);
 
-int	check_env_key(char *key);
-int	available_character(char *str);
+int				check_env_key(char *key);
+int				available_character(char *str);
+void			env_key_error(char *cmd_name, char *key);
 
 void			set_env(t_detower *env_tower, char *key, char *value);
-void	set_new_env(t_detower	**env_tower, char	*key, char	*value);
-void	set_env_value(t_envp_content *env, char *key, char *value);
+void			set_new_env(t_detower	**env_tower, char	*key, char	*value);
+void			set_env_value(t_envp_content *env, char *key, char *value);
 t_envp_content	*env_new(void);
-
-
 
 /*
 	execute

@@ -46,10 +46,11 @@ void	ft_export(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
 		div_key_value(cmd->cmd_argv[index], &key, &value); //
 		if (check_env_key(key))
 		{
+			env_key_error("export", key);
 			printf("check_env_key return 1  ERROR\n");
-			exit(1);
 		}
-		set_env(env_tower, key, value);
+		else
+			set_env(env_tower, key, value);
 		free(key);
 		free(value);
 	}
@@ -92,8 +93,6 @@ void	div_key_value(char *arg, char **key, char **value)
 	int	index;
 
 	index = 0;
-
-	// 이 상황에서는 error를 출력하고 exit()하는 것도 맞는 것 같다.
 	if (arg[0] == '=')
 		return ;
 	while (arg[index] && arg[index] != '=' )
@@ -105,4 +104,3 @@ void	div_key_value(char *arg, char **key, char **value)
 	else
 		*value = NULL;
 }
-

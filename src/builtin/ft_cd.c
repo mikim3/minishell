@@ -18,12 +18,11 @@ void	ft_cd(t_tree_cmd *cmd,t_detower *env_tower ,t_pipe *pipe_value)
 	char	*output;
 
 	//OLDPWD
+	change_pwd_oldpwd(env_tower, "OLDPWD");
 	return_value = chdir(cmd->cmd_argv[1]); //실패시 -1리턴
-	// 상대경로 테스트하기  // 
 	// PWD의 환경변수를 set해주기 
-
-	change_PWD_OLDPWD(env_tower);
-	output = ft_strjoin(ft_strdup(strerror(errno)),ft_strdup("\n"));  // strdup해야 되는지 헷갈리네
+	change_pwd_oldpwd(env_tower, "PWD");
+	output = ft_strjoin_infree(ft_strdup(strerror(errno)),ft_strdup("\n"));
 	if (return_value == -1)
 		write(STDERR_FILENO, output, ft_strlen(output) + 1);
 	if (output)
