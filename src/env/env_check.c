@@ -16,12 +16,12 @@ int	check_env_key(char *key)
 {
 	if (ft_strcmp(key, "$?") == 0)
 		return (1);
-	if (allowed_character(key))
+	if (available_character(key))
 		return (0);
 	return (1);
 }
 
-int	allowed_character(char *str)
+int	available_character(char *str)
 {
 	int	index;
 
@@ -42,3 +42,14 @@ int	allowed_character(char *str)
 	}
 	return (1);
 }
+
+void	env_key_error(char *cmd_name, char *key)
+{
+	ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(cmd_name, STDERR_FILENO);
+	ft_putstr_fd(": `", STDERR_FILENO);
+	ft_putstr_fd(key, STDERR_FILENO);
+	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+}
+

@@ -23,20 +23,16 @@ void	ft_env(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
 	env= env_tower->head;
 	line = NULL;
 	output = NULL;
-	while (env->next)
+	while (env)
 	{
 		if ((((t_envp_content *)env->content)->value) == NULL) 
 		{
-			printf("value == NULL\n");
 			env = env->next;
 			continue ;
 		}
 		line = ft_strjoin_infree(((t_envp_content *)env->content)->key, ft_strdup("="));
 		line = ft_strjoin_infree(line, (((t_envp_content *)env->content)->value));
 		line = ft_strjoin_infree(line, ft_strdup("\n"));	
-		// line = ft_strjoin_infree(ft_strdup(((t_envp_content *)env->content)->key), ft_strdup("="));
-		// line = ft_strjoin_infree(ft_strdup(line), ft_strdup((((t_envp_content *)env->content)->value)));
-		// line = ft_strjoin_infree(ft_strdup(line), ft_strdup("\n"));		 
 
 		output = ft_strjoin_infree(output, line);
 		env = env->next;

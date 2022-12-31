@@ -50,49 +50,46 @@ typedef struct s_pipe
 } 	t_pipe;
 */
 
-// typedef struct s_exe_cmd {
-//     char    *cmd_name;  // minishell $> export a=10 b=20  t_exe_cmd->cmd_name == "export"
-//     char    *file_path;  //    ex) minishell > cd  -->  file_path == /usr/bin/cd
-//     char    **argv; // minishell $> export a=10 b=20 c=30  t_exe_cmd->argv[0] == "export"  , argv[1] == "a=10" , argv[2] == "b=10"
-// }   t_exe_cmd;
+typedef enum e_pwd_set{
+	PWD_SET = 0,
+	OLDPWD_SET
+}		t_pwd_set;
 
-// typedef struct s_env
-// {
-//     // char    *original_text;  // ex) PATH=/Users/mikim3/brew/bin:/Users/mikim3/goinfre/brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki 
-//     char    *key; //  ex) PATH
-//     char    *value; //  ex) /Users/mikim3/brew/bin:/Users/mikim3/goinfre/brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki 
-// 	struct s_env	*prev;
-// 	struct s_env	*next;
-// }   t_env;
 
 /*
 	builtin
 */
 
-void	ft_cd(t_tree_cmd	*cmd, t_pipe	*pipe_value);
+void	ft_cd(t_tree_cmd *cmd,t_detower *env_tower ,t_pipe *pipe_value);
 void	ft_echo(t_tree_cmd	*cmd, t_pipe	*pipe_value);
 void	ft_env(t_tree_cmd	*cmd, t_detower	*env, t_pipe	*pipe_value);
 void	ft_pwd(t_tree_cmd	*cmd, t_pipe	*pipe_value);
 void	ft_exit(t_tree_cmd	*cmd, t_pipe	*pipe_value);
 void	ft_export(t_tree_cmd	*cmd, t_detower	*env, t_pipe	*pipe_value);
 char	*show_env_in_export(t_d_list	*env);
-void	div_key_value(char *arg, char **key, char **value);
-void	set_env(t_detower *env_tower, char *key, char *value);
+void			div_key_value(char *arg, char **key, char **value);
 t_envp_content	*find_env_keycmp(t_d_list *env, char *env_key);
-void	set_env_value(t_envp_content *env, char *key, char *value);
-
 
 void	ft_unset(t_tree_cmd *cmd, t_detower *env, t_pipe *pipe_value);
-
+void    unset_env(t_detower *env_tower,char *key);
+void	delete_t_d_list(t_detower *env_tower, t_d_list	*env, t_d_list	*prev);
+void	free_env_list(t_d_list **target);
 
 
 /*
 	env
 */
 
-int	check_env_key(char *key);
-int	allowed_character(char *str);
+void	change_pwd_oldpwd(t_detower *env_tower,char *select);
 
+int				check_env_key(char *key);
+int				available_character(char *str);
+void			env_key_error(char *cmd_name, char *key);
+
+void			set_env(t_detower *env_tower, char *key, char *value);
+void			set_new_env(t_detower	**env_tower, char	*key, char	*value);
+void			set_env_value(t_envp_content *env, char *key, char *value);
+t_envp_content	*env_new(void);
 
 /*
 	execute
@@ -105,7 +102,6 @@ void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe)
 char	**get_env_path(t_detower *dll_envp_tower);
 void	double_char_free(char **double_char);
 char	*get_file_path_from_env_path(char *command,t_detower *dll_envp_tower);
-char	*get_current_path(void);
 char	*set_file_path(char *command, t_detower *dll_envp_tower);
 void	execute_external(t_tree_node *token_tree,t_detower *dll_envp_tower,t_pipe *m_pipe);
 int		execute_noprint_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower,t_pipe *m_pipe);

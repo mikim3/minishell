@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 
 // https://wiki.kldp.org/HOWTO/html/Adv-Bash-Scr-HOWTO/internal.html
-// unset 명령어는 쉘 변수를 효과적으로 널(null)로 세트를 해서 그 변수를 지우는 효과를 가져옵니다. 이 명령어는 위치 매개변수에 대해서 동작하지 않는 것에 주의하세요.
-
+// unset 명령어는 쉘 변수를 효과적으로 널(null)로 세트를 해서 그 변수를 지우는 효과를 가져옵니다. 이 명령어는 지역 매개변수에 대해서 동작하지 않는 것에 주의하세요.
 
 //// unset 135  처럼 숫자일 때
 // 인자로 숫자가 들어오면 "bash: unset: `인자': not a valid identifier" 라는 오류를 출력한다.
@@ -24,23 +23,82 @@
 
 #include "../../include/ft_minishell.h"
 
-// void	ft_unset(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
-// {
-// 	int		index;
-// 	char	*key;
+void	ft_unset(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
+{
+	int		index;
+	char	*key;
 
-// 	index = -1;
-// 	if (cmd->cmd_argv[1] == NULL)
-// 		return ;
-// 	while (cmd->cmd_argv[++index])
-// 	{
-// 		key = cmd->cmd_argv[++index];  // unset a
-// 		if (check_env_key(key)) // 인자값이 unset가능한 인자값 인가??
-// 		{
-// 			env_key_error(key); // 키를 찾을수 없을때 에러문 출력 ex) bash: unset: `c====': not a valid identifier
-// 		}
-// 		else
-// 			unset_env(&env, key); //  unset실제로 하기 
-// 	}
-// 	g_exit_code = 0;
-// }
+	index = 1;
+	if (cmd->cmd_argv[1] == NULL)
+		return ;
+	while (cmd->cmd_argv[index])
+	{
+		key = cmd->cmd_argv[index];  
+		if (check_env_key(key)) // 인자값이 unset가능한 인자값 인가??
+		{
+			env_key_error("unset", key);
+			printf("chekc_envkey error\n");
+		}
+		else
+			unset_env(env_tower, key); //  unset실제로 하기 
+		index++;
+	}
+	g_exit_code = 0;
+	// system("leaks minishell | grep LEAK");
+}
+
+void    unset_env(t_detower *env_tower,char *key)
+{
+    t_d_list            *env_list;
+	t_d_list			*prev;
+
+    env_list = env_tower->head;
+	prev = NULL;
+    if (key == NULL)
+        return ;
+    else
+    {
+		while (env_list)
+		{
+			if (ft_strcmp(((t_envp_content *)env_list->content)->key, key) == 0)
+			{
+				delete_t_d_list(env_tower, env_list, prev);			
+				return ;
+			}
+			prev = env_list;
+			env_list=env_list->next;
+		}
+    }
+}
+
+void	delete_t_d_list(t_detower *env_tower, t_d_list	*env, t_d_list	*prev)
+{
+	// 이전이 NULL 즉 첫번째 값을 unset하는 상황
+	if (prev == NULL)
+	{
+		env_tower->head = env->next;
+		free_env_list(&env);
+	}
+	//현재값이 마지막인 경우
+	else if (env->next == NULL)
+	{
+		prev->next = env->next;
+		env_tower->tail = prev;
+		free_env_list(&env);
+	}
+	else
+	{
+		prev->next = env->next;
+		free_env_list(&env);
+	}
+}
+
+void	free_env_list(t_d_list **target)
+{
+	free(((t_envp_content *)((*target)->content))->key);
+	if (((t_envp_content *)((*target)->content))->value != NULL)
+		free(((t_envp_content *)((*target)->content))->value);
+	free(((*target)->content));
+	(*target)->next = NULL;
+	free(*target);
+}
