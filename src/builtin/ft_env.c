@@ -37,8 +37,6 @@ void	ft_env(t_detower *env_tower, t_pipe *pipe_value)
 		output = ft_strjoin_infree(output, line);
 		env = env->next;
 	}
-	// printf("output === %s \n",output);
-	// write(STDOUT_FILENO, output, ft_strlen(output));
 	write(pipe_value->outfile_fd, output, ft_strlen(output));
 	free(output);
 	g_exit_code = 0;
