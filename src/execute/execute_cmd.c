@@ -39,6 +39,7 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 		pid = fork();
 		if (pid == 0)
 		{	
+			ft_putstr_fd("set_sig SIGHANDLER 자식\n",STDERR_FILENO);
 			set_signal(SIG_DEFAULT, SIG_DEFAULT); //이게 없으면 SIG_QUIT가 IGN상태이지만  그렇다고 이게 있다고 SIG_CHILD_HANDLER대로 작동하지는 않음 뭘까?
 			// 다중 파이프에서 자식 프로세스에게 fork할 때 stdin, out이 없어지지 않는게 나을 것 같음.
 			// 이 동작을 다르게 하거나, 필요가 없을지도 모르겠다.
@@ -58,8 +59,8 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 		}
 		else if (pid > 0) // 부모
 		{
-			printf("set_sig  IGN before\n");
-			set_signal(SIG_IGNORE,SIG_IGNORE);
+			printf("set_sig IGN before\n");
+			set_signal(SIG_IGNORE,SIG_IGNORE); // 자식 프로세스가 진행중일떄는 부모는 시그널 무시
 			// 이전 포크 파이프 처리
 			if (m_pipe->pre_pipe_check == BOOL_TRUE)
 			{
@@ -235,14 +236,12 @@ char	*set_file_path(char *command, t_detower *dll_envp_tower)
 	{
 		command = ft_substr(command, 2, ft_strlen(command) - 2);
 		current_path = getcwd(NULL, 0);
-		printf("current_path == %s \n",current_path);
-		file_path = ft_strjoin(current_path, ft_strdup("/"));
-		printf("file_path == %s \n",file_path);
+		file_path = ft_strjoin_infree(current_path, ft_strdup("/"));
 		file_path = ft_strjoin(file_path, command);
-		printf("file_path == %s \n",file_path);
 	}
 	else // 환경변수 PATH에 세팅되어서 명령어로 실행할수 있는 명령어
 	{
+		printf(" 명령어 \n");
 		// PATH=/Users/mikim3/brew/bin:/Users/mikim3/goinfre/brew/bin:/usr/local/bin 
 		// :/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
 		// (:)콜론으로 구분된다.
@@ -259,7 +258,7 @@ void	execute_external(t_tree_node *node,t_detower *dll_envp_tower,t_pipe *m_pipe
 	char			*file_path;
 	char			**env;
 
-	file_path = set_file_path(((t_tree_cmd *)node->content)->cmd_name,dll_envp_tower);
+	file_path = set_file_path(((t_tree_cmd *)node->content)->cmd_name, dll_envp_tower);
 	env = ft_set_char_envp_from_dll(dll_envp_tower,0);
 
 	if (execve(file_path,((t_tree_cmd *)node->content)->cmd_argv, env)== -1)
@@ -270,4 +269,5 @@ void	execute_external(t_tree_node *node,t_detower *dll_envp_tower,t_pipe *m_pipe
 	//필요한지 다시 생각해보기
 	if (!file_path)
 		free(file_path);
+	
 }

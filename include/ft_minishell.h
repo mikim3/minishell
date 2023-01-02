@@ -106,12 +106,20 @@ int		ft_tree_node_pre_traversal2(t_tree_node *token_tree,t_detower *dll_envp_tow
 int		ft_tree_node_pre_traversal_exe_cmd_set(t_tree_node *target_tree, char *input, void (*function)(void *, char *));
 
 /*
-	main.c
+	main
 */
 
+// error.c
+void    print_err_exit(char *msg,int exit_code);
+
+
+
+
+// main.c
 void	main_init(int argc, char *argv[]);
 void	init_pipe(t_pipe *m_pipe);
 void	exe_cmd_set(t_tree_node *node);
+
 
 /*
 	signal.c

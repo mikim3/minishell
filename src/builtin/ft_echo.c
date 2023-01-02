@@ -87,7 +87,7 @@ void	ft_echo(t_tree_cmd *cmd, t_pipe *pipe_value)
 	while (cmd->cmd_argv[index])
 	{
 		output = ft_strjoin_infree(output, ft_strdup(cmd->cmd_argv[index]));
-		output = ft_strjoin_infree(output, " ");
+		output = ft_strjoin_infree(output, ft_strdup(" "));
 		index++;
 	}
 	if (output != NULL)
@@ -95,6 +95,5 @@ void	ft_echo(t_tree_cmd *cmd, t_pipe *pipe_value)
 		free(output);
 	if (!use_u_option)
 		write(pipe_value->outfile_fd, "\n", 1);
-	// system("leaks minishell");
     exit(0);
 }

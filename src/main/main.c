@@ -29,7 +29,7 @@ void	main_init(int argc, char *argv[])
 	tcgetattr(STDIN_FILENO, &term);
 	term.c_lflag &= ~(ECHOCTL);
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
-	// set_signal(SHE, SHE);
+	set_signal(SIG_HANDLER,SIG_IGNORE);
 	g_exit_code = 0;
 }
 
@@ -46,28 +46,20 @@ int	main(int argc, char **argv, char **envp)
 	tcgetattr(STDIN_FILENO, &term);
 	main_init(argc, argv);
 	if (argc >= 2 || argv[1] != 0)
-		return (FT_ERROR);
+		print_err_exit("'babyshell' only accepts one arg", FT_ERROR);
 	dll_envp_tower = ft_set_envp_dll(envp);
 	if (dll_envp_tower == 0)
 		return (FT_ERROR);
 	mnsh_envp = ft_set_char_envp_from_dll(dll_envp_tower, 0);
-	// int i = -1;
-	// while (mnsh_envp[++i])
-	// 	printf("%s\n",mnsh_envp[i]);
 	if (mnsh_envp == 0)
 		return (FT_ERROR);
-	// envp 추가 함수 - A _ a 순서에 맞게 배열하는 함수 -> 실행부에 넘김
-	// envp 제거 함수???? -> 실행부에 넘김
-
-	// 기본적으로 INT는 sighandler1 함수 적용   quit는 무시
-	set_signal(SIG_HANDLER,SIG_IGNORE);
 	while (1)
 	{
 		input = readline("minishell$ ");
 		if (input == NULL) //  Ctrl + D를 누르면 input은 NULL이 들어옴
 		{
 			printf("see you later \n");
-			return (0);
+			return (FT_SUCCESS);
 		}
 		if (*input != '\0')
 			add_history(input);
@@ -108,7 +100,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		// tcsetattr(STDIN_FILENO, TCSANOW, &term);
 		free(input);
-		//system("leaks minishell | grep LEAK");
+		system("leaks minishell | grep LEAK");
 	}
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 

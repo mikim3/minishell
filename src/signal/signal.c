@@ -34,6 +34,7 @@ void	set_signal(int sig_int, int sig_quit)
 
 void	signal_handler(int signo)
 {
+	// ft_putstr_fd("\n\n\n\nSIG_1_HANDER before \n\n\n\n",STDERR_FILENO);
 	if (signo == SIGINT) // Ctrl + c
 	{
 		write(1, "\n", 1);
@@ -41,33 +42,12 @@ void	signal_handler(int signo)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	// if (signo == SIGQUIT) /* Ctrl + \ */   
-	// {
-	// 	write(1, "\n", 1);
-	// 	rl_on_new_line();
-	// 	rl_replace_line("", 0);
-	// 	// rl_on_new_line();
-	// 	// rl_redisplay();
-	// }
 }
 
 // 자식
 void	signal_handler2(int signo)
 {
-	//
-	ft_putstr_fd("\n\n\n\nSIG_CHILD_HANDER before \n\n\n\n",STDERR_FILENO);
-	if (signo == SIGINT) // Ctrl + c
-	{
-		// write(1, "^C\n", 3);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-	}
-	if (signo == SIGQUIT) /* Ctrl + \ */   
-	{
-		// write(1, "^\\Quit: 3\n", 10); // 10이 맞긴함
-		rl_on_new_line();
-		rl_replace_line("", 0);
-	}
+
 }
 
 void	wait_child(void)

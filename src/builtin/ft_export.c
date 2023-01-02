@@ -54,8 +54,8 @@ void	ft_export(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
 		free(key);
 		free(value);
 	}
-	system("leaks minishell | grep LEAK");
-	exit(g_exit_code);
+	ft_putstr_fd("hhha\n",3);
+	// exit (g_exit_code);  // exit 하면 내부에 남아있는거 free시킴
 }
 
 char	*show_env_in_export(t_d_list	*env)
@@ -70,15 +70,15 @@ char	*show_env_in_export(t_d_list	*env)
 	{
 		if (((t_envp_content *)env->content)->value != NULL)
 		{
-			line = ft_strjoin_infree(strdup("declare -x "), ((t_envp_content *)env->content)->key);
+			line = ft_strjoin_infree(ft_strdup("declare -x "), ft_strdup(((t_envp_content *)env->content)->key));
 			line = ft_strjoin_infree(line, ft_strdup("=\""));
-			line = ft_strjoin_infree(line, (((t_envp_content *)env->content)->value));
+			line = ft_strjoin_infree(line, ft_strdup((((t_envp_content *)env->content)->value)));
 			line = ft_strjoin_infree(line, ft_strdup("\"\n"));	
 			output = ft_strjoin_infree(output, line);
 		}
 		else
 		{
-			line = ft_strjoin_infree(strdup("declare -x "), ((t_envp_content *)env->content)->key);
+			line = ft_strjoin_infree(strdup("declare -x "), ft_strdup(((t_envp_content *)env->content)->key));
 			line = ft_strjoin_infree(line, ft_strdup("\n"));	
 			output = ft_strjoin_infree(output, line);
 		}

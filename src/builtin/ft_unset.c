@@ -44,7 +44,6 @@ void	ft_unset(t_tree_cmd *cmd, t_detower *env_tower)
 		index++;
 	}
 	g_exit_code = 0;
-	// system("leaks minishell | grep LEAK");
 }
 
 void    unset_env(t_detower *env_tower,char *key)
