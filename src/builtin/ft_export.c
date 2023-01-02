@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 // 키값에는 무조건 문자열로만 이루어져야한다. '='나 숫자로 시작하면 오류다.
-// 
 #include "../../include/ft_minishell.h"
 
 void	ft_export(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
@@ -32,30 +31,24 @@ void	ft_export(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
 		write(pipe_value->outfile_fd, output, ft_strlen(output));
 		exit(g_exit_code);
 	}
-	// export a=10 b=20
-	// =을 기준으로 key,value가 나뉘어진다.
-	// check_env_key로 올바른 env
-	// ex) bash-3.2$ export b+_=
-	//bash: export: `b+_=': not a valid identifier
-	// 키값으로 
 	while (cmd->cmd_argv[++index])
 	{
 		key = NULL;
 		value = NULL;
-		//
-		div_key_value(cmd->cmd_argv[index], &key, &value); //
-		if (check_env_key(key))
-		{
-			env_key_error("export", key);
-			g_exit_code = 1;
-		}
+		if (div_key_value(cmd->cmd_argv[index], &key, &value) == FT_ERROR)
+			env_key_error("export", cmd->cmd_argv[index]);
 		else
-			set_env(env_tower, key, value);
-		free(key);
-		free(value);
+		{
+			if (check_env_key(key))
+				env_key_error("export", key);
+			else
+				set_env(env_tower, key, value);
+		}
+		if (key)
+			free(key);
+		if (value)
+			free(value);
 	}
-	ft_putstr_fd("hhha\n",3);
-	// exit (g_exit_code);  // exit 하면 내부에 남아있는거 free시킴
 }
 
 char	*show_env_in_export(t_d_list	*env)
@@ -82,19 +75,18 @@ char	*show_env_in_export(t_d_list	*env)
 			line = ft_strjoin_infree(line, ft_strdup("\n"));	
 			output = ft_strjoin_infree(output, line);
 		}
-		
 		env = env->next;
 	}
     return (output);
 }
 
-void	div_key_value(char *arg, char **key, char **value)
+int	div_key_value(char *arg, char **key, char **value)
 {
 	int	index;
 
 	index = 0;
 	if (arg[0] == '=')
-		return ;
+		return (FT_ERROR);
 	while (arg[index] && arg[index] != '=' )
 		index++;
 	*key = ft_substr(arg, 0, index);
@@ -103,4 +95,5 @@ void	div_key_value(char *arg, char **key, char **value)
 		*value = ft_substr(arg, index + 1, ft_strlen(arg) - index);
 	else
 		*value = NULL;
+	return (FT_SUCCESS);
 }

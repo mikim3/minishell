@@ -100,7 +100,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		// tcsetattr(STDIN_FILENO, TCSANOW, &term);
 		free(input);
-		system("leaks minishell | grep LEAK");
+		// system("leaks minishell | grep LEAK");
 	}
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 

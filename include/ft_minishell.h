@@ -58,7 +58,7 @@ void	ft_pwd(t_pipe	*pipe_value);
 void	ft_exit(t_tree_cmd	*cmd, t_pipe	*pipe_value);
 void	ft_export(t_tree_cmd	*cmd, t_detower	*env, t_pipe	*pipe_value);
 char	*show_env_in_export(t_d_list	*env);
-void			div_key_value(char *arg, char **key, char **value);
+int			div_key_value(char *arg, char **key, char **value);
 t_envp_content	*find_env_keycmp(t_d_list *env, char *env_key);
 
 void	ft_unset(t_tree_cmd *cmd, t_detower *env);

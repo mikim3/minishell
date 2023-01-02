@@ -202,8 +202,8 @@ char	*get_file_path_from_env_path(char *command,t_detower *dll_envp_tower)
 	index = 0;
 	while(env_path_values[index])
 	{
-		tmp = ft_strjoin(ft_strdup("/"), ft_strdup(command));
-		file_path = ft_strjoin(ft_strdup(env_path_values[index]), tmp);
+		tmp = ft_strjoin("/", command);
+		file_path = ft_strjoin(env_path_values[index], tmp);
 		// 파일의 존재여부 확인, 실행권한 확인
 		if (access(file_path,X_OK) == -1)
 		{
