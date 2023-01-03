@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:49:10 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/03 13:08:45 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/03 16:53:19 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void execute_cmd(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe)
 {
 	if (is_built_in(token_tree->content))
-		execute_builtin(token_tree->content, dll_envp_tower, m_pipe);
+		execute_builtin(token_tree->content, dll_envp_tower, m_pipe, BOOL_FALSE);
 	else
 		execute_external(token_tree, dll_envp_tower, m_pipe);
 }
@@ -36,6 +36,12 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 	while (pipeline != 0)
 	{
 		next_pipe_check(pipeline, m_pipe);
+		if (iter == 0 && m_pipe->next_pipe_check == BOOL_FALSE
+			&& is_built_in(pipeline->left->right->content) == BOOL_TRUE)
+		{
+			execute_builtin(pipeline->left->right->content, dll_envp_tower, m_pipe, BOOL_TRUE);
+			return ;
+		}
 		pid = fork();
 		if (pid == 0)
 		{	
@@ -60,6 +66,7 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 		else if (pid > 0) // 부모
 		{
 			printf("getpid() == %d \n", getpid());
+			printf("child_pid == %d \n", pid);	
 			printf("set_sig IGN before\n");
 			set_signal(SIG_IGNORE,SIG_IGNORE); // 자식 프로세스가 진행중일떄는 부모는 시그널 무시
 			// 이전 포크 파이프 처리
@@ -113,7 +120,7 @@ int	is_built_in(t_tree_cmd *cmd)
 	return (0);
 }
 
-void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe)
+void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe, int from_mnsh)
 {
 	if (!ft_strcmp(cmd->cmd_name, "echo"))
 	{
@@ -150,7 +157,8 @@ void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe)
 		printf("execute exit \n");
 		ft_exit(cmd, m_pipe);
 	}
-	exit(g_exit_code);
+	if (from_mnsh == BOOL_FALSE)
+		exit(g_exit_code);
 	return ;
 }
 

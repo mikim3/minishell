@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minishell.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 15:25:04 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/01/03 16:47:58 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ t_envp_content	*env_new(void);
 void 	execute_cmd(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
 // void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
 int		is_built_in(t_tree_cmd *cmd);
-void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe);
+void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe, int from_mnsh);
 char	**get_env_path(t_detower *dll_envp_tower);
 void	double_char_free(char **double_char);
 char	*get_file_path_from_env_path(char *command,t_detower *dll_envp_tower);

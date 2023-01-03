@@ -6,14 +6,15 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 13:53:23 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/03 10:11:30 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/03 16:28:26 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ft_tokenizer.h"
 #include "../../include/ft_doubly_linked_list.h"
 #include "../../include/ft_token_expansion.h"
-#include "../../include/ft_minishell.h"
+
+#include <stdio.h>
 #include <readline/readline.h>
 
 #include <fcntl.h>
@@ -60,7 +61,7 @@ int	ft_here_doc_expansion(t_list *token_list, t_detower *dll_envp_tower)
 						return (ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED), FT_ERROR);
 				}
 				((t_tkn *)token_node->content)->expandable = BOOL_FALSE;
-			}	
+			}
 		}
 		token_node = token_node->next;
 		type = ft_token_what_type(token_node);
