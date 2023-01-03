@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:01:52 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/03 09:54:45 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/03 11:03:18 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	ft_tokenizing_loop(t_tknizer *tknizer, int error, int *prev_type)
 		else
 			error = ft_token_processor(tknizer, prev_type);
 	}
-	if (error == BOOL_FALSE
+	if (error == BOOL_FALSE 
 		&& ft_isspace(*(tknizer->str_pos)) == BOOL_TRUE)
 	{
 		if (tknizer->tkn_len != 0)

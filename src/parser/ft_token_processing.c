@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:49:46 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/31 16:35:31 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/03 11:13:02 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	ft_token_processor(
 		tknizer->tkn = ft_new_token();
 		if (tknizer->tkn == 0)
 			return (FT_ERROR);
+		ft_token_start_set(tknizer);
 	}
 	if (*(tknizer->str_pos) == '\0')
 	{
@@ -35,7 +36,6 @@ int	ft_token_processor(
 		tknizer->tkn_len = 0;
 		return (FT_SUCCESS);
 	}
-	ft_token_start_set(tknizer);
 	if (ft_is_operator(*(tknizer->str_pos)) == BOOL_TRUE)
 		*prev_type = TKN_OPERATOR;
 	else
