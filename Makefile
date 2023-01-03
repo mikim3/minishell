@@ -15,8 +15,10 @@ LIBFT_FLAG = -Llibft -lft
 
 READLINE_FLAG = -lreadline
 
-READLINE_LIB 	= -lreadline -L${HOME}/.brew/opt/readline/lib
-READLINE_INC	= -I${HOME}/.brew/opt/readline/include
+READLINE_LIB 	= -lreadline -L${HOME}/brew/opt/readline/lib
+READLINE_INC	= -I${HOME}/brew/opt/readline/include
+# READLINE_LIB 	= -lreadline -L${HOME}/.brew/opt/readline/lib
+# READLINE_INC	= -I${HOME}/.brew/opt/readline/include
 
 SRCDIR = ./src
 
@@ -27,6 +29,7 @@ SRC_EXECUTE_DIR	= $(SRCDIR)/execute
 SRC_MAIN_DIR		= $(SRCDIR)/main
 SRC_PARSER_DIR	= $(SRCDIR)/parser
 SRC_SIGNAL_DIR	= $(SRCDIR)/signal
+SRC_UTILS_DIR	= $(SRCDIR)/utils
 
 SRC_BUILTIN	= ft_cd.c ft_echo.c ft_env.c ft_exit.c ft_export.c ft_pwd.c ft_unset.c 
 SRC_BUILTIN	:= $(addprefix $(SRC_BUILTIN_DIR)/, $(SRC_BUILTIN))
@@ -40,7 +43,7 @@ SRC_ENV	:= $(addprefix $(SRC_ENV_DIR)/, $(SRC_ENV))
 SRC_EXECUTE	= execute_cmd.c execute_tree.c execute_pipe.c
 SRC_EXECUTE	:= $(addprefix $(SRC_EXECUTE_DIR)/, $(SRC_EXECUTE))
 
-SRC_MAIN	= main.c error.c
+SRC_MAIN	= main.c
 SRC_MAIN	:= $(addprefix $(SRC_MAIN_DIR)/, $(SRC_MAIN))
 
 SRC_PARSER	= ft_tokenizer.c ft_token_processing.c ft_tokenizer_util.c ft_syntax_analysis.c ft_syntax_parse_tree.c ft_syntax_util.c ft_tree.c ft_token_expansion.c ft_token_here_doc.c
@@ -49,7 +52,10 @@ SRC_PARSER 	:= $(addprefix $(SRC_PARSER_DIR)/,$(SRC_PARSER))
 SRC_SIGNAL	= signal.c
 SRC_SIGNAL 	:= $(addprefix $(SRC_SIGNAL_DIR)/,$(SRC_SIGNAL))
 
-SRCS = $(SRC_BUILTIN) $(SRC_DOUBLY_LINKED_LIST) $(SRC_ENV) $(SRC_EXECUTE) $(SRC_MAIN) $(SRC_PARSER) $(SRC_SIGNAL)
+SRC_UTILS	= error.c function.c
+SRC_UTILS	:= $(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS))
+
+SRCS = $(SRC_BUILTIN) $(SRC_DOUBLY_LINKED_LIST) $(SRC_ENV) $(SRC_EXECUTE) $(SRC_MAIN) $(SRC_PARSER) $(SRC_SIGNAL) $(SRC_UTILS)
 
 OBJS = $(SRCS:.c=.o)
 

@@ -278,11 +278,7 @@ void	execute_external(t_tree_node *node,t_detower *dll_envp_tower,t_pipe *m_pipe
 	file_path = set_file_path(((t_tree_cmd *)node->content)->cmd_name, dll_envp_tower);
 	env = ft_set_char_envp_from_dll(dll_envp_tower,0);
 
-	if (execve(file_path,((t_tree_cmd *)node->content)->cmd_argv, env)== -1)
-	{
-		//execve실패 명령어를 못찾은 상태 상황에 맞는 에러문 출력해 exit()해야함
-		printf("execve 실패 \n"); 
-	}
+	ft_execve(file_path,((t_tree_cmd *)node->content)->cmd_argv, env);
 	//필요한지 다시 생각해보기
 	if (!file_path)
 		free(file_path);

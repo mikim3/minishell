@@ -25,11 +25,9 @@
 #include <signal.h> // signal, 
 #include <errno.h> // errno
 #include <string.h> // strerror() 
-
 #include <stdio.h>
 #include <readline/readline.h> // readline, rl_replace_line, rl_on_new_line, rl_redisplay
 #include <readline/history.h> // add_history
-
 #include <term.h>
 
 #define SHELL_NAME "BABYSHELL"
@@ -129,6 +127,11 @@ void	set_signal(int sig_int, int sig_quit);
 void	signal_handler(int signo);
 void	signal_handler2(int signo);
 
+/*
+	utils
+*/
 
+void	ft_execve(const char *file, char *const *argv, char *const *envp);
+void    exit_with_err(char *str, char *str_error, int exit_code);
 
 #endif
