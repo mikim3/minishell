@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 10:36:56 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/30 09:20:04 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/03 09:54:59 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,71 +54,3 @@ int	ft_tree_node_post_traversal(t_tree_node *target_tree, void (*function)(void 
 	function((t_tree_node *)target_tree);
 	return (FT_SUCCESS);
 }
-
-/*
-
-// 좌측 가지 대체
-void	ft_tree_add_node_left(t_tree_node *target_tree, t_tree_node *new_node)
-{
-	if (target_tree == BOOL_FALSE)
-		return ;
-	if (target_tree->left != BOOL_FALSE)
-	{
-		// 디버깅용
-		printf("left node overwrited\n");
-		ft_tree_node_post_traversal(target_tree, ft_tree_delete_node());
-	}
-	target_tree->left = new_node;
-	return ;
-}
-
-// 우측 가지 대체
-void	ft_tree_add_node_right(t_tree_node *target_tree, t_tree_node *new_node)
-{
-	if (target_tree == BOOL_FALSE)
-		return ;
-	if (target_tree->right != BOOL_FALSE)
-	{
-		// 디버깅용
-		printf("right node overwrited\n");
-		ft_tree_node_post_traversal(target_tree, ft_tree_delete_node());
-	}
-	target_tree->right = new_node;
-	return ;
-}
-
-// 전위 탐색
-int	ft_tree_node_pre_traversal(t_tree_node *target_tree, char(*f)(unsigned int, char))
-{
-	if (target_tree == BOOL_FALSE)
-		return (FT_ERROR);
-	if ((*f) == BOOL_FALSE)
-		return (FT_ERROR);
-	(*f)();
-	ft_tree_node_traversal(target_tree->left,(*f));
-	ft_tree_node_traversal(target_tree->right,(*f));
-	return (FT_SUCCESS);
-}
-
-// 후위 탐색
-int	ft_tree_node_post_traversal(t_tree_node *target_tree, char(*f)(unsigned int, char))
-{
-	if (target_tree == BOOL_FALSE)
-		return (FT_ERROR);
-	if ((*f) == BOOL_FALSE)
-		return (FT_ERROR);
-	ft_tree_node_traversal(target_tree->left,(*f));
-	ft_tree_node_traversal(target_tree->right,(*f));
-	(*f)();
-	return (FT_SUCCESS);
-}
-
-// 삭제
-void	ft_tree_delete_node()
-{
-
-
-
-}
-
-*/

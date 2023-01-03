@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 13:46:11 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/31 13:11:38 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/03 09:33:12 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ t_tree_redir	*ft_node_content_redir(t_list **token)
 
 int	ft_syntax_parse_cmd(t_list **token, t_tree_node *cmd)
 {
+	if (ft_strcmp(ft_token_what_str(*token), "") == 0)
+		return (FT_SUCCESS);
 	if (cmd->content == 0)
 	{
 		cmd->content = (t_tree_cmd *)malloc(sizeof(t_tree_cmd));

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 13:59:04 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/31 17:43:17 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/03 09:47:24 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ typedef enum e_expansion_mode{
 }	t_expand_mode;
 
 int	ft_here_doc_expansion(t_list *token_list, t_detower *dll_envp_tower);
-
 int	ft_write_here_doc_with_expand_mode(char *token_str, t_detower *dll_envp_tower, int is_env_expand);
+void	ft_free_here_doc_memory(char *delimiter, char *buffer);
 
 int	ft_token_expansion(t_list *token_list, t_detower *dll_envp_tower);
 int	ft_token_str_expansion(char **token_str, t_d_list *mnsh_envp, int expand_mode);

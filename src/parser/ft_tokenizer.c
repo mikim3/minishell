@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:01:52 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/31 16:37:31 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/03 09:54:45 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	*ft_tokenizer(char *str)
 	t_tknizer	tknizer;
 	int			prev_type;
 	int			error;
-	// 코드 밖 코멘트, 사용하지 않을 헤더 존재함
 	prev_type = TKN_WORD;
 	error = BOOL_FALSE;
 	if (ft_initialize_tokenizer(&tknizer, str) == FT_ERROR)

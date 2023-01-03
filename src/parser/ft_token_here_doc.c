@@ -6,13 +6,14 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 13:53:23 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/31 18:24:19 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/03 10:11:30 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ft_tokenizer.h"
 #include "../../include/ft_doubly_linked_list.h"
 #include "../../include/ft_token_expansion.h"
+#include <readline/readline.h>
 
 #include <fcntl.h>
 #include <unistd.h>
@@ -48,15 +49,16 @@ int	ft_here_doc_expansion(t_list *token_list, t_detower *dll_envp_tower)
 					&& ft_token_check_for_quote(token_node) == BOOL_TRUE)
 				{
 					if (ft_token_str_expansion(&(((t_tkn *)token_node->content)->str), envp_head, EXPAND_QUOTE_ONLY) == FT_ERROR)
-						return (FT_ERROR);
-					((t_tkn *)token_node->content)->expandable = BOOL_FALSE;
-					ft_write_here_doc_with_expand_mode(ft_token_what_str(token_node), dll_envp_tower, BOOL_FALSE);
+						return (ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED), FT_ERROR);
+					if (ft_write_here_doc_with_expand_mode(ft_token_what_str(token_node), dll_envp_tower, BOOL_FALSE) == FT_ERROR)
+						return (ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED), FT_ERROR);
 				}
 				else
 				{
-					((t_tkn *)token_node->content)->expandable = BOOL_FALSE;
-					ft_write_here_doc_with_expand_mode(ft_token_what_str(token_node), dll_envp_tower, BOOL_TRUE);
+					if (ft_write_here_doc_with_expand_mode(ft_token_what_str(token_node), dll_envp_tower, BOOL_TRUE) == FT_ERROR)
+						return (ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED), FT_ERROR);
 				}
+				((t_tkn *)token_node->content)->expandable = BOOL_FALSE;
 			}	
 		}
 		token_node = token_node->next;
@@ -65,6 +67,7 @@ int	ft_here_doc_expansion(t_list *token_list, t_detower *dll_envp_tower)
 	return (FT_SUCCESS);
 }
 
+// 반복문 내에서 실패 시 break 시키고 while 바깥에서 예외 처리하는 건?
 int	ft_write_here_doc_with_expand_mode(char *token_str, t_detower *dll_envp_tower, int is_env_expand)
 {
 	int		here_doc_fd;
@@ -74,6 +77,7 @@ int	ft_write_here_doc_with_expand_mode(char *token_str, t_detower *dll_envp_towe
 
 	here_doc_fd = -1;
 	tmp_buf = 0;
+	buffer = 0;
 	here_doc_fd = open(
 				"/tmp/.mnsh_here_doc.tmp", O_CREAT | O_RDWR | O_TRUNC, 0666);
 	delimiter = ft_strjoin(token_str, "\n");
@@ -81,29 +85,37 @@ int	ft_write_here_doc_with_expand_mode(char *token_str, t_detower *dll_envp_towe
 		return (FT_ERROR);
 	while (1)
 	{
-		buffer = get_next_line(0);
+		tmp_buf = readline("> ");
+		if (tmp_buf == 0)
+			return (free(delimiter), FT_ERROR);
+		buffer = ft_strjoin(tmp_buf, "\n");
+		free(tmp_buf);
+		tmp_buf = 0;
 		if (buffer == 0)
-			return (FT_ERROR);
+			return (free(delimiter), FT_ERROR);
 		if (ft_strcmp(buffer, delimiter) == 0)
-		{
-			free(buffer);
-			free(delimiter);
-			return (FT_ERROR);
-		}
+			return (ft_free_here_doc_memory(delimiter, buffer), FT_SUCCESS);
 		if (is_env_expand == BOOL_TRUE)
 		{
-			ft_token_str_expansion(&buffer, dll_envp_tower->head, EXPAND_ENV_ONLY);
-			// 확장을 한 경우에 '\n'가 붙지 않는다. 
-				// !!!! 근데 이러면 '\n'이 붙어 있는데도 확장했다는 말 아닌가?
-				// 뭔가 느낌이 이상하다.
-			// 확장 안 한 경우에는 원래 문자열이 돌아와서 '\n' 이미 붙어있음.
-				// 확장 수행 '여부'를 알 수 있으면 좋을까?
+			if (ft_token_str_expansion(&buffer, dll_envp_tower->head, EXPAND_ENV_ONLY) == FT_ERROR)
+			return (ft_free_here_doc_memory(delimiter, buffer), FT_ERROR);
 		}
-		write(here_doc_fd, buffer, ft_strlen(buffer));
+		if (write(here_doc_fd, buffer, ft_strlen(buffer)) < 0)
+			return (ft_free_here_doc_memory(delimiter, buffer), FT_ERROR);
 		free(buffer);
+		buffer = 0;
 	}
 	close(here_doc_fd);
 	return (FT_SUCCESS);
 }
 
+void	ft_free_here_doc_memory(char *delimiter, char *buffer)
+{
+		free(buffer);
+		free(delimiter);
+		return ;
+}
 
+// .mnsh_here_doc.tmp unlink하고 close하는 함수 따로 만들까?
+
+// here_doc 여러 번 들어올 경우 동작 다듬어보자.

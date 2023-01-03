@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/31 14:43:21 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/03 09:49:30 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		// tcsetattr(STDIN_FILENO, TCSANOW, &term);
 		free(input);
-		//system("leaks minishell | grep LEAK");
+		// system("leaks minishell | grep LEAK");
 	}
 	return (FT_SUCCESS);
 }
