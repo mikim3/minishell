@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 11:02:05 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 16:28:45 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/03 17:45:10 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct s_redirection_data
 	int		pre_pipe_read_end;
 	int		pre_pipe_check;
 	int		next_pipe_check;
+	int		mnsh_builtin;
 } 	t_pipe;
 
 typedef enum e_pipe_end_name{

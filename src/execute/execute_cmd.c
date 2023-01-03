@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:49:10 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/03 16:53:19 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/03 17:45:59 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,12 @@
 void execute_cmd(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe)
 {
 	if (is_built_in(token_tree->content))
-		execute_builtin(token_tree->content, dll_envp_tower, m_pipe, BOOL_FALSE);
+	{
+		if (m_pipe->mnsh_builtin == BOOL_FALSE)
+			execute_builtin(token_tree->content, dll_envp_tower, m_pipe, BOOL_FALSE);
+		else
+			execute_builtin(token_tree->content, dll_envp_tower, m_pipe, BOOL_TRUE);
+	}
 	else
 		execute_external(token_tree, dll_envp_tower, m_pipe);
 }
@@ -29,7 +34,6 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 	int			iter;
 
 	pipeline = token_tree;
-	// 파이프 사전 처리
 	iter = 0;
 	m_pipe->infile_fd = STDIN_FILENO;
 	m_pipe->outfile_fd = STDOUT_FILENO;
@@ -39,7 +43,8 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 		if (iter == 0 && m_pipe->next_pipe_check == BOOL_FALSE
 			&& is_built_in(pipeline->left->right->content) == BOOL_TRUE)
 		{
-			execute_builtin(pipeline->left->right->content, dll_envp_tower, m_pipe, BOOL_TRUE);
+			// execute_builtin(pipeline->left->right->content, dll_envp_tower, m_pipe, BOOL_TRUE);
+			ft_tree_node_pre_traversal2(pipeline->left, dll_envp_tower, m_pipe, &ft_execute_tree);
 			return ;
 		}
 		pid = fork();
@@ -47,9 +52,6 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 		{	
 			ft_putstr_fd("set_sig SIGHANDLER 자식\n",STDERR_FILENO);
 			set_signal(SIG_DEFAULT, SIG_DEFAULT); //이게 없으면 SIG_QUIT가 IGN상태이지만  그렇다고 이게 있다고 SIG_CHILD_HANDLER대로 작동하지는 않음 뭘까?
-			// 다중 파이프에서 자식 프로세스에게 fork할 때 stdin, out이 없어지지 않는게 나을 것 같음.
-			// 이 동작을 다르게 하거나, 필요가 없을지도 모르겠다.
-			// 아니면 자식에서 하나? 좀 고민 중
 			if (m_pipe->pre_pipe_check == BOOL_TRUE)
 			{
 				dup2(m_pipe->pre_pipe_read_end, m_pipe->infile_fd);
@@ -69,13 +71,11 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 			printf("child_pid == %d \n", pid);	
 			printf("set_sig IGN before\n");
 			set_signal(SIG_IGNORE,SIG_IGNORE); // 자식 프로세스가 진행중일떄는 부모는 시그널 무시
-			// 이전 포크 파이프 처리
 			if (m_pipe->pre_pipe_check == BOOL_TRUE)
 			{
 				close(m_pipe->pre_pipe_read_end);
 				m_pipe->pre_pipe_check = BOOL_FALSE;
 			}
-			// 파이프 사후 처리
 			if (m_pipe->next_pipe_check == BOOL_TRUE)
 			{
 				close(m_pipe->pipe[P_WRITE]);
@@ -91,7 +91,6 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 		pipeline = pipeline->right;
 		iter++;
 	}
-	//자식 프로세스 기다리기,
 	while (iter != 0)
 	{
 		wait_child();
