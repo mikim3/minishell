@@ -28,7 +28,9 @@ void	next_pipe_check(t_tree_node *node,t_pipe *m_pipe)
 		m_pipe->next_pipe_check = BOOL_TRUE;
 	}
 	else
+	{
 		m_pipe->next_pipe_check = BOOL_FALSE;
+	}
 	return ;
 }
 

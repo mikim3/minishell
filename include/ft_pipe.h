@@ -21,6 +21,7 @@ typedef struct s_redirection_data
 	int		pre_pipe_read_end;
 	int		pre_pipe_check;
 	int		next_pipe_check;
+	int		mnsh_builtin;
 } 	t_pipe;
 
 typedef enum e_pipe_end_name{

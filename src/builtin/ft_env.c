@@ -19,6 +19,7 @@ void	ft_env(t_detower *env_tower, t_pipe *pipe_value)
 	char	*line;
 	t_d_list	*env;
 
+	g_exit_code = 0;
 	env= env_tower->head;
 	line = NULL;
 	output = NULL;
@@ -38,7 +39,5 @@ void	ft_env(t_detower *env_tower, t_pipe *pipe_value)
 	}
 	write(pipe_value->outfile_fd, output, ft_strlen(output));
 	free(output);
-	g_exit_code = 0;
-
-	exit(g_exit_code);
+	// exit(g_exit_code);
 }

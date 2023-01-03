@@ -59,6 +59,7 @@ void	wait_child(void)
 	repeat = 0;
 	while (wait(&status) != -1)
 	{	
+		printf("int status - %d\n", status);
 		//WIFSIGNALED 시그널에 의해 종료되었는지 확인
 		if (WIFSIGNALED(status))
 		{
@@ -72,5 +73,6 @@ void	wait_child(void)
 		}
 		else
 			g_exit_code = WEXITSTATUS(status);
+		printf("g_exit_code - %d\n", g_exit_code);
 	}
 }

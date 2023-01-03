@@ -24,9 +24,12 @@ void	ft_pwd(t_pipe *pipe_value)
 	{
 		output = ft_strjoin_infree(ft_strdup(strerror(errno)),ft_strdup("\n"));
 		// 종료코드 설정구현하기
+		g_exit_code = 1;  
+		free(output); //  free 하던 안하던 괜찮음
 		exit(1);
 	}
-	output = ft_strjoin(output, ft_strdup("\n")); //
+	//  릭 변경 완료   다시 체크해보기
+	output = ft_strjoin_infree(output, ft_strdup("\n")); //
 	write(pipe_value->outfile_fd, output, ft_strlen(output));
 	free(output);
     //정상 종료 코드
