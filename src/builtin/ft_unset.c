@@ -23,7 +23,7 @@
 
 #include "../../include/ft_minishell.h"
 
-void	ft_unset(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
+void	ft_unset(t_tree_cmd *cmd, t_detower *env_tower)
 {
 	int		index;
 	char	*key;
@@ -44,7 +44,6 @@ void	ft_unset(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
 		index++;
 	}
 	g_exit_code = 0;
-	// system("leaks minishell | grep LEAK");
 }
 
 void    unset_env(t_detower *env_tower,char *key)

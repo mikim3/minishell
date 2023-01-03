@@ -13,8 +13,7 @@
 #include "../../include/ft_minishell.h"
 
 // 어떤 상황에 어떤 종료코드를 넣는게 가장 옳을지 좀더 고민이 필요함
-
-void	ft_env(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
+void	ft_env(t_detower *env_tower, t_pipe *pipe_value)
 {
 	char	*output;
 	char	*line;
@@ -30,19 +29,16 @@ void	ft_env(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
 			env = env->next;
 			continue ;
 		}
-		line = ft_strjoin_infree(((t_envp_content *)env->content)->key, ft_strdup("="));
-		line = ft_strjoin_infree(line, (((t_envp_content *)env->content)->value));
-		line = ft_strjoin_infree(line, ft_strdup("\n"));	
+		line = ft_strjoin_infree(ft_strdup(((t_envp_content *)env->content)->key), ft_strdup("="));
+		line = ft_strjoin_infree(line, ft_strdup((((t_envp_content *)env->content)->value)));
+		line = ft_strjoin_infree(line, ft_strdup("\n"));
 
 		output = ft_strjoin_infree(output, line);
 		env = env->next;
 	}
-	// printf("output === %s \n",output);
-	write(STDOUT_FILENO, output, ft_strlen(output));
-	// write(pipe_value->outfile_fd, output, ft_strlen(output));
+	write(pipe_value->outfile_fd, output, ft_strlen(output));
 	free(output);
 	g_exit_code = 0;
 
-	system("leaks minishell | grep LEAK");
 	exit(g_exit_code);
 }

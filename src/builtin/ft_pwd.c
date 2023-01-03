@@ -14,16 +14,21 @@
 
 #include "../../include/ft_minishell.h"
 
-void	ft_pwd(t_tree_cmd *cmd, t_pipe *pipe_value)
+void	ft_pwd(t_pipe *pipe_value)
 {
 	char	*output;
 
-	//PWD , OLDPWD
-	output = getcwd(NULL, 0); // getcwd가 malloc으로 내부에서 할당해주니까 외부에서 free해줘야함
+	g_exit_code = 0;
+	output = getcwd(NULL, 0);
+	if (output == NULL)
+	{
+		output = ft_strjoin_infree(ft_strdup(strerror(errno)),ft_strdup("\n"));
+		// 종료코드 설정구현하기
+		exit(1);
+	}
 	output = ft_strjoin(output, ft_strdup("\n")); //
 	write(pipe_value->outfile_fd, output, ft_strlen(output));
 	free(output);
     //정상 종료 코드
-	g_exit_code = 0;
 	exit(g_exit_code);
 }
