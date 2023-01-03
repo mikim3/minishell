@@ -14,22 +14,18 @@
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
-	size_t			i;
-	unsigned char	a;
-	unsigned char	b;
+	const unsigned char	*s1_uc;
+	const unsigned char	*s2_uc;
+	size_t				i;
 
+	s1_uc = (const unsigned char *)s1;
+	s2_uc = (const unsigned char *)s2;
 	i = 0;
-	while (s1[i] != '\0')
+	while (s1_uc[i] && s2_uc[i] && s1[i] != '\0' && s2[i] != '\0')
 	{
-		a = s1[i];
-		b = s2[i];
-		if ((a - b) > 0)
-			return (1);
-		else if ((a - b) < 0)
-			return (-1);
+		if (s1_uc[i] != s2_uc[i])
+			break ;
 		i++;
 	}
-	if (s2[i] != '\0')
-		return (-1);
-	return (0);
+	return ((int)(s1_uc[i] - s2_uc[i]));
 }

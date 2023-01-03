@@ -12,17 +12,6 @@
 
 #include "../../include/ft_minishell.h"
 
-void	main_init(void)
-{
-	struct termios	term;
-
-	tcgetattr(STDIN_FILENO, &term);
-	term.c_lflag &= ~(ECHOCTL);  //  시그널 ^C 출력안되게 설장하기
-	tcsetattr(STDIN_FILENO, TCSANOW, &term);
-	// set_signal(SHE, SHE); // 시그널
-	g_exit_code = 0;
-}
-
 void	init_pipe(t_pipe *m_pipe)
 {
 	m_pipe->next_pipe_check = BOOL_FALSE;
@@ -33,6 +22,17 @@ void	init_pipe(t_pipe *m_pipe)
 	m_pipe->outfile_fd = STDOUT_FILENO;
 }
 
+void	main_init(int argc, char *argv[])
+{
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~(ECHOCTL);
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+	set_signal(SIG_HANDLER,SIG_IGNORE);
+	g_exit_code = 0;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_list		*token_list;
@@ -41,33 +41,25 @@ int	main(int argc, char **argv, char **envp)
 	t_detower	*dll_envp_tower;
 	char		**mnsh_envp;
 	t_pipe		m_pipe;
-	// struct termios		term;
+	struct termios		term;
 
-	// 터미널제어 함수 
-	// tcgetattr(STDIN_FILENO, &term);
-
-	// main_init();
+	tcgetattr(STDIN_FILENO, &term);
+	main_init(argc, argv);
 	if (argc >= 2 || argv[1] != 0)
-		return (FT_ERROR);
+		print_err_exit("'babyshell' only accepts one arg", FT_ERROR);
 	dll_envp_tower = ft_set_envp_dll(envp);
 	if (dll_envp_tower == 0)
 		return (FT_ERROR);
 	mnsh_envp = ft_set_char_envp_from_dll(dll_envp_tower, 0);
-	// int i = -1;
-	// while (mnsh_envp[++i])
-	// 	printf("%s\n",mnsh_envp[i]);
 	if (mnsh_envp == 0)
 		return (FT_ERROR);
-		
-	// envp 추가 함수 - A _ a 순서에 맞게 배열하는 함수 -> 실행부에 넘김
-	// envp 제거 함수???? -> 실행부에 넘김
 	while (1)
 	{
 		input = readline("minishell$ ");
 		if (input == NULL) //  Ctrl + D를 누르면 input은 NULL이 들어옴
 		{
 			printf("see you later \n");
-			exit(0);
+			return (FT_SUCCESS);
 		}
 		if (*input != '\0')
 			add_history(input);
@@ -110,6 +102,8 @@ int	main(int argc, char **argv, char **envp)
 		free(input);
 		// system("leaks minishell | grep LEAK");
 	}
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+
 	return (FT_SUCCESS);
 }
 
