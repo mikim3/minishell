@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 21:58:13 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 15:36:1ß by mikim3           ###   ########.fr       */
+/*   Updated: 2023/01/03 16:49:41 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_export(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
 	{
 		output = show_env_in_export(env);  // 출력해야할 값 출력
 		write(pipe_value->outfile_fd, output, ft_strlen(output));
-		exit(g_exit_code);
+		// exit(g_exit_code);
 	}
 	while (cmd->cmd_argv[++index])
 	{
