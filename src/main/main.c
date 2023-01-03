@@ -20,6 +20,7 @@ void	init_pipe(t_pipe *m_pipe)
 //	m_pipe->pipe_write_end = STDOUT_FILENO;
 	m_pipe->infile_fd = STDIN_FILENO;
 	m_pipe->outfile_fd = STDOUT_FILENO;
+	m_pipe->mnsh_builtin = BOOL_FALSE;
 }
 
 void	main_init(int argc, char *argv[])
@@ -46,7 +47,7 @@ int	main(int argc, char **argv, char **envp)
 	tcgetattr(STDIN_FILENO, &term);
 	main_init(argc, argv);
 	if (argc >= 2 || argv[1] != 0)
-		print_err_exit("'babyshell' only accepts one arg", FT_ERROR);
+		print_err("'babyshell' only accepts one arg", FT_ERROR);
 	dll_envp_tower = ft_set_envp_dll(envp);
 	if (dll_envp_tower == 0)
 		return (FT_ERROR);

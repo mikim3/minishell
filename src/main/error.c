@@ -12,7 +12,7 @@
 
 #include "../../include/ft_minishell.h"
 
-void    print_err_exit(char *msg,int exit_code)
+void    print_err(char *msg,int exit_code)
 {
     ft_putstr_fd(msg,STDERR_FILENO);
     ft_putstr_fd("\n",STDERR_FILENO);

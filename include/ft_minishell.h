@@ -110,7 +110,7 @@ int		ft_tree_node_pre_traversal_exe_cmd_set(t_tree_node *target_tree, char *inpu
 */
 
 // error.c
-void    print_err_exit(char *msg,int exit_code);
+void    print_err(char *msg,int exit_code);
 
 
 

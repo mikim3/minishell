@@ -27,7 +27,7 @@ void	ft_cd(t_tree_cmd *cmd,t_detower *env_tower)
 	else // ex) cd  만 들어온 상황 이경우 cd $HOME으로 가기  그걸 만들때 $HOME이 없는 경우 생각하기
 	{
 		// $HOME 파싱하기
-		// return_value = chdir($HOME이거 같넣기); //실패시 -1리턴
+		// return_value = chdir($HOME이거 같이 넣기); //실패시 -1리턴
 	}
 	// PWD의 환경변수를 set해주기 
 	change_pwd_oldpwd(env_tower, "PWD");

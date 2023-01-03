@@ -15,7 +15,12 @@
 void execute_cmd(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe)
 {
 	if (is_built_in(token_tree->content))
-		execute_builtin(token_tree->content, dll_envp_tower, m_pipe, BOOL_FALSE);
+	{
+		if (m_pipe->mnsh_builtin == BOOL_FALSE)
+			execute_builtin(token_tree->content, dll_envp_tower, m_pipe, BOOL_FALSE);
+		else
+			execute_builtin(token_tree->content, dll_envp_tower, m_pipe, BOOL_TRUE);
+	}
 	else
 		execute_external(token_tree, dll_envp_tower, m_pipe);
 }
@@ -39,7 +44,9 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 		if (iter == 0 && m_pipe->next_pipe_check == BOOL_FALSE
 			&& is_built_in(pipeline->left->right->content) == BOOL_TRUE)
 		{
-			execute_builtin(pipeline->left->right->content, dll_envp_tower, m_pipe, BOOL_TRUE);
+			m_pipe->mnsh_builtin = BOOL_TRUE;
+			ft_tree_node_pre_traversal2(pipeline->left, dll_envp_tower, m_pipe, &ft_execute_tree);
+			// execute_builtin(pipeline->left->right->content, dll_envp_tower, m_pipe, BOOL_TRUE);
 			return ;
 		}
 		pid = fork();
