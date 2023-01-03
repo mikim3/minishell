@@ -13,6 +13,7 @@
 #include "../../include/ft_tokenizer.h"
 #include "../../include/ft_doubly_linked_list.h"
 #include "../../include/ft_token_expansion.h"
+#include "../../include/ft_minishell.h"
 #include <readline/readline.h>
 
 #include <fcntl.h>
