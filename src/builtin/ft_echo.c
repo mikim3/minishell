@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:15:08 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/29 22:05:30 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/01/03 12:44:21 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,11 @@ void	ft_echo(t_tree_cmd *cmd, t_pipe *pipe_value)
 	while (cmd->cmd_argv[index])
 	{
 		output = ft_strjoin_infree(output, ft_strdup(cmd->cmd_argv[index]));
-		output = ft_strjoin_infree(output, ft_strdup(" "));
+		output = ft_strjoin_infree(output, ft_strdup(" ")); 
+		//  마지막 인자는 띄어쓰기 X
+		// bash-3.2$ echo 555 777 888 > out01 > out02
+		// bash-3.2$ cat -e out02
+		// 555 777 888$
 		index++;
 	}
 	if (output != NULL)

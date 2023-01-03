@@ -2,7 +2,8 @@ NAME = minishell
 
 CC = cc
 # CFLAGS = -Wall -Wextra -Werror -g
-CFLAGS =  -g -fsanitize=address
+# CFLAGS =  -g -fsanitize=address
+CFLAGS = -g
 RM = rm
 RMFLAGS = -f
 

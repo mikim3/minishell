@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:49:10 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/31 18:01:02 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/03 13:08:45 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 		}
 		else if (pid > 0) // 부모
 		{
+			printf("getpid() == %d \n", getpid());
 			printf("set_sig IGN before\n");
 			set_signal(SIG_IGNORE,SIG_IGNORE); // 자식 프로세스가 진행중일떄는 부모는 시그널 무시
 			// 이전 포크 파이프 처리
@@ -149,6 +150,7 @@ void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe)
 		printf("execute exit \n");
 		ft_exit(cmd, m_pipe);
 	}
+	exit(g_exit_code);
 	return ;
 }
 
@@ -237,7 +239,7 @@ char	*set_file_path(char *command, t_detower *dll_envp_tower)
 		command = ft_substr(command, 2, ft_strlen(command) - 2);
 		current_path = getcwd(NULL, 0);
 		file_path = ft_strjoin_infree(current_path, ft_strdup("/"));
-		file_path = ft_strjoin(file_path, command);
+		file_path = ft_strjoin_infree(file_path, ft_strdup(command));
 	}
 	else // 환경변수 PATH에 세팅되어서 명령어로 실행할수 있는 명령어
 	{

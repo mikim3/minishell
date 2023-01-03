@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:57:52 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/03 09:54:31 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/03 12:35:28 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,10 @@ int	ft_token_expand_expansion_sign(char **pos, char **ret_str, t_d_list *mnsh_en
 	start = ++(*pos);
 	tmp_buffer = 0;
 	tmp_str = 0;
+	// if (!(('a' <= str[index] && str[index] <= 'z')
+	// 		|| ('A' <= str[index] && str[index] <= 'Z')
+	// 		|| ('0' <= str[index] && str[index] <= '9')
+	// 		|| '_' == str[index]))
 	while (**pos != '\0' && **pos != '$' && **pos != '\'' && **pos != '\n'
 		&& **pos != '\"' && ft_isspace(**pos) == BOOL_FALSE)
 	{

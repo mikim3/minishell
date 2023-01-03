@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:17:03 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 12:23:53 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/01/03 12:49:35 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	ft_unset(t_tree_cmd *cmd, t_detower *env_tower)
 	char	*key;
 
 	index = 1;
+	g_exit_code = 0;
 	if (cmd->cmd_argv[1] == NULL)
 		return ;
 	while (cmd->cmd_argv[index])
@@ -43,7 +44,6 @@ void	ft_unset(t_tree_cmd *cmd, t_detower *env_tower)
 			unset_env(env_tower, key); //  unset실제로 하기 
 		index++;
 	}
-	g_exit_code = 0;
 }
 
 void    unset_env(t_detower *env_tower,char *key)
