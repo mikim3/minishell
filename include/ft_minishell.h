@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/04 11:18:40 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/04 15:52:10 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,8 @@ char	*set_file_path(char *command, t_detower *dll_envp_tower);
 void	execute_external(t_tree_node *token_tree,t_detower *dll_envp_tower,t_pipe *m_pipe);
 int		execute_noprint_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower,t_pipe *m_pipe);
 void	wait_child(void);
-void    next_pipe_check(t_tree_node *node,t_pipe *m_pipe);
+int		next_pipe_check(t_tree_node *node,t_pipe *m_pipe);
 void    ft_execute_tree(t_tree_node *node, t_detower *dll_envp_tower, t_pipe *m_pipe);
-void	init_pipe_in_execute(t_pipe *m_pipe);
 
 
 int		ft_tree_node_pre_traversal2(t_tree_node *token_tree,t_detower *dll_envp_tower,t_pipe *m_pipe, void (*function)(t_tree_node *,t_detower *,t_pipe *));
