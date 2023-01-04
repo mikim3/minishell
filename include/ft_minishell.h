@@ -132,6 +132,6 @@ void	signal_handler2(int signo);
 */
 
 void	ft_execve(const char *file, char *const *argv, char *const *envp);
-void    exit_with_err(char *str, char *str_error, int exit_code);
+void    exitcode_with_err(char *str, char *str_error, int exit_code);
 
 #endif
