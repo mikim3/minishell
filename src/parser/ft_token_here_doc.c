@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 13:53:23 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/03 17:25:40 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/04 16:03:40 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 
 #include <fcntl.h>
 #include <unistd.h>
+
+
+#include "../../include/ft_wrapper_functions.h"
+
 
 #include <stdio.h>
 
@@ -53,7 +57,7 @@ int	ft_here_doc_expansion(t_list *token_list, t_detower *dll_envp_tower)
 						||ft_write_here_doc_with_expand_mode(ft_token_what_str(token_node), dll_envp_tower, BOOL_FALSE) == FT_ERROR)
 					{
 						ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
-						exit(1);
+						return (FT_ERROR);
 					}
 				}
 				else
@@ -61,7 +65,7 @@ int	ft_here_doc_expansion(t_list *token_list, t_detower *dll_envp_tower)
 					if (ft_write_here_doc_with_expand_mode(ft_token_what_str(token_node), dll_envp_tower, BOOL_TRUE) == FT_ERROR)
 					{
 						ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
-						exit(1);
+						return (FT_ERROR);
 					}
 				}
 				((t_tkn *)token_node->content)->expandable = BOOL_FALSE;
@@ -84,10 +88,12 @@ int	ft_write_here_doc_with_expand_mode(char *token_str, t_detower *dll_envp_towe
 	here_doc_fd = -1;
 	tmp_buf = 0;
 	buffer = 0;
-	here_doc_fd = open(
+	here_doc_fd = ft_open(
 				"/tmp/.mnsh_here_doc.tmp", O_CREAT | O_RDWR | O_TRUNC, 0666);
+	if (here_doc_fd == -1)
+		return (FT_ERROR);
 	delimiter = ft_strjoin(token_str, "\n");
-	if (here_doc_fd == -1 || delimiter == 0)
+	if (delimiter == 0)
 		return (FT_ERROR);
 	while (1)
 	{
@@ -111,7 +117,7 @@ int	ft_write_here_doc_with_expand_mode(char *token_str, t_detower *dll_envp_towe
 		free(buffer);
 		buffer = 0;
 	}
-	close(here_doc_fd);
+	ft_close(here_doc_fd);
 	return (FT_SUCCESS);
 }
 
@@ -123,5 +129,3 @@ void	ft_free_here_doc_memory(char *delimiter, char *buffer)
 }
 
 // .mnsh_here_doc.tmp unlink하고 close하는 함수 따로 만들까?
-
-// here_doc 여러 번 들어올 경우 동작 다듬어보자.

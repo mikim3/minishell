@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   function.c                                         :+:      :+:    :+:   */
+/*   ft_wrapper_functions.h                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/22 12:15:08 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/04 15:13:36 by kshim            ###   ########.fr       */
+/*   Created: 2023/01/04 15:41:05 by kshim             #+#    #+#             */
+/*   Updated: 2023/01/04 15:48:53 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ft_minishell.h"
+#ifndef FT_ERROR_FUNCTIONS_H
+# define FT_ERROR_FUNCTIONS_H
 
-void	ft_execve(const char *file, char *const *argv, char *const *envp)
-{
-	// 권한 에러는 execve실행전에 확인됨
-	if (execve(file, argv, envp) == -1)
-	{
-		// printf("%d \n",errno);
-		// if (errno == 2) //  No such file or directory
-		exitcode_with_err("execve()", strerror(errno), 127);
-	}
-	return ;
-}
+#include <fcntl.h>
+
+int	ft_open(const char *str, int flags, mode_t mode);
+int	ft_close(int fd);
+pid_t ft_fork(void);
+pid_t ft_pipe(int fd[2]);
+int	ft_dup2(int oldfd, int newfd);
+
+#endif

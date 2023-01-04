@@ -6,13 +6,15 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 11:41:04 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/04 15:02:26 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/04 15:38:56 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ft_tokenizer.h"
+// #include "../../include/ft_tokenizer.h"
 
-#include <stdio.h>
+// #include <stdio.h>
+
+#include "../../include/ft_minishell.h"
 
 int	ft_syntax_analysis(t_list *token_list)
 {
@@ -20,8 +22,11 @@ int	ft_syntax_analysis(t_list *token_list)
 		return (FT_SUCCESS);
 	if (ft_stx_a_pipeline(token_list, token_list, 1) == -1)
 	{
-		printf("\nsyntax error\n\n");
 		ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
+		ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
+		ft_putstr_fd(": syntax error near unexpected token", STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+		g_exit_code = 258;
 		return (FT_ERROR);
 	}
 	printf("\nsyntax appropriate\n\n");
