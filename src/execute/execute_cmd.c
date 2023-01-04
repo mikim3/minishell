@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:49:10 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/04 17:05:47 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/04 17:07:00 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 	int			status;
 	int			iter;
 
+	g_exit_code = 0;
 	pipeline = token_tree;
 	iter = 0;
 	m_pipe->infile_fd = STDIN_FILENO;
@@ -44,7 +45,7 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 			m_pipe->mnsh_builtin = BOOL_TRUE;
 			if (ft_tree_node_pre_traversal2(pipeline->left, dll_envp_tower, m_pipe, &ft_execute_tree) == FT_ERROR)
 			{
-				// 에러 발생 시 추가 처리
+				/////
 			}
 			return ;
 		}
@@ -79,6 +80,20 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 					ft_close(m_pipe->outfile_fd);
 				if (m_pipe->in_redirected == BOOL_TRUE)
 					ft_close(m_pipe->infile_fd);
+			}
+			if (ft_tree_node_pre_traversal2(pipeline->left, dll_envp_tower, m_pipe, &ft_execute_tree) == FT_ERROR)
+			{
+				// error 시 뒤처리
+				exit(g_exit_code);
+			}
+			if (m_pipe->mnsh_builtin == BOOL_FALSE)
+				exit(g_exit_code);
+			else
+			{
+				if (m_pipe->out_redirected == BOOL_TRUE)
+					close(m_pipe->outfile_fd);
+				if (m_pipe->in_redirected == BOOL_TRUE)
+					close(m_pipe->infile_fd);
 			}
 		}
 		// 부모에서 close 실패한 경우, shell은 어떻게 동작하는게 맞을까?

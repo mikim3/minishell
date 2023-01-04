@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/04 17:04:02 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/04 17:06:55 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	ft_tree_node_pre_traversal2(t_tree_node *token_tree,t_detower *dll_envp_towe
 	function((t_tree_node *)token_tree,(t_detower *)dll_envp_tower,(t_pipe *)m_pipe);
 	if (token_tree->left != 0)
 	{
-		if (t_tree_node_pre_traversal2(token_tree->left, dll_envp_tower, m_pipe, (*function)) == FT_ERROR)
+		if (ft_tree_node_pre_traversal2(token_tree->left, dll_envp_tower, m_pipe, (*function)) == FT_ERROR)
 			return (FT_ERROR);
 	}
 	if (token_tree->right != 0)
