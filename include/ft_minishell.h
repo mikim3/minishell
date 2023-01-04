@@ -40,8 +40,7 @@ typedef enum e_pwd_set{
 typedef enum e_signal{
 	SIG_IGNORE = 0,
 	SIG_DEFAULT,
-	SIG_HANDLER,
-	SIG_CHILD_HANDLER
+	SIG_HANDLER
 }		t_signal;
 
 int g_exit_code;  //  $? 종료상태 코드 
@@ -131,7 +130,10 @@ void	signal_handler2(int signo);
 	utils
 */
 
-void	ft_execve(const char *file, char *const *argv, char *const *envp);
+void	ft_execve(char *file, char **argv, char **envp);
+int		ft_chdir(char *dir);
 void    exitcode_with_err(char *str, char *str_error, int exit_code);
+int		ft_write(int fd, void *buf, size_t byte);
+
 
 #endif

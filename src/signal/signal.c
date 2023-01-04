@@ -20,34 +20,23 @@ void	set_signal(int sig_int, int sig_quit)
 		signal(SIGINT, SIG_DFL); 
 	if (sig_int == SIG_HANDLER)
 		signal(SIGINT, signal_handler);   
-	if (sig_int == SIG_CHILD_HANDLER)
-		signal(SIGINT, signal_handler2);
 	if (sig_quit == SIG_IGNORE)
 		signal(SIGQUIT, SIG_IGN);
 	if (sig_quit == SIG_DEFAULT)
 		signal(SIGQUIT, SIG_DFL);
 	if (sig_quit == SIG_HANDLER)
 		signal(SIGQUIT, signal_handler);
-	if (sig_quit == SIG_CHILD_HANDLER)
-		signal(SIGQUIT, signal_handler2);
 }
 
 void	signal_handler(int signo)
 {
-	// ft_putstr_fd("\n\n\n\nSIG_1_HANDER before \n\n\n\n",STDERR_FILENO);
 	if (signo == SIGINT) // Ctrl + c
 	{
-		write(1, "\n", 1);
+		ft_write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-}
-
-// 자식
-void	signal_handler2(int signo)
-{
-
 }
 
 void	wait_child(void)

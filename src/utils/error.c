@@ -30,6 +30,6 @@ void    exitcode_with_err(char *str, char *str_error, int exit_code)
 		ft_putstr_fd(str_error, STDERR_FILENO);
 	}
 	ft_putstr_fd("\n", STDERR_FILENO);
-    g_exit_code = exit_code; // 필요없나??
+    g_exit_code = exit_code;
 	// exit(exit_code);
 }

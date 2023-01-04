@@ -28,6 +28,7 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 	int			status;
 	int			iter;
 
+	g_exit_code = 0;
 	pipeline = token_tree;
 	iter = 0;
 	m_pipe->infile_fd = STDIN_FILENO;
@@ -39,7 +40,10 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 			&& is_built_in(pipeline->left->right->content) == BOOL_TRUE)
 		{
 			m_pipe->mnsh_builtin = BOOL_TRUE;
-			ft_tree_node_pre_traversal2(pipeline->left, dll_envp_tower, m_pipe, &ft_execute_tree);
+			if (ft_tree_node_pre_traversal2(pipeline->left, dll_envp_tower, m_pipe, &ft_execute_tree) == FT_ERROR)
+			{
+				/////
+			}
 			return ;
 		}
 		pid = fork();
@@ -58,7 +62,20 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 				dup2(m_pipe->pipe[P_WRITE], m_pipe->outfile_fd);
 				close(m_pipe->pipe[P_WRITE]);
 			}
-			ft_tree_node_pre_traversal2(pipeline->left, dll_envp_tower, m_pipe, &ft_execute_tree);
+			if (ft_tree_node_pre_traversal2(pipeline->left, dll_envp_tower, m_pipe, &ft_execute_tree) == FT_ERROR)
+			{
+				// error 시 뒤처리
+				exit(g_exit_code);
+			}
+			if (m_pipe->mnsh_builtin == BOOL_FALSE)
+				exit(g_exit_code);
+			else
+			{
+				if (m_pipe->out_redirected == BOOL_TRUE)
+					close(m_pipe->outfile_fd);
+				if (m_pipe->in_redirected == BOOL_TRUE)
+					close(m_pipe->infile_fd);
+			}
 		}
 		else if (pid > 0) // 부모
 		{
@@ -149,15 +166,6 @@ void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe)
 	{
 		printf("execute exit \n");
 		ft_exit(cmd, m_pipe);
-	}
-	if (m_pipe->mnsh_builtin == BOOL_FALSE)
-		exit(g_exit_code);
-	else
-	{
-		if (m_pipe->out_redirected == BOOL_TRUE)
-			close(m_pipe->outfile_fd);
-		if (m_pipe->in_redirected == BOOL_TRUE)
-			close(m_pipe->infile_fd);
 	}
 	return ;
 }

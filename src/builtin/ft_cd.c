@@ -14,21 +14,10 @@
 
 void	ft_cd(t_tree_cmd *cmd,t_detower *env_tower)
 {
-	int		return_value;
-	char	*output;
-
 	g_exit_code = 0;
-	change_pwd_oldpwd(env_tower, "OLDPWD");
-	return_value = 0;
+	change_pwd_oldpwd(env_tower, "OLDPWD"); //실패했을때 경로를 미리 바꾸지 않게 만들기
 	if (cmd->cmd_argv[1] != NULL)
-		return_value = chdir(cmd->cmd_argv[1]); //실패시 -1리턴
+		ft_chdir(cmd->cmd_argv[1]);
+
 	change_pwd_oldpwd(env_tower, "PWD");
-	output = ft_strjoin_infree(ft_strdup(strerror(errno)),ft_strdup("\n"));
-	if (return_value == -1)
-	{
-		write(STDERR_FILENO, output, ft_strlen(output) + 1);
-		g_exit_code = 1;
-	}
-	if (output)
-		free(output);
 }
