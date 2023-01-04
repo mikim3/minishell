@@ -15,6 +15,14 @@
 void	ft_execve(const char *file, char *const *argv, char *const *envp)
 {
 	if (execve(file, argv, envp) == -1)
-		exit_with_err("execve()", strerror(errno), 126);
+	{
+		printf("%d \n",errno);
+		if (errno == 2) //  No such file or directory
+			exit_with_err("execve()", strerror(errno), 1);
+		else // 권한 에러 조건 찾기
+		{
+			exit_with_err("execve()", strerror(errno), 126);
+		}
+	}
 	return ;
 }
