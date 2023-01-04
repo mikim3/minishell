@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 23:21:44 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/04 17:01:57 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/04 18:05:51 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	ft_execute_tree(t_tree_node *node,t_detower *dll_envp_tower,t_pipe *m_pipe)
 			return ;
 		printf("ft_execute_tree in NODE_REDIRECTIONS\n");
 	}
-	else if (node->type == NODE_REDIR) //REDIRECTIONS랑 헷갈림
+	else if (node->type == NODE_REDIR || node->type == NODE_FD_REDIR) //REDIRECTIONS랑 헷갈림
 	{
 		printf("ft_execute_tree in NODE_REDIR\n");
 		execute_redir(node, m_pipe);

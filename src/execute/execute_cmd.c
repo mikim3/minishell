@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:49:10 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/04 17:07:00 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/04 17:15:36 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 			m_pipe->mnsh_builtin = BOOL_TRUE;
 			if (ft_tree_node_pre_traversal2(pipeline->left, dll_envp_tower, m_pipe, &ft_execute_tree) == FT_ERROR)
 			{
-				/////
+				///// 부모, non_pipe, 빌트인
 			}
 			return ;
 		}

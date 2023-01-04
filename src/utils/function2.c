@@ -6,20 +6,21 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 15:30:01 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/04 16:27:17 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/04 17:33:34 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ft_minishell.h"
 
-#include <fcntl.h>
+#include "../../include/ft_wrapper_functions.h"
+
+#include "../../include/ft_minishell.h"
 
 int	ft_open(const char *str, int flags, mode_t mode)
 {
 	int	ret_val;
 
 	ret_val = open(
-				"/tmp/.mnsh_here_doc.tmp", O_CREAT | O_RDWR | O_TRUNC, 0666);
+				str, flags, mode);
 	if (ret_val == -1)
 		exitcode_with_err("open()", strerror(errno), 1);
 	return (ret_val);
@@ -62,5 +63,27 @@ int	ft_dup2(int oldfd, int newfd)
 	ret_val = dup2(oldfd, newfd);
 	if (ret_val == -1)
 		exitcode_with_err("dup2()", strerror(errno), 1);
+	return (ret_val);
+}
+
+int	ft_access(const char *file, int flags)
+{
+	int	ret_val;
+
+	ret_val = access(
+				file, flags);
+	if (ret_val == -1)
+		exitcode_with_err("access()", strerror(errno), 1);
+	return (ret_val);
+}
+
+int ft_fstat(int fd, struct stat *buf)
+{
+	int	ret_val;
+
+	ret_val = fstat(
+				fd, buf);
+	if (ret_val == -1)
+		exitcode_with_err("fstat()", strerror(errno), 1);
 	return (ret_val);
 }
