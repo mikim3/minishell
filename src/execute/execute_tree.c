@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 23:21:44 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 15:27:20 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/01/04 11:26:22 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,16 @@ void	ft_execute_tree(t_tree_node *node,t_detower *dll_envp_tower,t_pipe *m_pipe)
 			return ;
 		printf("ft_execute_tree in NODE_REDIRECTIONS\n");
 	}
+	// else if (m_pipe->mnsh_builtin == BOOL_FALSE && node->type == NODE_REDIR) //REDIRECTIONS랑 헷갈림
+	// {
+	// 	printf("ft_execute_tree in NODE_REDIR\n");
+	// 	execute_redir(node, m_pipe);
+	// }
+	// else if (m_pipe->mnsh_builtin == BOOL_TRUE && node->type == NODE_REDIR) //REDIRECTIONS랑 헷갈림
+	// {
+	// 	printf("ft_execute_tree in builtin NODE_REDIR\n");
+	// 	execute_mnsh_builtin_redir(node);
+	// }
 	else if (node->type == NODE_REDIR) //REDIRECTIONS랑 헷갈림
 	{
 		printf("ft_execute_tree in NODE_REDIR\n");

@@ -6,12 +6,16 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 11:01:23 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/03 16:28:38 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/04 12:19:22 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ft_minishell.h"
 #include <fcntl.h>
+
+
+// redirection에 실패하는 케이스 존재할 수 있음
+// redir_fd 할 때 대상 fd가 available한지 확인하는 부분 넣으면 좋을 것 같음
 
 int	execute_redir(t_tree_node *node, t_pipe *m_pipe)
 {
@@ -58,6 +62,9 @@ int	execute_redir(t_tree_node *node, t_pipe *m_pipe)
 	return (FT_SUCCESS);
 }
 
+
+// fork-redir하는 부분들은 따로 묶어낼 수 있을 것 같음.
+
 int	ft_redir_infile(char *file_name, t_pipe *m_pipe, int redir_fd)
 {
 	int	file_fd;
@@ -71,16 +78,34 @@ int	ft_redir_infile(char *file_name, t_pipe *m_pipe, int redir_fd)
 		return (FT_ERROR);
 	if (file_fd== -1)
 		return (FT_ERROR);
-	if (redir_fd == -1)
+	if (m_pipe->mnsh_builtin == BOOL_TRUE)
 	{
-		dup2(file_fd, m_pipe->infile_fd);
-		close(file_fd);
+		if (redir_fd == -1)
+		{
+			if (m_pipe->in_redirected == BOOL_TRUE)
+				close(m_pipe->infile_fd);
+			m_pipe->infile_fd = file_fd;
+		}
+		else
+		{
+			dup2(file_fd, redir_fd);
+			close(file_fd);
+		}
 	}
 	else
 	{
-		dup2(file_fd, redir_fd);
-		close(file_fd);
+		if (redir_fd == -1)
+		{
+			dup2(file_fd, m_pipe->infile_fd);
+			close(file_fd);
+		}
+		else
+		{
+			dup2(file_fd, redir_fd);
+			close(file_fd);
+		}
 	}
+
 	return (FT_SUCCESS);
 }
 
@@ -91,15 +116,32 @@ int	ft_redir_outfile(char *file_name, t_pipe *m_pipe, int redir_fd)
 	file_fd= open(file_name, O_CREAT | O_TRUNC | O_RDWR, 0666);
 	if (file_fd== -1)
 		return (FT_ERROR);
-	if (redir_fd == -1)
+	if (m_pipe->mnsh_builtin == BOOL_TRUE)
 	{
-		dup2(file_fd, m_pipe->outfile_fd);
-		close(file_fd);
+		if (redir_fd == -1)
+		{
+			if (m_pipe->out_redirected == BOOL_TRUE)
+				close(m_pipe->outfile_fd);
+			m_pipe->outfile_fd = file_fd;
+		}
+		else
+		{
+			dup2(file_fd, redir_fd);
+			close(file_fd);
+		}
 	}
 	else
 	{
-		dup2(file_fd, redir_fd);
-		close(file_fd);
+		if (redir_fd == -1)
+		{
+			dup2(file_fd, m_pipe->outfile_fd);
+			close(file_fd);
+		}
+		else
+		{
+			dup2(file_fd, redir_fd);
+			close(file_fd);
+		}
 	}
 	return (FT_SUCCESS);
 }
@@ -111,16 +153,34 @@ int	ft_redir_append(char *file_name, t_pipe *m_pipe, int redir_fd)
 	file_fd= open(file_name, O_CREAT | O_APPEND | O_RDWR, 0666);
 	if (file_fd== -1)
 		return (FT_ERROR);
-	if (redir_fd == -1)
+	if (m_pipe->mnsh_builtin == BOOL_TRUE)
 	{
-		dup2(file_fd, m_pipe->outfile_fd);
-		close(file_fd);
+		if (redir_fd == -1)
+		{
+			if (m_pipe->out_redirected == BOOL_TRUE)
+				close(m_pipe->outfile_fd);
+			m_pipe->outfile_fd = file_fd;
+		}
+		else
+		{
+			dup2(file_fd, redir_fd);
+			close(file_fd);
+		}
 	}
 	else
 	{
-		dup2(file_fd, redir_fd);
-		close(file_fd);
+		if (redir_fd == -1)
+		{
+			dup2(file_fd, m_pipe->outfile_fd);
+			close(file_fd);
+		}
+		else
+		{
+			dup2(file_fd, redir_fd);
+			close(file_fd);
+		}
 	}
+
 	return (FT_SUCCESS);
 }
 
@@ -132,15 +192,39 @@ int	ft_redir_here_doc(t_pipe *m_pipe, int redir_fd)
 	if (file_fd== -1)
 		return (FT_ERROR);
 	unlink("/tmp/.mnsh_here_doc.tmp");
-	if (redir_fd == -1)
+	if (m_pipe->mnsh_builtin == BOOL_TRUE)
 	{
-		dup2(file_fd, m_pipe->infile_fd);
-		close(file_fd);
+		if (redir_fd == -1)
+		{
+			if (m_pipe->in_redirected == BOOL_TRUE)
+				close(m_pipe->infile_fd);
+			m_pipe->infile_fd = file_fd;
+		}
+		else
+		{
+			dup2(file_fd, redir_fd);
+			close(file_fd);
+		}
 	}
 	else
 	{
-		dup2(file_fd, redir_fd);
-		close(file_fd);
+		if (redir_fd == -1)
+		{
+			dup2(file_fd, m_pipe->infile_fd);
+			close(file_fd);
+		}
+		else
+		{
+			dup2(file_fd, redir_fd);
+			close(file_fd);
+		}
 	}
 	return (FT_SUCCESS);
 }
+
+// int	execute_mnsh_builtin_redir(t_tree_node *node)
+// {
+// 	// infile fd를 변경?
+// 	// outfile fd를 변경?
+
+// }

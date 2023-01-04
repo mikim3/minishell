@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:01:52 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/03 11:03:18 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/03 17:26:34 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,20 @@ void	*ft_tokenizer(char *str)
 	prev_type = TKN_WORD;
 	error = BOOL_FALSE;
 	if (ft_initialize_tokenizer(&tknizer, str) == FT_ERROR)
-		return (0);
+		exit(1);
 	while (*(tknizer.str_pos) != '\0')
 	{
 		error = ft_tokenizing_loop(&tknizer, error, &prev_type);
 		if (error == BOOL_TRUE)
 		{
 			ft_free_tokenizer_list_and_token(&(tknizer.tkn_list), &(tknizer.tkn), TKN_TKNIZE_FAIL);
-			return (0);
+			exit(1);
 		}
 	}
 	if (ft_token_processor(&tknizer, &prev_type) == FT_ERROR)
 	{
 		ft_free_tokenizer_list_and_token(&(tknizer.tkn_list), &(tknizer.tkn), TKN_TKNIZE_FAIL);
-		return (0);
+		exit(1);
 	}
 	return ((void *)(tknizer.tkn_list));
 }

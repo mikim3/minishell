@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 13:53:23 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/03 16:28:26 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/03 17:25:40 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,20 @@ int	ft_here_doc_expansion(t_list *token_list, t_detower *dll_envp_tower)
 				if (ft_token_is_expandable(token_node) == BOOL_TRUE
 					&& ft_token_check_for_quote(token_node) == BOOL_TRUE)
 				{
-					if (ft_token_str_expansion(&(((t_tkn *)token_node->content)->str), envp_head, EXPAND_QUOTE_ONLY) == FT_ERROR)
-						return (ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED), FT_ERROR);
-					if (ft_write_here_doc_with_expand_mode(ft_token_what_str(token_node), dll_envp_tower, BOOL_FALSE) == FT_ERROR)
-						return (ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED), FT_ERROR);
+					if (ft_token_str_expansion(&(((t_tkn *)token_node->content)->str), envp_head, EXPAND_QUOTE_ONLY) == FT_ERROR
+						||ft_write_here_doc_with_expand_mode(ft_token_what_str(token_node), dll_envp_tower, BOOL_FALSE) == FT_ERROR)
+					{
+						ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
+						exit(1);
+					}
 				}
 				else
 				{
 					if (ft_write_here_doc_with_expand_mode(ft_token_what_str(token_node), dll_envp_tower, BOOL_TRUE) == FT_ERROR)
-						return (ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED), FT_ERROR);
+					{
+						ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
+						exit(1);
+					}
 				}
 				((t_tkn *)token_node->content)->expandable = BOOL_FALSE;
 			}
