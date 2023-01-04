@@ -14,15 +14,12 @@
 
 void	ft_execve(const char *file, char *const *argv, char *const *envp)
 {
+	// 권한 에러는 execve실행전에 확인됨
 	if (execve(file, argv, envp) == -1)
 	{
 		printf("%d \n",errno);
-		if (errno == 2) //  No such file or directory
-			exit_with_err("execve()", strerror(errno), 1);
-		else // 권한 에러 조건 찾기
-		{
-			exit_with_err("execve()", strerror(errno), 126);
-		}
+		// if (errno == 2) //  No such file or directory
+		exitcode_with_err("execve()", strerror(errno), 127);
 	}
 	return ;
 }

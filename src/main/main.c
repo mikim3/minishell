@@ -62,7 +62,7 @@ int	main(int argc, char **argv, char **envp)
 		if (input == NULL) //  Ctrl + D를 누르면 input은 NULL이 들어옴
 		{
 			printf("see you later \n");
-			return (FT_SUCCESS);
+			exit(g_exit_code);
 		}
 		if (*input != '\0')
 			add_history(input);
