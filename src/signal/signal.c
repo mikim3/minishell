@@ -32,7 +32,7 @@ void	signal_handler(int signo)
 {
 	if (signo == SIGINT) // Ctrl + c
 	{
-		ft_write(1, "\n", 1);
+		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();

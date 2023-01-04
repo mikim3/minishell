@@ -33,11 +33,10 @@ void	ft_env(t_detower *env_tower, t_pipe *pipe_value)
 		line = ft_strjoin_infree(ft_strdup(((t_envp_content *)env->content)->key), ft_strdup("="));
 		line = ft_strjoin_infree(line, ft_strdup((((t_envp_content *)env->content)->value)));
 		line = ft_strjoin_infree(line, ft_strdup("\n"));
-
 		output = ft_strjoin_infree(output, line);
 		env = env->next;
 	}
-	ft_write(pipe_value->outfile_fd, output, ft_strlen(output));
+	write(pipe_value->outfile_fd, output, ft_strlen(output));
 	free(output);
 	// exit(g_exit_code);
 }

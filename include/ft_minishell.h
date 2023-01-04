@@ -68,7 +68,9 @@ void	free_env_list(t_d_list **target);
 	env
 */
 
-void	change_pwd_oldpwd(t_detower *env_tower,char *select);
+void	change_pwd(t_detower *env_tower,char *select);
+void	change_oldpwd(t_detower *env_tower,char *select);
+
 
 int				check_env_key(char *key);
 int				available_character(char *str);
@@ -133,7 +135,7 @@ void	signal_handler2(int signo);
 void	ft_execve(char *file, char **argv, char **envp);
 int		ft_chdir(char *dir);
 void    exitcode_with_err(char *str, char *str_error, int exit_code);
-int		ft_write(int fd, void *buf, size_t byte);
+char	*ft_getcwd(char *buf, size_t size);
 
 
 #endif

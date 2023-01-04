@@ -56,13 +56,3 @@ char	*ft_getcwd(char *buf, size_t size)
 	}
 	return (output);
 }
-
-int	ft_write(int fd, void *buf, size_t byte)
-{
-	int	return_value;
-
-	return_value = write(fd, buf, byte);
-	if (return_value == -1)
-		exitcode_with_err("write()", strerror(errno), 1);
-	return (return_value);
-}

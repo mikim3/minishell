@@ -59,7 +59,6 @@ void	ft_echo(t_tree_cmd *cmd, t_pipe *pipe_value)
 	int		use_u_option;   // -n 옵션 사용 여부   1: -n씀  
     int     argv_start_str; //argv의 몇번째 위치부터가 option이 아닌가를 체크 ex) echo -n -n -n haha   이면 haha부터 글자를 출력해야 되겠지
 
-	g_exit_code = 0;
 	index = 0;
 	argv_start_str = 0;
 	use_u_option = use_u_option_check(cmd, &(argv_start_str));  //return 두개가 필요할경우 이렇게 넣는게 아니라 인자로 주소값 줘서 함수안에서 삽입할 필요가 있을수도 // index옵션이 argv[]를 차지하는 만큼 넘긴다.
@@ -73,10 +72,8 @@ void	ft_echo(t_tree_cmd *cmd, t_pipe *pipe_value)
 		index++;
 	}
 	if (output != NULL)
-	{
-		ft_write(pipe_value->outfile_fd, output, ft_strlen(output));
-		free(output);
-	}
+		write(pipe_value->outfile_fd, output, ft_strlen(output));
 	if (!use_u_option)
-		ft_write(pipe_value->outfile_fd, "\n", 1);
+		write(pipe_value->outfile_fd, "\n", 1);
+	free(output);
 }

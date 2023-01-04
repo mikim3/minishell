@@ -21,15 +21,12 @@ void	ft_export(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
 	char	    *output;
     t_d_list    *env;
 
-	g_exit_code = 0;
     env = env_tower->head;
-
 	index = 0;
 	if (cmd->cmd_argv[1] == NULL) // export 명령만 들어온경우
 	{
 		output = show_env_in_export(env);  // 출력해야할 값 출력
-		ft_write(pipe_value->outfile_fd, output, ft_strlen(output));
-		// exit(g_exit_code);
+		write(pipe_value->outfile_fd, output, ft_strlen(output));
 	}
 	while (cmd->cmd_argv[++index])
 	{

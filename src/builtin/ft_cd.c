@@ -14,10 +14,17 @@
 
 void	ft_cd(t_tree_cmd *cmd,t_detower *env_tower)
 {
+	char		*pwd_path;
 	g_exit_code = 0;
-	change_pwd_oldpwd(env_tower, "OLDPWD"); //실패했을때 경로를 미리 바꾸지 않게 만들기
-	if (cmd->cmd_argv[1] != NULL)
-		ft_chdir(cmd->cmd_argv[1]);
 
-	change_pwd_oldpwd(env_tower, "PWD");
+	pwd_path = getcwd(NULL, 0); // getcwd가 malloc으로 내부에서 할당해주니까 외부에서 free해줘야함
+	if (cmd->cmd_argv[1] != NULL)
+		if (ft_chdir(cmd->cmd_argv[1]) == -1)
+		{
+			free(pwd_path);
+			return ;
+		}
+	change_pwd(env_tower, "PWD");
+	change_oldpwd(env_tower, pwd_path);
+	free(pwd_path);
 }

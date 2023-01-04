@@ -12,7 +12,7 @@
 
 #include "../../include/ft_minishell.h"
 
-void	change_pwd_oldpwd(t_detower *env_tower,char *select)
+void	change_pwd(t_detower *env_tower,char *select)
 {
 	t_d_list		*env;
 	t_envp_content	*set_pwd;
@@ -29,4 +29,20 @@ void	change_pwd_oldpwd(t_detower *env_tower,char *select)
 		set_env_value(set_pwd,select, pwd_path);
 	}
 	free(pwd_path);
+}
+
+void	change_oldpwd(t_detower *env_tower,char *get_cwd)
+{
+	t_d_list		*env;
+	t_envp_content	*set_pwd;
+
+	env = env_tower->head;
+	set_pwd = find_env_keycmp(env, "OLDPWD");
+	if (set_pwd != NULL)
+	{
+		free(set_pwd->key);
+		if (set_pwd->value != NULL)
+			free(set_pwd->value);
+		set_env_value(set_pwd,"OLDPWD", get_cwd);
+	}
 }
