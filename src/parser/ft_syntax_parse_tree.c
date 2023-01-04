@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 13:46:11 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/03 09:33:12 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/03 17:22:33 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_tree_node	*ft_syntax_parse_tree(t_list *token_list)
 		printf("parse tree fail\n");
 		ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
 		ft_tree_node_post_traversal(parse_tree, &ft_free_a_tree_node);
-		return (0);
+		exit(1);
 	}
 	printf("parse tree done\n");
 	return (parse_tree);

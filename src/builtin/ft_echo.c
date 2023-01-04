@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:15:08 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/03 12:44:21 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/04 13:31:46 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,5 @@ void	ft_echo(t_tree_cmd *cmd, t_pipe *pipe_value)
 		free(output);
 	if (!use_u_option)
 		write(pipe_value->outfile_fd, "\n", 1);
-    // exit(g_exit_code);
+    // exit(0);
 }

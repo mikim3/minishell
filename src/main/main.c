@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/03 09:49:30 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/04 13:32:00 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	init_pipe(t_pipe *m_pipe)
 	m_pipe->infile_fd = STDIN_FILENO;
 	m_pipe->outfile_fd = STDOUT_FILENO;
 	m_pipe->mnsh_builtin = BOOL_FALSE;
+	m_pipe->in_redirected = BOOL_FALSE;
+	m_pipe->out_redirected = BOOL_FALSE;
 }
 
 void	main_init(int argc, char *argv[])
@@ -96,7 +98,6 @@ int	main(int argc, char **argv, char **envp)
 						}
 					}
 				}
-	
 			}
 		}
 		// tcsetattr(STDIN_FILENO, TCSANOW, &term);
