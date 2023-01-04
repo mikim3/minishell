@@ -111,13 +111,21 @@ int	main(int argc, char **argv, char **envp)
 
 int	ft_tree_node_pre_traversal2(t_tree_node *token_tree,t_detower *dll_envp_tower,t_pipe *m_pipe, void (*function)(t_tree_node *,t_detower *,t_pipe *))
 {
-	if (token_tree == BOOL_FALSE)
+	if (g_exit_code != 0)
 		return (FT_ERROR);
 	if ((*function) == BOOL_FALSE)
 		return (FT_ERROR);
 	function((t_tree_node *)token_tree,(t_detower *)dll_envp_tower,(t_pipe *)m_pipe);
-	ft_tree_node_pre_traversal2(token_tree->left, dll_envp_tower, m_pipe, (*function));
-	ft_tree_node_pre_traversal2(token_tree->right, dll_envp_tower, m_pipe, (*function));
+	if (token_tree->left != 0)
+	{
+		if (ft_tree_node_pre_traversal2(token_tree->left, dll_envp_tower, m_pipe, (*function)) == FT_ERROR)
+			return (FT_ERROR);
+	}
+	if (token_tree->right != 0)
+	{
+		if (ft_tree_node_pre_traversal2(token_tree->right, dll_envp_tower, m_pipe, (*function)) == FT_ERROR)
+			return (FT_ERROR);
+	}
 	return (FT_SUCCESS);
 }
 

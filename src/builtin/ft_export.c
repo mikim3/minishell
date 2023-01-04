@@ -28,7 +28,7 @@ void	ft_export(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
 	if (cmd->cmd_argv[1] == NULL) // export 명령만 들어온경우
 	{
 		output = show_env_in_export(env);  // 출력해야할 값 출력
-		write(pipe_value->outfile_fd, output, ft_strlen(output));
+		ft_write(pipe_value->outfile_fd, output, ft_strlen(output));
 		// exit(g_exit_code);
 	}
 	while (cmd->cmd_argv[++index])
