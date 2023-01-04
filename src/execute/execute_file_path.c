@@ -65,3 +65,21 @@ char	*set_file_path(char *command, t_detower *dll_envp_tower)
 	return (file_path);
 }
 
+char	**get_env_path(t_detower *dll_envp_tower)
+{
+	t_d_list	*node;
+	int			index;
+	char		**env_path_value;
+	int			loc;
+
+	node = dll_envp_tower->head;
+	index = 0;
+	while (node != NULL)
+	{
+		if (!ft_strcmp(((t_envp_content *)node->content)->key, "PATH"))
+			env_path_value = ft_split(
+					((t_envp_content *)node->content)->value, ':');
+		node = node->next;
+	}
+	return (env_path_value);
+}

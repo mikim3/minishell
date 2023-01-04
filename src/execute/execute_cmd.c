@@ -191,42 +191,6 @@ void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe)
 	return ;
 }
 
-// env에 PATH 안에 명령어를 찾아서 그 경로를 반환
-char	**get_env_path(t_detower *dll_envp_tower)
-{
-	t_d_list	*node;
-	int			index;
-	char		**env_path_value;
-	int			loc;
-
-	node = dll_envp_tower->head;
-	index = 0;
-	while (node != NULL)
-	{
-		if (!ft_strcmp(((t_envp_content *)node->content)->key, "PATH"))
-			env_path_value = ft_split(
-					((t_envp_content *)node->content)->value, ':');
-		node = node->next;
-	}
-
-	return (env_path_value);
-}
-
-void	double_char_free(char **double_char)
-{
-	int	i;
-
-	i = 0;
-	while (double_char[i])
-	{
-		free(double_char[i]);
-		i++;
-	}
-	free(double_char);
-}
-
-
-// 외부함수 실제 실행
 void	execute_external(t_tree_node *node, t_detower *dll_envp_tower, t_pipe *m_pipe)
 {
 	char			*file_path;
@@ -235,7 +199,6 @@ void	execute_external(t_tree_node *node, t_detower *dll_envp_tower, t_pipe *m_pi
 	file_path = set_file_path(((t_tree_cmd *)node->content)->cmd_name,
 			dll_envp_tower);
 	env = ft_set_char_envp_from_dll(dll_envp_tower, 0);
-
 	ft_execve(file_path, ((t_tree_cmd *)node->content)->cmd_argv, env);
 	if (!file_path)
 		free(file_path);
