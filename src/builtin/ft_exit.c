@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:16:16 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/03 11:13:02 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/03 18:44:31 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,5 @@ void	ft_exit(t_tree_cmd *cmd, t_pipe *pipe_value)
 		g_exit_code = 1;
 	}
 	exit(g_exit_code);
+	// exit 경우에 따라 정리 잘 된 것 같음. 조금 더 확인. 1/3 kshim.
 }

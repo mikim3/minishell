@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:49:10 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/03 17:45:59 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/04 12:54:07 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,7 @@
 void execute_cmd(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe)
 {
 	if (is_built_in(token_tree->content))
-	{
-		if (m_pipe->mnsh_builtin == BOOL_FALSE)
-			execute_builtin(token_tree->content, dll_envp_tower, m_pipe, BOOL_FALSE);
-		else
-			execute_builtin(token_tree->content, dll_envp_tower, m_pipe, BOOL_TRUE);
-	}
+		execute_builtin(token_tree->content, dll_envp_tower, m_pipe);
 	else
 		execute_external(token_tree, dll_envp_tower, m_pipe);
 }
@@ -43,7 +38,7 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 		if (iter == 0 && m_pipe->next_pipe_check == BOOL_FALSE
 			&& is_built_in(pipeline->left->right->content) == BOOL_TRUE)
 		{
-			// execute_builtin(pipeline->left->right->content, dll_envp_tower, m_pipe, BOOL_TRUE);
+			m_pipe->mnsh_builtin = BOOL_TRUE;
 			ft_tree_node_pre_traversal2(pipeline->left, dll_envp_tower, m_pipe, &ft_execute_tree);
 			return ;
 		}
@@ -84,7 +79,6 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 			}
 			else
 				m_pipe->pre_pipe_check = BOOL_FALSE;
-
 		}
 		else //에러 출력
 			printf("pid error\n");
@@ -119,7 +113,7 @@ int	is_built_in(t_tree_cmd *cmd)
 	return (0);
 }
 
-void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe, int from_mnsh)
+void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe)
 {
 	if (!ft_strcmp(cmd->cmd_name, "echo"))
 	{
@@ -156,8 +150,15 @@ void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe,
 		printf("execute exit \n");
 		ft_exit(cmd, m_pipe);
 	}
-	if (from_mnsh == BOOL_FALSE)
+	if (m_pipe->mnsh_builtin == BOOL_FALSE)
 		exit(g_exit_code);
+	else
+	{
+		if (m_pipe->out_redirected == BOOL_TRUE)
+			close(m_pipe->outfile_fd);
+		if (m_pipe->in_redirected == BOOL_TRUE)
+			close(m_pipe->infile_fd);
+	}
 	return ;
 }
 
@@ -273,10 +274,12 @@ void	execute_external(t_tree_node *node,t_detower *dll_envp_tower,t_pipe *m_pipe
 	if (execve(file_path,((t_tree_cmd *)node->content)->cmd_argv, env)== -1)
 	{
 		//execve실패 명령어를 못찾은 상태 상황에 맞는 에러문 출력해 exit()해야함
-		printf("execve 실패 \n"); 
+			// 1.4 kshim access 함수로 권한 확인해서 실패 시 126 반환, 권한 있는데 execve가 실패하면 127 반환하면 어떨까 합니다.
+			// 126이 권한 오류가 아닐 수도 있습니다. 조금 헷갈리네요.
+		printf("execve 실패 \n");
+		exit(127); // 1.4 kshim - 자식 프로세스 남는 이슈 때문에 임시로 추가
 	}
 	//필요한지 다시 생각해보기
 	if (!file_path)
 		free(file_path);
-	
 }

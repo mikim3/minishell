@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 18:24:01 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/23 20:37:12 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/01/03 18:33:17 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,3 +74,4 @@ void	wait_child(void)
 			g_exit_code = WEXITSTATUS(status);
 	}
 }
+

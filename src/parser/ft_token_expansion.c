@@ -6,16 +6,18 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:57:52 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/03 17:22:53 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/04 12:04:57 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ft_tokenizer.h"
-#include "../../include/ft_doubly_linked_list.h"
-#include "../../include/ft_token_expansion.h"
+// #include "../../include/ft_tokenizer.h"
+// #include "../../include/ft_doubly_linked_list.h"
+// #include "../../include/ft_token_expansion.h"
 
 
-#include <stdio.h>
+#include "../../include/ft_minishell.h"
+
+// #include <stdio.h>
 
 int	ft_token_expansion(t_list *token_list, t_detower *dll_envp_tower)
 {
@@ -113,6 +115,15 @@ int	ft_token_expand_expansion_sign(char **pos, char **ret_str, t_d_list *mnsh_en
 	start = ++(*pos);
 	tmp_buffer = 0;
 	tmp_str = 0;
+	if (**pos == '?')
+	{
+		len++;
+		(*pos)++;
+		if (ft_token_expand_str_control_with_expand(
+				ret_str, start, len, mnsh_envp) == FT_ERROR)
+			return (FT_ERROR);
+		return (FT_SUCCESS);
+	}
 	while ((('a' <= **pos && **pos <= 'z')
 		|| ('A' <= **pos && **pos <= 'Z')
 		|| ('0' <= **pos && **pos <= '9')
@@ -196,7 +207,10 @@ int	ft_token_expand_str_control_with_expand(
 	tmp_str = ft_strndup(start, len);
 	if (tmp_str == 0)
 		return (FT_ERROR);
-	tmp_buffer = ft_compare_str_to_mnsh_envp_keys(tmp_str, mnsh_envp);
+	if (*tmp_str == '?')
+		tmp_buffer = ft_itoa(g_exit_code);
+	else
+		tmp_buffer = ft_compare_str_to_mnsh_envp_keys(tmp_str, mnsh_envp);
 	free(tmp_str);
 	if (tmp_buffer == 0)
 	{
