@@ -126,7 +126,7 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 	while (iter != 0)
 	{
 		wait_child();
-		set_signal(SIG_HANDLER,SIG_IGNORE);
+		set_signal(SIG_HANDLER, SIG_IGNORE);
 		iter--;
 	}
 	return ;
@@ -191,117 +191,15 @@ void	execute_builtin(t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe)
 	return ;
 }
 
-
-// env에 PATH 안에 명령어를 찾아서 그 경로를 반환
-char	**get_env_path(t_detower *dll_envp_tower)
-{
-	t_d_list	*node;
-	int			index;
-	char		**env_path_value;
-	int			loc;
-
-	node = dll_envp_tower->head;
-	index = 0;
-	while (node != NULL)
-	{
-		if(!ft_strcmp(((t_envp_content *)node->content)->key, "PATH"))
-		{
-			env_path_value = ft_split(((t_envp_content *)node->content)->value, ':');
-		}
-		node = node->next;
-	}
-
-	return (env_path_value);
-}
-
-void	double_char_free(char **double_char)
-{
-	int	i;
-
-	i = 0;
-	while(double_char[i])
-	{
-		free(double_char[i]);
-		i++;
-	}
-	free(double_char);
-}
-
-char	*get_file_path_from_env_path(char *command,t_detower *dll_envp_tower)
-{
-	char	*file_path;
-	char	**env_path_values;
-	char	*tmp;
-	int		index;
-
-	file_path = NULL;
-	// key가 PATH인 환경변수의 value값을 split(:)으로 나누어서 env_path_values에 저장
-	env_path_values = get_env_path(dll_envp_tower);
-	
-	index = 0;
-	while(env_path_values[index])
-	{
-		tmp = ft_strjoin("/", command);
-		file_path = ft_strjoin(env_path_values[index], tmp);
-		// 파일의 존재여부 확인, 실행권한 확인
-		if (access(file_path,X_OK) == -1)
-		{
-			free(file_path);
-			// file_path = NULL;
-		}
-		else
-			break ;
-		index++;
-	}
-
-	if (env_path_values)  
-		// 이차원배열 free 있는지 찾아보고 없으면 함수 만들기
-		ft_free_string_ptr_arr(env_path_values);
-
-	return	(file_path);
-}
-
-char	*set_file_path(char *command, t_detower *dll_envp_tower)
-{
-	char	*file_path;
-	char	*current_path;
-
-	
-	if (ft_strncmp(command, "/", 1) == 0) // 절대경로는 그대로 준다.
-	{
-		file_path = ft_strdup(command);
-	}
-	else if (ft_strncmp("./", command, 2) == 0) // 상대경로 ./bash_exe_ex hahaha 현재경로에 bash를 실행한다고 생각  
-	{
-		command = ft_substr(command, 2, ft_strlen(command) - 2);
-		current_path = getcwd(NULL, 0);
-		file_path = ft_strjoin_infree(current_path, ft_strdup("/"));
-		file_path = ft_strjoin_infree(file_path, ft_strdup(command));
-	}
-	else // 환경변수 PATH에 세팅되어서 명령어로 실행할수 있는 명령어
-	{
-		printf(" 명령어 \n");
-		// PATH=/Users/mikim3/brew/bin:/Users/mikim3/goinfre/brew/bin:/usr/local/bin 
-		// :/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
-		// (:)콜론으로 구분된다.
-		// 절대경로로 PATH안에 있는 값들에 해당하는 폴더까지 간 다음에 해당 명령어에 해당하는 파일이 있는지 확인
-		// 없으면 다음 : 확인 반복
-		file_path = get_file_path_from_env_path(command, dll_envp_tower);
-	}
-	return (file_path);
-}
-
-// 외부함수 실제 실행
-void	execute_external(t_tree_node *node,t_detower *dll_envp_tower,t_pipe *m_pipe)
+void	execute_external(t_tree_node *node, t_detower *dll_envp_tower, t_pipe *m_pipe)
 {
 	char			*file_path;
 	char			**env;
 
-	file_path = set_file_path(((t_tree_cmd *)node->content)->cmd_name, dll_envp_tower);
-	env = ft_set_char_envp_from_dll(dll_envp_tower,0);
-
-	ft_execve(file_path,((t_tree_cmd *)node->content)->cmd_argv, env);
-	//필요한지 다시 생각해보기
+	file_path = set_file_path(((t_tree_cmd *)node->content)->cmd_name,
+			dll_envp_tower);
+	env = ft_set_char_envp_from_dll(dll_envp_tower, 0);
+	ft_execve(file_path, ((t_tree_cmd *)node->content)->cmd_argv, env);
 	if (!file_path)
 		free(file_path);
 }
