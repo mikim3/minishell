@@ -21,7 +21,7 @@ void	set_env(t_detower *env_tower, char *key, char *value)
 	t_envp_content	*set_target;
 
 	env = env_tower->head;
-	set_target = find_env_keycmp(env, key);  
+	set_target = find_env_keycmp(env, key);
 
 	if (set_target == NULL)
 	{
@@ -51,9 +51,7 @@ void	set_new_env(t_detower	**env_tower, char	*key, char	*value)
 	t_d_list		*new_env_list;
 	t_envp_content	*new_env;
 
-	// 새로운 env를 만든다.
 	new_env = env_new();
-	//새로운 env_list를 멀록하고 새 값을 넣는다.
 	new_env_list = ft_d_lstnew(new_env);
 	if (new_env_list == NULL || new_env == NULL)
 	{
@@ -62,7 +60,7 @@ void	set_new_env(t_detower	**env_tower, char	*key, char	*value)
 	// new_env안에 key와 value를 넣는다.
 	set_env_value(new_env, key, value);
 	// env_tower에  new_env_list넣기
-	ft_deque_add_back(*env_tower,new_env_list);
+	ft_deque_add_back(*env_tower, new_env_list);
 }
 
 t_envp_content	*find_env_keycmp(t_d_list *env, char *env_key)
@@ -92,37 +90,3 @@ t_envp_content	*env_new(void)
 	new->value = NULL;
 	return (new);
 }
-
-
-// void	test_tree_node_check_for_content(void *tree_node)
-// {
-// 	t_tree_node *node;
-// 	int	i;
-
-// 	i = 0;
-// 	node = (t_tree_node *)tree_node;
-// 	if (node->type == NODE_CMD)
-// 	{
-// 		if (node->content == 0)
-// 			return ;
-// 		printf("node_cmd_name : %s\n", ((t_tree_cmd *)node->content)->cmd_name);
-// 		while (((t_tree_cmd *)node->content)->cmd_argv[i] != 0)
-// 		{
-// 			printf("node_cmd_argv : %s\n", ((t_tree_cmd *)node->content)->cmd_argv[i]);
-// 			i++;
-// 		}
-// 		printf("\n");
-// 	}
-// 	else if (node->type == NODE_REDIR
-// 		|| node->type == NODE_FD_REDIR)
-// 	{
-// 		if (node -> content == 0)
-// 			return ;
-// 		printf("node_redir : %s\n", ((t_tree_redir *)node->content)->redir);
-// 		printf("node_file_name : %s\n", ((t_tree_redir *)node->content)->file_name);
-// 	}
-// 	return ;
-// }
-
-
-

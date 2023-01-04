@@ -12,18 +12,21 @@
 
 #include "../../include/ft_minishell.h"
 
-void	ft_cd(t_tree_cmd *cmd,t_detower *env_tower)
+void	ft_cd(t_tree_cmd *cmd, t_detower *env_tower)
 {
 	char		*pwd_path;
-	g_exit_code = 0;
 
-	pwd_path = getcwd(NULL, 0); // getcwd가 malloc으로 내부에서 할당해주니까 외부에서 free해줘야함
+	pwd_path = ft_getcwd(NULL, 0);
+	if (pwd_path == NULL)
+		return ;
 	if (cmd->cmd_argv[1] != NULL)
+	{
 		if (ft_chdir(cmd->cmd_argv[1]) == -1)
 		{
 			free(pwd_path);
 			return ;
 		}
+	}
 	change_pwd(env_tower, "PWD");
 	change_oldpwd(env_tower, pwd_path);
 	free(pwd_path);

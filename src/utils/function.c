@@ -47,12 +47,12 @@ int	ft_chdir(char *dir)
 
 char	*ft_getcwd(char *buf, size_t size)
 {
-	char *output;
+	char	*output;
 
 	output = getcwd(NULL, 0);
 	if (output == NULL)
 	{
-		exitcode_with_err("pwd", strerror(errno), 1);  // 첫 인자 chdir()이 맞을까?
+		exitcode_with_err("getcwd()", strerror(errno), 1);
 	}
 	return (output);
 }
