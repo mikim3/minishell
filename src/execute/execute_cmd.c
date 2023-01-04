@@ -203,10 +203,9 @@ char	**get_env_path(t_detower *dll_envp_tower)
 	index = 0;
 	while (node != NULL)
 	{
-		if(!ft_strcmp(((t_envp_content *)node->content)->key, "PATH"))
-		{
-			env_path_value = ft_split(((t_envp_content *)node->content)->value, ':');
-		}
+		if (!ft_strcmp(((t_envp_content *)node->content)->key, "PATH"))
+			env_path_value = ft_split(
+					((t_envp_content *)node->content)->value, ':');
 		node = node->next;
 	}
 
@@ -218,7 +217,7 @@ void	double_char_free(char **double_char)
 	int	i;
 
 	i = 0;
-	while(double_char[i])
+	while (double_char[i])
 	{
 		free(double_char[i]);
 		i++;

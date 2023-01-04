@@ -17,9 +17,9 @@ void	set_signal(int sig_int, int sig_quit)
 	if (sig_int == SIG_IGNORE)
 		signal(SIGINT, SIG_IGN);
 	if (sig_int == SIG_DEFAULT)
-		signal(SIGINT, SIG_DFL); 
+		signal(SIGINT, SIG_DFL);
 	if (sig_int == SIG_HANDLER)
-		signal(SIGINT, signal_handler);   
+		signal(SIGINT, signal_handler);
 	if (sig_quit == SIG_IGNORE)
 		signal(SIGQUIT, SIG_IGN);
 	if (sig_quit == SIG_DEFAULT)
@@ -30,7 +30,7 @@ void	set_signal(int sig_int, int sig_quit)
 
 void	signal_handler(int signo)
 {
-	if (signo == SIGINT) // Ctrl + c
+	if (signo == SIGINT)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
@@ -49,10 +49,8 @@ void	wait_child(void)
 	while (wait(&status) != -1)
 	{	
 		printf("int status - %d\n", status);
-		//WIFSIGNALED 시그널에 의해 종료되었는지 확인
 		if (WIFSIGNALED(status))
 		{
-			//WTERMSIG  어떤 시그에 의해 종료되었는지 확인
 			signo = WTERMSIG(status);
 			if (signo == SIGINT && repeat++ == 0)
 				ft_putstr_fd("^C\n", STDERR_FILENO);
@@ -65,4 +63,3 @@ void	wait_child(void)
 		printf("g_exit_code - %d\n", g_exit_code);
 	}
 }
-
