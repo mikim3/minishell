@@ -45,6 +45,7 @@ void	wait_child(void)
 	int		status;
 	int		signo;
 	int		repeat;
+	int		fix_g_exit_code;
 
 	repeat = 0;
 	while (wait(&status) != -1)
@@ -59,9 +60,14 @@ void	wait_child(void)
 				ft_putstr_fd("^\\Quit: 3\n", STDERR_FILENO);
 			g_exit_code = 128 + signo;
 		}
-		else
-			g_exit_code = WEXITSTATUS(status);
+		else// 현재는 가장 마지막에 들어온 녀석의 g_exit_code를 저장하지만 
+		{
+			printf("g_exit_code in else ===  %d\n", g_exit_code);
+			if (repeat++ == 0)
+				fix_g_exit_code = WEXITSTATUS(status);
+		}
 		printf("g_exit_code - %d\n", g_exit_code);
 	}
+	g_exit_code = fix_g_exit_code;
 	set_signal(SIG_HANDLER, SIG_IGNORE);
 }
