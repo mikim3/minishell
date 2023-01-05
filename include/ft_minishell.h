@@ -223,6 +223,13 @@ t_env_ctnt	*env_new(void);
 
 void		execute_cmd(\
 	t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
+
+void	fork_routine(t_tree_node *pipeline, \
+	t_pipe *m_pipe, int *iter, t_detower *dll_envp_tower);
+void		parent_routine(t_pipe	*m_pipe);
+void		child_routine(t_pipe *m_pipe, \
+	t_tree_node *pipeline, t_detower *dll_envp_tower);
+
 int			is_built_in(t_tree_cmd *cmd);
 void		execute_builtin(\
 	t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe);
@@ -256,7 +263,9 @@ void		print_err(char *msg, int exit_code);
 // main.c
 void		main_init(int argc, char *argv[]);
 void		init_pipe(t_pipe *m_pipe);
-void		exe_cmd_set(t_tree_node *node);
+char		*ft_readline(char *prompt);
+void		main_loop(t_list *token_list, t_detower *dll_envp_tower, \
+	t_tree_node *token_tree);
 
 /*
 	signal.c
