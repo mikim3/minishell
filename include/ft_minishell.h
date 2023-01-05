@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/05 16:23:56 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 16:29:44 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,10 @@ int			ft_tree_node_post_traversal(\
 
 t_tree_node	*ft_syntax_parse_tree(t_list *token_list);
 int			ft_syntax_parse_pipeline(t_list *token, t_tree_node **parse);
+
+int			ft_syntax_parse_pipeline_data(t_tree_node **parse, \
+	t_tree_node **recur_parse, t_tree_node **cur_redirects, \
+	t_tree_node **simple_cmd);
 
 int			ft_syntax_parse_redirections(\
 	t_list **token, t_tree_node *cur_redirects, int token_type);

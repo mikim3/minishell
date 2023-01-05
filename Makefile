@@ -46,7 +46,7 @@ SRC_EXECUTE	:= $(addprefix $(SRC_EXECUTE_DIR)/, $(SRC_EXECUTE))
 SRC_MAIN	= main.c
 SRC_MAIN	:= $(addprefix $(SRC_MAIN_DIR)/, $(SRC_MAIN))
 
-SRC_PARSER	= ft_tokenizer.c ft_token_processing.c ft_tokenizer_util.c ft_syntax_analysis.c ft_syntax_analysis2.c ft_syntax_parse_tree.c ft_syntax_util.c ft_tree.c ft_token_expansion.c ft_token_here_doc.c
+SRC_PARSER	= ft_tokenizer.c ft_token_processing.c ft_tokenizer_util.c ft_syntax_analysis.c ft_syntax_analysis2.c ft_syntax_parse_tree.c ft_syntax_parse_tree2.c ft_syntax_util.c ft_tree.c ft_token_expansion.c ft_token_here_doc.c
 SRC_PARSER 	:= $(addprefix $(SRC_PARSER_DIR)/,$(SRC_PARSER))
 
 SRC_SIGNAL	= signal.c

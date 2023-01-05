@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 13:46:11 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 16:29:02 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 16:33:02 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,16 @@ int	ft_syntax_parse_pipeline(t_list *token, t_tree_node **parse)
 	t_tree_node	*simple_cmd;
 	int			token_type;
 
-
+	if (ft_syntax_parse_pipeline_data(parse, &recur_parse,
+			&cur_redirects, &simple_cmd) == FT_ERROR)
+		return (FT_ERROR);
 	token_type = ft_token_type(token);
 	while (token_type != TKN_NULL && token_type != TKN_PIPE)
 	{
 		if (token_type == TKN_REDIRECT || token_type == TKN_FD_REDIRECT)
 		{
-			if (ft_syntax_parse_redirections(&token, cur_redirects, token_type) == FT_ERROR)
+			if (ft_syntax_parse_redirections(&token,
+					cur_redirects, token_type) == FT_ERROR)
 				return (FT_ERROR);
 			cur_redirects = cur_redirects->right;
 		}
@@ -90,7 +93,8 @@ int	ft_syntax_parse_pipeline_data(t_tree_node **parse,
 	return (FT_SUCCESS);
 }
 
-int	ft_syntax_parse_redirections(t_list **token, t_tree_node *cur_redirects, int token_type)
+int	ft_syntax_parse_redirections(t_list **token,
+	t_tree_node *cur_redirects, int token_type)
 {
 	if (token_type == TKN_REDIRECT)
 		cur_redirects->left = ft_tree_init(NODE_REDIR, 0);
@@ -103,43 +107,6 @@ int	ft_syntax_parse_redirections(t_list **token, t_tree_node *cur_redirects, int
 		return (FT_ERROR);
 	cur_redirects->right = ft_tree_init(NODE_REDIRECTIONS, 0);
 	if (cur_redirects->right == 0)
-		return (FT_ERROR);
-	return (FT_SUCCESS);
-}
-
-t_tree_rdr	*ft_node_content_redir(t_list **token)
-{
-	t_tree_rdr	*redir_node;
-
-	redir_node = (t_tree_rdr *)malloc(sizeof(t_tree_rdr));
-	if (redir_node == 0)
-		return (0);
-	redir_node->redir = ft_strdup(ft_token_str(*token));
-	if (redir_node->redir == 0)
-		return (0);
-	*token = (*token)->next;
-	redir_node->file_name = ft_strdup(ft_token_str(*token));
-	if (redir_node->file_name == 0)
-		return (0);
-	return (redir_node);
-}
-
-int	ft_syntax_parse_cmd(t_list **token, t_tree_node *cmd)
-{
-	if (ft_strcmp(ft_token_str(*token), "") == 0)
-		return (FT_SUCCESS);
-	if (cmd->content == 0)
-	{
-		cmd->content = (t_tree_cmd *)malloc(sizeof(t_tree_cmd));
-		if (cmd->content == 0)
-			return (FT_ERROR);
-		((t_tree_cmd *)(cmd->content))->cmd_name = ft_strdup(ft_token_str(*token));
-		if (((t_tree_cmd *)(cmd->content))->cmd_name == 0)
-			return (FT_ERROR);
-		((t_tree_cmd *)(cmd->content))->cmd_argv = 0;
-	}
-	((t_tree_cmd *)(cmd->content))->cmd_argv = ft_set_cmd_argv(&(((t_tree_cmd *)(cmd->content))->cmd_argv), ft_token_str(*token));
-	if (((t_tree_cmd *)(cmd->content))->cmd_argv == 0)
 		return (FT_ERROR);
 	return (FT_SUCCESS);
 }
