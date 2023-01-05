@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:57:52 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 16:58:09 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 18:16:16 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,157 +37,95 @@ int	ft_token_expansion(t_list *token_list, t_detower *dll_envp_tower)
 	return (FT_SUCCESS);
 }
 
-int	ft_token_str_expansion(char **token_str, t_d_list *mnsh_envp, int expand_mode)
+int	ft_token_str_expansion(
+		char **token_str, t_d_list *mnsh_envp, int expand_mode)
 {
-	char	*pos;
-	char	*ret_str;
-	char	*start;
-	int		len;
+	t_expand	*expand;
 
-	pos = *token_str;
-	ret_str = 0;
-	start = pos;
-	len = 0;
-	while (*pos != '\0')
+	if (ft_token_expand_init_struct(&expand, token_str) == FT_ERROR)
+		return (FT_ERROR);
+	while (*(expand->pos) != '\0')
 	{
-		if (len != 0 && (*pos == '$' || *pos == '\"' || *pos == '\''))
+		if (expand->len != 0 && (*(expand->pos) == '$' \
+			|| *(expand->pos) == '\"' || *(expand->pos) == '\''))
 		{
 			if (ft_token_expand_str_control_without_expand(
-					&ret_str, start, len) == FT_ERROR)
-				return (free(ret_str), FT_ERROR);
+					&(expand->ret_str), expand->start, expand->len) == FT_ERROR)
+				return (ft_token_expand_free_struct(&expand), FT_ERROR);
 			else
 			{
-				start = pos;
-				len = 0;
+				expand->start = expand->pos;
+				expand->len = 0;
 			}
 		}
-		if ((expand_mode == EXPAND_ALL || expand_mode == EXPAND_ENV_ONLY) && *pos == '$')
+		if ((expand_mode == EXPAND_ALL || expand_mode == EXPAND_ENV_ONLY) \
+			&& *(expand->pos) == '$')
 		{
-			if (ft_token_expand_expansion_sign(&pos, &ret_str, mnsh_envp) == FT_ERROR)
-				return (free(ret_str), FT_ERROR);
-			start = pos;
+			if (ft_token_expand_expansion_sign(expand, mnsh_envp) == FT_ERROR)
+				return (ft_token_expand_free_struct(&expand), FT_ERROR);
+			expand->start = expand->pos;
+			expand->len = 0;
 		}
-		else if ((expand_mode == EXPAND_ALL || expand_mode == EXPAND_QUOTE_ONLY) && *pos == '\"')
+		else if ((expand_mode == EXPAND_ALL \
+			|| expand_mode == EXPAND_QUOTE_ONLY) && *(expand->pos) == '\"')
 		{
-			if (ft_token_expand_double_quotes(&pos, &ret_str, mnsh_envp, expand_mode) == FT_ERROR)
-				return (free(ret_str), FT_ERROR);
-			pos++;
-			start = pos;
+			if (ft_token_expand_double_quotes(expand, mnsh_envp, expand_mode) == FT_ERROR)
+				return (ft_token_expand_free_struct(&expand), FT_ERROR);
+			expand->pos++;
+			expand->start = expand->pos;
+			expand->len = 0;
 		}
-		else if ((expand_mode == EXPAND_ALL || expand_mode == EXPAND_QUOTE_ONLY) && *pos == '\'')
+		else if ((expand_mode == EXPAND_ALL \
+			|| expand_mode == EXPAND_QUOTE_ONLY) && *(expand->pos) == '\'')
 		{
-			if (ft_token_expand_single_quotes(&pos, &ret_str) == FT_ERROR)
-				return (free(ret_str), FT_ERROR);
-			pos++;
-			start = pos;
+			if (ft_token_expand_single_quotes(expand) == FT_ERROR)
+				return (ft_token_expand_free_struct(&expand), FT_ERROR);
+			expand->pos++;
+			expand->start = expand->pos;
+			expand->len = 0;
 		}
 		else
 		{
-			pos++;
-			len++;
+			expand->pos++;
+			expand->len++;
 		}
 	}
-	if (len != 0)
+	if (expand->len != 0)
 	{
 		if (ft_token_expand_str_control_without_expand(
-				&ret_str, start, len) == FT_ERROR)
-			return (free(ret_str), FT_ERROR);
+				&(expand->ret_str), expand->start, expand->len) == FT_ERROR)
+			return (ft_token_expand_free_struct(&expand), FT_ERROR);
 	}
-	if (ret_str == 0)
+	if (expand->ret_str == 0)
 		return (FT_SUCCESS);
 	free(*token_str);
-	*token_str = ret_str;
+	*token_str = ft_strdup(expand->ret_str);
+	if (*token_str == 0)
+		return (FT_ERROR);
+	ft_token_expand_free_struct(&expand);
 	return (FT_SUCCESS);
 }
 
-int	ft_token_expand_expansion_sign(char **pos, char **ret_str, t_d_list *mnsh_envp)
+int	ft_token_expand_init_struct(t_expand **expand, char **token_str)
 {
-	int		len;
-	char	*start;
-	char	*tmp_buffer;
-	char	*tmp_str;
-
-	len = 0;
-	start = ++(*pos);
-	tmp_buffer = 0;
-	tmp_str = 0;
-	if (**pos == '?')
-	{
-		len++;
-		(*pos)++;
-		if (ft_token_expand_str_control_with_expand(
-				ret_str, start, len, mnsh_envp) == FT_ERROR)
-			return (FT_ERROR);
-		return (FT_SUCCESS);
-	}
-	while ((('a' <= **pos && **pos <= 'z')
-			|| ('A' <= **pos && **pos <= 'Z')
-			|| ('0' <= **pos && **pos <= '9')
-			|| '_' == **pos))
-	{
-		len++;
-		(*pos)++;
-	}
-	if (ft_token_expand_str_control_with_expand(
-			ret_str, start, len, mnsh_envp) == FT_ERROR)
+	*expand = (t_expand *)malloc(sizeof(t_expand));
+	if (*expand == 0)
 		return (FT_ERROR);
+	(*expand)->pos = *token_str;
+	(*expand)->ret_str = 0;
+	(*expand)->start = *token_str;
+	(*expand)->len = 0;
 	return (FT_SUCCESS);
 }
 
-int	ft_token_expand_double_quotes(char **pos, char **ret_str, t_d_list *mnsh_envp, int expand_mode)
+void	ft_token_expand_free_struct(t_expand **expand)
 {
-	int		len;
-	char	*start;
-	char	*tmp_buffer;
-	char	*tmp_str;
-
-	len = 0;
-	start = ++(*pos);
-	tmp_buffer = 0;
-	tmp_str = 0;
-	while (**pos != '\"')
-	{
-		if ((expand_mode == EXPAND_ALL) && **pos == '$')
-		{
-			if (ft_token_expand_str_control_without_expand(
-					ret_str, start, len) == FT_ERROR)
-				return (FT_ERROR);
-			if (ft_token_expand_expansion_sign(
-					pos, ret_str, mnsh_envp) == FT_ERROR)
-				return (FT_ERROR);
-			len = 0;
-			start = *pos;
-		}
-		else
-		{
-			len++;
-			(*pos)++;
-		}
-	}
-	if (ft_token_expand_str_control_without_expand(
-			ret_str, start, len) == FT_ERROR)
-		return (FT_ERROR);
-	return (FT_SUCCESS);
-}
-
-int	ft_token_expand_single_quotes(char **pos, char **ret_str)
-{
-	int		len;
-	char	*start;
-	char	*tmp_buffer;
-	char	*tmp_str;
-
-	len = 0;
-	start = ++(*pos);
-	tmp_buffer = 0;
-	tmp_str = 0;
-	while (**pos != '\'')
-	{
-		len++;
-		(*pos)++;
-	}
-	if (ft_token_expand_str_control_without_expand(
-			ret_str, start, len) == FT_ERROR)
-		return (FT_ERROR);
-	return (FT_SUCCESS);
+	(*expand)->pos = 0;
+	(*expand)->len = 0;
+	(*expand)->start = 0;
+	if ((*expand)->ret_str != 0)
+		free((*expand)->ret_str);
+	(*expand)->ret_str = 0;
+	free(*expand);
+	*expand = 0;
 }

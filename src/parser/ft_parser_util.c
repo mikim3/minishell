@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_syntax_util.c                                   :+:      :+:    :+:   */
+/*   ft_parser_util.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 08:38:58 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 16:24:05 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 18:01:36 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ int	ft_token_type(t_list *token)
 char	*ft_token_str(t_list *token)
 {
 	return (((t_tkn *)token->content)->str);
+}
+
+int	ft_token_is_expandable(t_list *token)
+{
+	return (((t_tkn *)token->content)->expandable);
 }
 
 void	ft_free_a_tree_node(void *target)

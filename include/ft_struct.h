@@ -51,6 +51,15 @@ typedef struct s_redirection_data
 
 // ft_token_expansion
 
+typedef struct s_expansion_state{
+	int		len;
+	char	*pos;
+	char	*ret_str;
+	char	*start;
+}	t_expand;
+
+// ft_tokenizer
+
 typedef struct s_token{
 	char	*str;
 	int		type;

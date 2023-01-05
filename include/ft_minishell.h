@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/05 16:49:49 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 18:15:57 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,18 +95,25 @@ int			ft_make_h_doc_loop(char *delimiter, \
 int			ft_token_expansion(t_list *token_list, t_detower *dll_envp_tower);
 int			ft_token_str_expansion(\
 	char **token_str, t_d_list *mnsh_envp, int expand_mode);
+int			ft_token_expand_init_struct(t_expand **expand, char **token_str);
+void		ft_token_expand_free_struct(t_expand **expand);
+
 int			ft_token_expand_expansion_sign(\
-	char **pos, char **ret_str, t_d_list *mnsh_envp);
+	t_expand *expand, t_d_list *mnsh_envp);
 int			ft_token_expand_double_quotes(\
-	char **pos, char **ret_str, t_d_list *mnsh_envp, int expand_mode);
-int			ft_token_expand_single_quotes(char **pos, char **ret_str);
-int			ft_token_expand_str_control_with_expand(
-				char **ret_str, char *start, int len, t_d_list *mnsh_envp);
+	t_expand *expand, t_d_list *mnsh_envp, int expand_mode);
+int			ft_token_expand_single_quotes(t_expand *expand);
+int			ft_token_expand_is_char_expendable(int cha);
+
+int			ft_token_expand_str_control_with_expand(\
+	char **ret_str, char *start, int len, t_d_list *mnsh_envp);
 int			ft_token_expand_str_control_without_expand(\
 	char **ret_str, char *start, int len);
+int			ft_token_expand_str_control_attach(\
+	char **ret_str, char **tmp_str, char **tmp_buffer);
+
 char		*ft_compare_str_to_mnsh_envp_keys(char *str, t_d_list *mnsh_envp);
 
-int			ft_token_is_expandable(t_list *token);
 int			ft_token_check_for_quote(t_list *token);
 
 /*
@@ -154,8 +161,15 @@ int			ft_stx_a_cmd_suffix(\
 int			ft_stx_a_redir(t_list *token_list, t_list *token, int token_pos);
 int			ft_stx_a_word(t_list *token_list, t_list *token, int token_pos);
 
+/*
+	ft_parser_util
+*/
+
 int			ft_token_type(t_list *token);
 char		*ft_token_str(t_list *token);
+int			ft_token_is_expandable(t_list *token);
+void		ft_free_a_tree_node(void *target);
+void		ft_free_a_tree_node_content(t_tree_node *node);
 
 /*
 	ft_tree
@@ -188,9 +202,6 @@ char		**ft_set_cmd_argv(char ***argv, char *str);
 char		**ft_set_cmd_argv_set_new_argv(char ***argv, char *str);
 
 void		ft_free_string_ptr_arr(char **argv);
-
-void		ft_free_a_tree_node(void *target);
-void		ft_free_a_tree_node_content(t_tree_node *node);
 
 /*
 	ft_wrapper_functions
@@ -246,7 +257,7 @@ t_env_ctnt	*env_new(void);
 void		execute_cmd(\
 	t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
 
-void	fork_routine(t_tree_node *pipeline, \
+void		fork_routine(t_tree_node *pipeline, \
 	t_pipe *m_pipe, int *iter, t_detower *dll_envp_tower);
 void		parent_routine(t_pipe	*m_pipe);
 void		child_routine(t_pipe *m_pipe, \
