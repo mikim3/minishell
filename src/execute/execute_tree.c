@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 23:21:44 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/04 18:05:51 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 12:26:59 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,27 +23,17 @@ int	next_pipe_check(t_tree_node *node,t_pipe *m_pipe)
 	if (node->right != NULL && node->right->type == NODE_PIPELINE)
 	{
 		if (ft_pipe(m_pipe->pipe) < 0)
-		{
 			return (FT_ERROR);
-		}
 		m_pipe->next_pipe_check = BOOL_TRUE;
 	}
 	else
-	{
 		m_pipe->next_pipe_check = BOOL_FALSE;
-	}
 	return (FT_SUCCESS);
 }
 
 void	ft_execute_tree(t_tree_node *node,t_detower *dll_envp_tower,t_pipe *m_pipe)
 {
-	// printf("ft_execute_tree \n");
 	printf("ft_execute_tree node->type == %d ----\n",node->type);
-	// if (node->type == NODE_PIPELINE) 
-	// {
-	// 	next_pipe_check(node,m_pipe);
-	// 	printf("ft_execute_tree in NODE_PIPELINE\n");
-	// }
 	if (node->type == NODE_REDIRECTIONS)
 	{
 		if (node->left == 0)

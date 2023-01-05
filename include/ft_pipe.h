@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 11:02:05 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/04 13:31:54 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 12:15:17 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,8 @@ int	ft_redir_infile(char *file_name, t_pipe *m_pipe, int redir_fd);
 int	ft_redir_outfile(char *file_name, t_pipe *m_pipe, int redir_fd);
 int	ft_redir_append(char *file_name, t_pipe *m_pipe, int redir_fd);
 int	ft_redir_here_doc(t_pipe *m_pipe, int redir_fd);
+
+int	ft_redir_input_redirection(t_pipe *m_pipe, int file_fd, int redir_fd);
+int	ft_redir_output_redirection(t_pipe *m_pipe, int file_fd, int redir_fd);
 
 #endif

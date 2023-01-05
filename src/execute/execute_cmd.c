@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:49:10 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/04 17:15:36 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 12:35:18 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,20 +69,6 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 			}
 			if (ft_tree_node_pre_traversal2(pipeline->left, dll_envp_tower, m_pipe, &ft_execute_tree) == FT_ERROR)
 			{
-				
-			}
-			if (m_pipe->mnsh_builtin == BOOL_FALSE)
-				exit(g_exit_code);
-			else
-			{
-				// 부모에서 builtin으로 pipe 없이 실행한 경우, close 실패하면 동작 어떻게 해야할까? 
-				if (m_pipe->out_redirected == BOOL_TRUE)
-					ft_close(m_pipe->outfile_fd);
-				if (m_pipe->in_redirected == BOOL_TRUE)
-					ft_close(m_pipe->infile_fd);
-			}
-			if (ft_tree_node_pre_traversal2(pipeline->left, dll_envp_tower, m_pipe, &ft_execute_tree) == FT_ERROR)
-			{
 				// error 시 뒤처리
 				exit(g_exit_code);
 			}
@@ -118,8 +104,12 @@ void	execute_fork(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_
 			else
 				m_pipe->pre_pipe_check = BOOL_FALSE;
 		}
-		else //에러 출력
+		else // fork 에러
+		{
 			printf("pid error\n");
+			// 부모 동작 실행 후  break ;
+		}
+
 		pipeline = pipeline->right;
 		iter++;
 	}
