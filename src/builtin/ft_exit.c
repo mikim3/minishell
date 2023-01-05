@@ -25,5 +25,4 @@ void	ft_exit(t_tree_cmd *cmd, t_pipe *pipe_value)
 		ft_putstr_fd(": exit: too many arguments\n", STDERR_FILENO);
 		g_exit_code = 1;
 	}
-	exit(g_exit_code);
 }
