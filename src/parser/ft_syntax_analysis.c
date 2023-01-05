@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 11:41:04 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 16:19:38 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 19:06:37 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ int	ft_syntax_analysis(t_list *token_list)
 		return (FT_SUCCESS);
 	if (ft_stx_a_pipeline(token_list, token_list, 1) == -1)
 	{
-		ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
 		ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
 		ft_putstr_fd(": syntax error near unexpected token", STDERR_FILENO);
 		ft_putstr_fd("\n", STDERR_FILENO);
 		g_exit_code = 258;
+		ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
 		return (FT_ERROR);
 	}
 	return (FT_SUCCESS);

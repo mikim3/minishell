@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 15:30:01 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 15:27:39 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 18:57:30 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,27 +60,5 @@ int	ft_dup2(int oldfd, int newfd)
 	ret_val = dup2(oldfd, newfd);
 	if (ret_val == -1)
 		exitcode_with_err("dup2()", strerror(errno), 1);
-	return (ret_val);
-}
-
-int	ft_access(const char *file, int flags)
-{
-	int	ret_val;
-
-	ret_val = access(
-			file, flags);
-	if (ret_val == -1)
-		exitcode_with_err("access()", strerror(errno), 1);
-	return (ret_val);
-}
-
-int ft_fstat(int fd, struct stat *buf)
-{
-	int	ret_val;
-
-	ret_val = fstat(
-			fd, buf);
-	if (ret_val == -1)
-		exitcode_with_err("fstat()", strerror(errno), 1);
 	return (ret_val);
 }
