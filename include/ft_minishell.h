@@ -13,24 +13,23 @@
 #ifndef FT_MINISHELL_H
 # define FT_MINISHELL_H
 
-#include "../libft/libft.h"
-#include "ft_tokenizer.h"
-#include "ft_tree.h"
-#include "ft_doubly_linked_list.h"
-#include "ft_token_expansion.h"
-#include "ft_pipe.h"
+# include "../libft/libft.h"
+# include "ft_tokenizer.h"
+# include "ft_tree.h"
+# include "ft_doubly_linked_list.h"
+# include "ft_token_expansion.h"
+# include "ft_pipe.h"
+# include <unistd.h>
+# include <stdlib.h>
+# include <signal.h> // signal, 
+# include <errno.h> // errno
+# include <string.h>
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <term.h>
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <signal.h> // signal, 
-#include <errno.h> // errno
-#include <string.h> // strerror() 
-#include <stdio.h>
-#include <readline/readline.h> // readline, rl_replace_line, rl_on_new_line, rl_redisplay
-#include <readline/history.h> // add_history
-#include <term.h>
-
-#define SHELL_NAME "BABYSHELL"
+# define SHELL_NAME "BABYSHELL"
 
 typedef enum e_pwd_set{
 	PWD_SET = 0,
@@ -42,33 +41,34 @@ typedef enum e_signal{
 	SIG_DEFAULT,
 	SIG_HANDLER
 }		t_signal;
-
-int g_exit_code;  //  $? 종료상태 코드 
+int	g_exit_code;
 
 /*
 	builtin
 */
-void	ft_cd(t_tree_cmd *cmd,t_detower *env_tower);
-void	ft_echo(t_tree_cmd	*cmd, t_pipe	*pipe_value);
-void	ft_env(t_detower	*env, t_pipe	*pipe_value);
-void	ft_pwd(t_pipe	*pipe_value);
-void	ft_exit(t_tree_cmd	*cmd, t_pipe	*pipe_value);
-void	ft_export(t_tree_cmd	*cmd, t_detower	*env, t_pipe	*pipe_value);
-char	*show_env_in_export(t_d_list	*env);
-int			div_key_value(char *arg, char **key, char **value);
+void			ft_cd(t_tree_cmd *cmd, t_detower *env_tower);
+void			ft_echo(t_tree_cmd	*cmd, t_pipe	*pipe_value);
+void			ft_env(t_detower	*env, t_pipe	*pipe_value);
+void			ft_pwd(t_pipe	*pipe_value);
+void			ft_exit(t_tree_cmd	*cmd, t_pipe	*pipe_value);
+void			ft_export(t_tree_cmd	*cmd, \
+t_detower	*env, t_pipe	*pipe_value);
+int				div_key_value(char *arg, char **key, char **value);
 t_envp_content	*find_env_keycmp(t_d_list *env, char *env_key);
 
-void	ft_unset(t_tree_cmd *cmd, t_detower *env);
-void    unset_env(t_detower *env_tower,char *key);
-void	delete_t_d_list(t_detower *env_tower, t_d_list	*env, t_d_list	*prev);
-void	free_env_list(t_d_list **target);
-
+void			ft_unset(t_tree_cmd *cmd, t_detower *env);
+void			unset_env(t_detower *env_tower, char *key);
+void			delete_t_d_list(t_detower *env_tower, \
+t_d_list	*env, t_d_list	*prev);
+void			free_env_list(t_d_list **target);
 
 /*
 	env
 */
 
-void	change_pwd_oldpwd(t_detower *env_tower,char *select);
+void	change_pwd(t_detower *env_tower,char *select);
+void	change_oldpwd(t_detower *env_tower,char *select);
+
 
 int				check_env_key(char *key);
 int				available_character(char *str);
@@ -132,7 +132,7 @@ void	signal_handler2(int signo);
 void	ft_execve(char *file, char **argv, char **envp);
 int		ft_chdir(char *dir);
 void    exitcode_with_err(char *str, char *str_error, int exit_code);
-int		ft_write(int fd, void *buf, size_t byte);
+char	*ft_getcwd(char *buf, size_t size);
 
 
 #endif

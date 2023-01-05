@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   execute_file_path.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/22 12:14:33 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 14:59:07 by mikim3           ###   ########.fr       */
+/*   Created: 2022/12/29 17:25:19 by mikim3            #+#    #+#             */
+/*   Updated: 2022/12/29 17:25:40 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ft_minishell.h"
 
-void	ft_pwd(t_pipe *pipe_value)
+void	double_char_free(char **double_char)
 {
-	char	*output;
+	int	i;
 
-	g_exit_code = 0;
-	output = ft_getcwd(NULL, 0);
-	if (output == NULL)
-		return ;
-	output = ft_strjoin_infree(output, ft_strdup("\n"));
-	write(pipe_value->outfile_fd, output, ft_strlen(output));
-	free(output);
+	i = 0;
+	while (double_char[i])
+	{
+		free(double_char[i]);
+		i++;
+	}
+	free(double_char);
 }

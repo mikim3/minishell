@@ -40,7 +40,7 @@ SRC_DOUBLY_LINKED_LIST	:= $(addprefix $(SRC_DOUBLY_LINKED_LIST_DIR)/, $(SRC_DOUB
 SRC_ENV	= env_set.c env_check.c env_change_PWD.c
 SRC_ENV	:= $(addprefix $(SRC_ENV_DIR)/, $(SRC_ENV))
 
-SRC_EXECUTE	= execute_cmd.c execute_tree.c execute_pipe.c
+SRC_EXECUTE	= execute_cmd.c execute_tree.c execute_pipe.c execute_file_path.c
 SRC_EXECUTE	:= $(addprefix $(SRC_EXECUTE_DIR)/, $(SRC_EXECUTE))
 
 SRC_MAIN	= main.c
@@ -52,7 +52,7 @@ SRC_PARSER 	:= $(addprefix $(SRC_PARSER_DIR)/,$(SRC_PARSER))
 SRC_SIGNAL	= signal.c
 SRC_SIGNAL 	:= $(addprefix $(SRC_SIGNAL_DIR)/,$(SRC_SIGNAL))
 
-SRC_UTILS	= error.c function.c function2.c
+SRC_UTILS	= error.c function.c function2.c utils.c
 SRC_UTILS	:= $(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS))
 
 SRCS = $(SRC_BUILTIN) $(SRC_DOUBLY_LINKED_LIST) $(SRC_ENV) $(SRC_EXECUTE) $(SRC_MAIN) $(SRC_PARSER) $(SRC_SIGNAL) $(SRC_UTILS)

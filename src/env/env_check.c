@@ -24,7 +24,6 @@ int	available_character(char *str)
 	int	index;
 
 	index = 0;
-    //key값으로 첫글자 숫자는 불허
 	if ('0' <= str[0] && str[0] <= '9')
 		return (0);
 	while (str[index])
@@ -34,9 +33,9 @@ int	available_character(char *str)
 				|| ('0' <= str[index] && str[index] <= '9')
 				|| '_' == str[index]))
 		{
-		    return (0);
+			return (0);
 		}
-        index++;
+		index++;
 	}
 	return (1);
 }
@@ -51,4 +50,3 @@ void	env_key_error(char *cmd_name, char *key)
 	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 	g_exit_code = 1;
 }
-
