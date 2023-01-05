@@ -17,6 +17,7 @@ void	ft_execve(char *file, char **argv, char **envp)
 	if (execve(file, argv, envp) == -1)
 	{
 		printf("errno %d \n",errno);
+		// strncmp ./  /  이경우는 따로 생각하기
 		if (errno == ENOENT) //  No such file or directory
 			exitcode_with_err(argv[0], strerror(errno), 127);
 		else if (errno == EACCES) //  Permission denied

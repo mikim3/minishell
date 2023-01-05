@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ft_tokenizer.h"
-#include "../../libft/libft.h"
+#include "../../include/ft_minishell.h"
 
 int	ft_token_processor(
 		t_tknizer *tknizer, int *prev_type)

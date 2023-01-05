@@ -12,8 +12,6 @@
 
 #include "../../include/ft_minishell.h"
 
-#include "../../include/ft_wrapper_functions.h"
-
 int	next_pipe_check(t_tree_node *node,t_pipe *m_pipe)
 {
 	// 다음노드가 존재하고 다음노드의 타입이 파이프일떄

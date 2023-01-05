@@ -10,16 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <readline/readline.h>
-#include "../../include/ft_tree.h"
-#include "../../include/ft_tokenizer.h"
-#include "../../include/ft_doubly_linked_list.h"
-#include "../../include/ft_token_expansion.h"
-
-// 예외처리를 임시로 exit로 해둠. exit 사용을 위한 헤더
-#include <stdlib.h>
-#include <unistd.h>
+#include "../../include/ft_minishell.h"
 
 void	*ft_tokenizer(char *str)
 {
@@ -128,81 +119,4 @@ int	ft_close_quote(t_tknizer *tknizer, int *prev_type)
 	tknizer->expandable = BOOL_TRUE;
 	*prev_type = TKN_WORD;
 	return (FT_SUCCESS);
-}
-
-
-
-void	test_print_token_lst(t_list *token_list)
-{
-	int		i;
-	char	*type[6] = {"NULL", "WORD", "OPERATOR", "PIPE", "REDIRECT", "FD_REDIRECT"};
-
-	i = 1;
-	while (token_list != 0)
-	{
-		printf("token %d : %s, ", i, ((t_tkn *)token_list->content)->str);
-		printf("type %s\n", type[((t_tkn *)token_list->content)->type]);
-		token_list = token_list->next;
-		i++;
-	}
-	return ;
-}
-
-void	test_tree_node_check_for_content(void *tree_node)
-{
-	t_tree_node *node;
-	int	i;
-
-	i = 0;
-	node = (t_tree_node *)tree_node;
-	if (node->type == NODE_CMD)
-	{
-		if (node->content == 0)
-			return ;
-		printf("node_cmd_name : %s\n", ((t_tree_cmd *)node->content)->cmd_name);
-		while (((t_tree_cmd *)node->content)->cmd_argv[i] != 0)
-		{
-			printf("node_cmd_argv : %s\n", ((t_tree_cmd *)node->content)->cmd_argv[i]);
-			i++;
-		}
-		printf("\n");
-	}
-	else if (node->type == NODE_REDIR
-		|| node->type == NODE_FD_REDIR)
-	{
-		if (node -> content == 0)
-			return ;
-		printf("node_redir : %s\n", ((t_tree_redir *)node->content)->redir);
-		printf("node_file_name : %s\n", ((t_tree_redir *)node->content)->file_name);
-	}
-	return ;
-}
-
-void	test_print_dll_envp(t_detower *dll)
-{
-	t_d_list		*node;
-	
-	node = dll->head;
-	printf("dll_envp\n\n");
-	while (node != 0)
-	{
-		printf("%s\n",((t_envp_content *)node->content)->key);
-		node = node->next;
-	}
-	printf("\n");
-}
-
-void	test_print_mnsh_envp(char **mnsh_envp)
-{
-	int	iter;
-
-	iter = 0;
-	printf("mnsh_envp\n\n");
-	while (mnsh_envp[iter] != 0)
-	{
-		printf("%s\n", mnsh_envp[iter]);
-		iter++;
-	}
-	printf("\n");
-	return ;
 }

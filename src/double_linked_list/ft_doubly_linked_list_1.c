@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ft_doubly_linked_list.h"
-#include <stdlib.h>
+#include "../../include/ft_minishell.h"
 
 t_detower	*ft_dequetower(void)
 {

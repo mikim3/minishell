@@ -10,12 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ft_tree.h"
-
-
-
-#include "../../include/ft_tokenizer.h"
-#include <stdio.h>
+#include "../../include/ft_minishell.h"
 
 t_tree_node	*ft_tree_init(int type, void *node_content)
 {
