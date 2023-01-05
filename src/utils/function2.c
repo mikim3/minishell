@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 15:30:01 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 12:25:05 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 14:52:16 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_close(int fd)
 	return (ret_val);
 }
 
-pid_t ft_fork(void)
+pid_t	ft_fork(void)
 {
 	pid_t	ret_val;
 
@@ -43,7 +43,7 @@ pid_t ft_fork(void)
 	return (ret_val);
 }
 
-pid_t ft_pipe(int fd[2])
+pid_t	ft_pipe(int fd[2])
 {
 	pid_t	ret_val;
 
@@ -68,7 +68,7 @@ int	ft_access(const char *file, int flags)
 	int	ret_val;
 
 	ret_val = access(
-				file, flags);
+			file, flags);
 	if (ret_val == -1)
 		exitcode_with_err("access()", strerror(errno), 1);
 	return (ret_val);
@@ -79,7 +79,7 @@ int ft_fstat(int fd, struct stat *buf)
 	int	ret_val;
 
 	ret_val = fstat(
-				fd, buf);
+			fd, buf);
 	if (ret_val == -1)
 		exitcode_with_err("fstat()", strerror(errno), 1);
 	return (ret_val);

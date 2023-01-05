@@ -46,6 +46,7 @@ typedef struct s_redirection_data
 	int		mnsh_builtin;
 	int		in_redirected;
 	int		out_redirected;
+	int		here_doc_opened;
 }		t_pipe;
 
 // ft_token_expansion

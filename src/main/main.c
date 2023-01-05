@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/04 17:06:55 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 15:18:35 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	init_pipe(t_pipe *m_pipe)
 	m_pipe->mnsh_builtin = BOOL_FALSE;
 	m_pipe->in_redirected = BOOL_FALSE;
 	m_pipe->out_redirected = BOOL_FALSE;
+	m_pipe->here_doc_opened = BOOL_FALSE;
 }
 
 void	main_init(int argc, char *argv[])

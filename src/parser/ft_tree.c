@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 10:36:56 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/03 09:54:59 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 14:14:48 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,26 +26,28 @@ t_tree_node	*ft_tree_init(int type, void *node_content)
 	return (new);
 }
 
-int	ft_tree_node_pre_traversal(t_tree_node *target_tree, void (*function)(void *))
+int	ft_tree_node_pre_traversal(\
+	t_tree_node *target_tree, void (*function)(void *))
 {
 	if (target_tree == BOOL_FALSE)
 		return (FT_ERROR);
 	if ((*function) == BOOL_FALSE)
 		return (FT_ERROR);
 	function((t_tree_node *)target_tree);
-	ft_tree_node_pre_traversal(target_tree->left,(*function));
-	ft_tree_node_pre_traversal(target_tree->right,(*function));
+	ft_tree_node_pre_traversal(target_tree->left, (*function));
+	ft_tree_node_pre_traversal(target_tree->right, (*function));
 	return (FT_SUCCESS);
 }
 
-int	ft_tree_node_post_traversal(t_tree_node *target_tree, void (*function)(void *))
+int	ft_tree_node_post_traversal(\
+	t_tree_node *target_tree, void (*function)(void *))
 {
 	if (target_tree == BOOL_FALSE)
 		return (FT_ERROR);
 	if ((*function) == BOOL_FALSE)
 		return (FT_ERROR);
-	ft_tree_node_post_traversal(target_tree->left,(*function));
-	ft_tree_node_post_traversal(target_tree->right,(*function));
+	ft_tree_node_post_traversal(target_tree->left, (*function));
+	ft_tree_node_post_traversal(target_tree->right, (*function));
 	function((t_tree_node *)target_tree);
 	return (FT_SUCCESS);
 }

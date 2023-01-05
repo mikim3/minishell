@@ -6,18 +6,18 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 08:38:58 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/30 09:19:47 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 14:31:29 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ft_minishell.h"
 
-int	ft_token_what_type(t_list *token)
+int	ft_token_type(t_list *token)
 {
 	return (((t_tkn *)token->content)->type);
 }
 
-char	*ft_token_what_str(t_list *token)
+char	*ft_token_str(t_list *token)
 {
 	return (((t_tkn *)token->content)->str);
 }

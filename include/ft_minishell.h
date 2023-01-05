@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/04 15:52:10 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 15:24:17 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ char		**ft_set_char_envp_from_dll(\
 	t_detower *dll_envp_tower, char **old_mnsh_envp);
 char		*ft_set_new_envp_string(t_d_list *lst_node);
 void		ft_free_t_envp_content(void	*content);
-void		test_print_dll_envp(t_detower *dll);
 
 /*
 	ft_pipe
@@ -67,6 +66,8 @@ void		execute_fork(t_tree_node *token_tree,
 				t_detower *dll_envp_tower, t_pipe *m_pipe);
 
 int			execute_redir(t_tree_node *node, t_pipe *m_pipe);
+int			ft_match_redir_symbol(\
+	char *redir, char *file_name, int redir_fd, t_pipe *m_pipe);
 int			ft_redir_infile(char *file_name, t_pipe *m_pipe, int redir_fd);
 int			ft_redir_outfile(char *file_name, t_pipe *m_pipe, int redir_fd);
 int			ft_redir_append(char *file_name, t_pipe *m_pipe, int redir_fd);
@@ -82,7 +83,7 @@ int			ft_redir_output_redirection(\
 
 int			ft_here_doc_expansion(\
 	t_list *token_list, t_detower *dll_envp_tower);
-int			ft_write_here_doc_with_expand_mode(\
+int			ft_make_h_doc_wth_expand(\
 	char *token_str, t_detower *dll_envp_tower, int is_env_expand);
 void		ft_free_here_doc_memory(char *delimiter, char *buffer);
 
@@ -111,6 +112,7 @@ void		*ft_tokenizer(char *str);
 int			ft_initialize_tokenizer( t_tknizer *tknizer, char *str);
 int			ft_tokenizing_loop(t_tknizer *tknizer, int error, int *prev_type);
 int			ft_close_quote(t_tknizer *tknizer, int *prev_type);
+int			ft_check_for_space(t_tknizer *tknizer, int error, int *prev_type);
 
 int			ft_token_processor(t_tknizer *tknizer,
 				int *prev_type);
@@ -143,8 +145,8 @@ int			ft_stx_a_cmd_suffix(\
 int			ft_stx_a_redir(t_list *token_list, t_list *token, int token_pos);
 int			ft_stx_a_word(t_list *token_list, t_list *token, int token_pos);
 
-int			ft_token_what_type(t_list *token);
-char		*ft_token_what_str(t_list *token);
+int			ft_token_type(t_list *token);
+char		*ft_token_str(t_list *token);
 
 /*
 	ft_tree
