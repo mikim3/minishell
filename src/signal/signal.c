@@ -62,4 +62,5 @@ void	wait_child(void)
 			g_exit_code = WEXITSTATUS(status);
 		printf("g_exit_code - %d\n", g_exit_code);
 	}
+	set_signal(SIG_HANDLER, SIG_IGNORE);
 }

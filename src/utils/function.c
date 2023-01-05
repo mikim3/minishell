@@ -16,14 +16,21 @@ void	ft_execve(char *file, char **argv, char **envp)
 {
 	if (execve(file, argv, envp) == -1)
 	{
-		printf("errno %d \n",errno);
-		// strncmp ./  /  이경우는 따로 생각하기
-		if (errno == ENOENT) //  No such file or directory
-			exitcode_with_err(argv[0], strerror(errno), 127);
-		else if (errno == EACCES) //  Permission denied
-			exitcode_with_err(argv[0], strerror(errno), 126);
+		if (ft_strncmp(argv[0], "/", 1) == 0 || \
+			ft_strncmp(argv[0], "./", 2) == 0)
+		{
+			if (errno == ENOENT)
+				exitcode_with_err(argv[0], strerror(errno), 127);
+			else if (errno == EACCES)
+				exitcode_with_err(argv[0], strerror(errno), 126);
+			else
+				exitcode_with_err(argv[0], strerror(errno), 1);
+		}
 		else
-			exitcode_with_err(argv[0], strerror(errno), 1);
+		{
+			if (errno == ENOENT)
+				exitcode_with_err(argv[0], "command not found", 127);
+		}
 	}
 	return ;
 }
@@ -35,10 +42,10 @@ int	ft_chdir(char *dir)
 	return_value = chdir(dir);
 	if (return_value == -1)
 	{
-		printf("errno %d \n",errno);
-		if (errno == ENOENT) //  No such file or directory
-			exitcode_with_err("cd", strerror(errno), 127);  // 첫 인자 chdir()이 맞을까?
-		else if (errno == EACCES) //  Permission denied
+		printf("chdir return_value == -1 \n");
+		if (errno == ENOENT)
+			exitcode_with_err("cd", strerror(errno), 127);
+		else if (errno == EACCES)
 			exitcode_with_err("cd", strerror(errno), 126);
 		else
 			exitcode_with_err("cd", strerror(errno), 1);
@@ -52,8 +59,6 @@ char	*ft_getcwd(char *buf, size_t size)
 
 	output = getcwd(NULL, 0);
 	if (output == NULL)
-	{
 		exitcode_with_err("getcwd()", strerror(errno), 1);
-	}
 	return (output);
 }
