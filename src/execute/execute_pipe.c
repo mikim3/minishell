@@ -12,9 +12,6 @@
 
 #include "../../include/ft_minishell.h"
 
-// redirection에 실패하는 케이스 존재할 수 있음
-// redir_fd 할 때 대상 fd가 available한지 확인하는 부분 넣으면 좋을 것 같음
-
 int	execute_redir(t_tree_node *node, t_pipe *m_pipe)
 {
 	int		redir_fd;

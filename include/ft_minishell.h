@@ -51,6 +51,7 @@ void		ft_deque_add_next_node(t_detower *detower, t_d_list *pos,
 				t_d_list *new_elem);
 int			ft_deque_lstsize(t_detower *detower);
 t_detower	*ft_set_envp_dll(char **envp);
+t_detower	*ft_set_envp_dll_action(char **envp, t_detower *dll_envp_tower);
 t_env_ctnt	*ft_set_envp_content(char *env);
 int			ft_seperate_env_key_value(t_env_ctnt *content, char *env);
 char		**ft_set_char_envp_from_dll(\
@@ -78,7 +79,7 @@ int			ft_redir_output_redirection(\
 	t_pipe *m_pipe, int file_fd, int redir_fd);
 
 /*
-	ft_token_expansion
+	parser - ft_token_expansion
 */
 
 int			ft_here_doc_expansion(\
@@ -120,7 +121,7 @@ int			ft_token_expand_is_char_expendable(int cha);
 char		*ft_compare_str_to_mnsh_envp_keys(char *str, t_d_list *mnsh_envp);
 
 /*
-	ft_tokenizer
+	parser - ft_tokenizer
 */
 
 void		*ft_tokenizer(char *str);
@@ -145,7 +146,7 @@ void		ft_free_tokenizer_list_and_token(\
 void		ft_free_a_token_list_content(void *target);
 
 /*
-	ft_syntax_analysis
+	parser - ft_syntax_analysis
 */
 
 int			ft_syntax_analysis(t_list *token_list);
@@ -165,7 +166,7 @@ int			ft_stx_a_redir(t_list *token_list, t_list *token, int token_pos);
 int			ft_stx_a_word(t_list *token_list, t_list *token, int token_pos);
 
 /*
-	ft_parser_util
+	parser - ft_parser_util
 */
 
 int			ft_token_type(t_list *token);
@@ -175,7 +176,7 @@ void		ft_free_a_tree_node(void *target);
 void		ft_free_a_tree_node_content(t_tree_node *node);
 
 /*
-	ft_tree
+	parser - ft_tree
 */
 
 t_tree_node	*ft_tree_init(int type, void *node_content);
@@ -185,7 +186,7 @@ int			ft_tree_node_post_traversal(\
 	t_tree_node *target_tree, void (*function)(void *));
 
 /*
-	ft_syntax_parse_tree
+	parser - ft_syntax_parse_tree
 */
 
 t_tree_node	*ft_syntax_parse_tree(t_list *token_list);
@@ -250,6 +251,8 @@ void		execute_cmd(\
 
 void		fork_routine(t_tree_node *pipeline, \
 	t_pipe *m_pipe, int *iter, t_detower *dll_envp_tower);
+int			fork_action(t_pipe *m_pipe, \
+	t_tree_node *pipeline, t_detower *dll_envp_tower);
 void		parent_routine(t_pipe	*m_pipe);
 void		child_routine(t_pipe *m_pipe, \
 	t_tree_node *pipeline, t_detower *dll_envp_tower);
@@ -258,7 +261,9 @@ int			is_built_in(t_tree_cmd *cmd);
 void		execute_builtin(\
 	t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe);
 char		**get_env_path(t_detower *dll_envp_tower);
+
 void		double_char_free(char **double_char);
+
 char		*get_file_path_from_env_path(\
 	char *command, t_detower *dll_envp_tower);
 char		*set_file_path(char *command, t_detower *dll_envp_tower);
@@ -271,7 +276,7 @@ int			next_pipe_check(t_tree_node *node, t_pipe *m_pipe);
 void		ft_execute_tree(\
 	t_tree_node *node, t_detower *dll_envp_tower, t_pipe *m_pipe);
 
-int			ft_tree_node_pre_traversal2(t_tree_node *token_tree, \
+int			ft_mnsh_tree_pre_traversal(t_tree_node *token_tree, \
 	t_detower *dll_envp_tower, \
 	t_pipe *m_pipe, void (*function)(t_tree_node *, t_detower *, t_pipe *));
 int			ft_tree_node_pre_traversal_exe_cmd_set(\

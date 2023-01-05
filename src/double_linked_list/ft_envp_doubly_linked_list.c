@@ -15,13 +15,22 @@
 t_detower	*ft_set_envp_dll(char **envp)
 {
 	t_detower		*dll_envp_tower;
-	t_d_list		*new_list;
-	t_env_ctnt		*tmp_content;
-	int				iter;
 
 	dll_envp_tower = ft_dequetower();
 	if (dll_envp_tower == 0)
 		return (0);
+	dll_envp_tower = ft_set_envp_dll_action(envp, dll_envp_tower);
+	if (dll_envp_tower == 0)
+		return (0);
+	return (dll_envp_tower);
+}
+
+t_detower	*ft_set_envp_dll_action(char **envp, t_detower *dll_envp_tower)
+{
+	t_d_list		*new_list;
+	t_env_ctnt		*tmp_content;
+	int				iter;
+
 	iter = 0;
 	while (envp[iter] != 0)
 	{
@@ -86,8 +95,8 @@ int	ft_seperate_env_key_value(t_env_ctnt *content, char *env)
 	return (FT_SUCCESS);
 }
 
-// ft_free_string_ptr_arr 함수를 공용으로 만들 수 있을 것 같다. 문자열 포인터 배열을 해제하는 함수로
-char	**ft_set_char_envp_from_dll(t_detower *dll_envp_tower, char **old_mnsh_envp)
+char	**ft_set_char_envp_from_dll(t_detower *dll_envp_tower, \
+	char **old_mnsh_envp)
 {
 	int			ptr_arr_len;
 	char		**new_envp;
@@ -97,7 +106,7 @@ char	**ft_set_char_envp_from_dll(t_detower *dll_envp_tower, char **old_mnsh_envp
 	ptr_arr_len = ft_deque_lstsize(dll_envp_tower);
 	new_envp = (char **)malloc(sizeof(char *) * (ptr_arr_len + 1));
 	if (new_envp == 0)
-		return (0); // 예전 envp 어떻게 처리할까? 에러 코드는 무엇일까? 동작은 어떻게 될까?
+		return (0); // 예전 envp 어떻게 처리할까? 에러 코드는 무엇일까? 동작은 어떻게 될까? kshim
 	new_envp[ptr_arr_len] = 0;
 	lst_node = dll_envp_tower->head;
 	iter = 0;
@@ -150,13 +159,13 @@ char	*ft_set_new_envp_string(t_d_list *lst_node)
 		}
 		free(tmp_str);
 	}
-	return (ret_str);	
+	return (ret_str);
 }
 
 void	ft_free_t_envp_content(void	*content)
 {
-	t_env_ctnt *target;
-	
+	t_env_ctnt	*target;
+
 	target = (t_env_ctnt *)content;
 	if (target == 0)
 		return ;
