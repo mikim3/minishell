@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:57:52 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 18:16:16 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 18:23:06 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_token_str_expansion(
 		if (expand->len != 0 && (*(expand->pos) == '$' \
 			|| *(expand->pos) == '\"' || *(expand->pos) == '\''))
 		{
-			if (ft_token_expand_str_control_without_expand(
+			if (ft_token_expand_str_control_without_expand(\
 					&(expand->ret_str), expand->start, expand->len) == FT_ERROR)
 				return (ft_token_expand_free_struct(&expand), FT_ERROR);
 			else
@@ -63,26 +63,19 @@ int	ft_token_str_expansion(
 		{
 			if (ft_token_expand_expansion_sign(expand, mnsh_envp) == FT_ERROR)
 				return (ft_token_expand_free_struct(&expand), FT_ERROR);
-			expand->start = expand->pos;
-			expand->len = 0;
 		}
 		else if ((expand_mode == EXPAND_ALL \
 			|| expand_mode == EXPAND_QUOTE_ONLY) && *(expand->pos) == '\"')
 		{
-			if (ft_token_expand_double_quotes(expand, mnsh_envp, expand_mode) == FT_ERROR)
+			if (ft_token_expand_double_quotes(\
+				expand, mnsh_envp, expand_mode) == FT_ERROR)
 				return (ft_token_expand_free_struct(&expand), FT_ERROR);
-			expand->pos++;
-			expand->start = expand->pos;
-			expand->len = 0;
 		}
 		else if ((expand_mode == EXPAND_ALL \
 			|| expand_mode == EXPAND_QUOTE_ONLY) && *(expand->pos) == '\'')
 		{
 			if (ft_token_expand_single_quotes(expand) == FT_ERROR)
 				return (ft_token_expand_free_struct(&expand), FT_ERROR);
-			expand->pos++;
-			expand->start = expand->pos;
-			expand->len = 0;
 		}
 		else
 		{
@@ -105,6 +98,12 @@ int	ft_token_str_expansion(
 	ft_token_expand_free_struct(&expand);
 	return (FT_SUCCESS);
 }
+
+// int	ft_token_expand_expansion_checker()
+// {
+
+// }
+
 
 int	ft_token_expand_init_struct(t_expand **expand, char **token_str)
 {

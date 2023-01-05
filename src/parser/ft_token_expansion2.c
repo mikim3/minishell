@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 18:04:36 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 18:09:31 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 18:22:01 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int	ft_token_expand_expansion_sign(t_expand *expand, t_d_list *mnsh_envp)
 	if (ft_token_expand_str_control_with_expand(&(expand->ret_str),
 			expand->start, expand->len, mnsh_envp) == FT_ERROR)
 		return (FT_ERROR);
+	expand->start = expand->pos;
+	expand->len = 0;
 	return (FT_SUCCESS);
 }
 
@@ -51,8 +53,6 @@ int	ft_token_expand_double_quotes(
 			if (ft_token_expand_expansion_sign(
 					expand, mnsh_envp) == FT_ERROR)
 				return (FT_ERROR);
-			expand->len = 0;
-			expand->start = expand->pos;
 		}
 		else
 		{
@@ -63,6 +63,8 @@ int	ft_token_expand_double_quotes(
 	if (ft_token_expand_str_control_without_expand(
 			&(expand->ret_str), expand->start, expand->len) == FT_ERROR)
 		return (FT_ERROR);
+	expand->start = ++expand->pos;
+	expand->len = 0;
 	return (FT_SUCCESS);
 }
 
@@ -78,6 +80,8 @@ int	ft_token_expand_single_quotes(t_expand *expand)
 	if (ft_token_expand_str_control_without_expand(
 			&(expand->ret_str), expand->start, expand->len) == FT_ERROR)
 		return (FT_ERROR);
+	expand->start = ++expand->pos;
+	expand->len = 0;
 	return (FT_SUCCESS);
 }
 
