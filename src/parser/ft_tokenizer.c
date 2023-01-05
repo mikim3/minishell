@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:01:52 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/04 18:00:21 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 12:59:53 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,26 @@ void	*ft_tokenizer(char *str)
 	t_tknizer	tknizer;
 	int			prev_type;
 	int			error;
+
 	prev_type = TKN_WORD;
 	error = BOOL_FALSE;
 	if (ft_initialize_tokenizer(&tknizer, str) == FT_ERROR)
-		exit(1);
+		exit(137);
 	while (*(tknizer.str_pos) != '\0')
 	{
 		error = ft_tokenizing_loop(&tknizer, error, &prev_type);
 		if (error == BOOL_TRUE)
 		{
-			ft_free_tokenizer_list_and_token(&(tknizer.tkn_list), &(tknizer.tkn), TKN_TKNIZE_FAIL);
-			exit(1);
+			ft_free_tokenizer_list_and_token(&(tknizer.tkn_list),
+				&(tknizer.tkn), TKN_TKNIZE_FAIL);
+			exit(137);
 		}
 	}
 	if (ft_token_processor(&tknizer, &prev_type) == FT_ERROR)
 	{
-		ft_free_tokenizer_list_and_token(&(tknizer.tkn_list), &(tknizer.tkn), TKN_TKNIZE_FAIL);
-		exit(1);
+		ft_free_tokenizer_list_and_token(&(tknizer.tkn_list),
+			&(tknizer.tkn), TKN_TKNIZE_FAIL);
+		exit(137);
 	}
 	return ((void *)(tknizer.tkn_list));
 }
@@ -86,7 +89,7 @@ int	ft_tokenizing_loop(t_tknizer *tknizer, int error, int *prev_type)
 		else
 			error = ft_token_processor(tknizer, prev_type);
 	}
-	if (error == BOOL_FALSE 
+	if (error == BOOL_FALSE
 		&& ft_isspace(*(tknizer->str_pos)) == BOOL_TRUE)
 	{
 		if (tknizer->tkn_len != 0)
@@ -110,7 +113,7 @@ int	ft_tokenizing_loop(t_tknizer *tknizer, int error, int *prev_type)
 int	ft_close_quote(t_tknizer *tknizer, int *prev_type)
 {
 	char	target;
-	
+
 	if (*prev_type == TKN_OPERATOR
 		&& ft_token_processor(tknizer, prev_type) == FT_ERROR)
 		return (FT_ERROR);
@@ -129,8 +132,6 @@ int	ft_close_quote(t_tknizer *tknizer, int *prev_type)
 	*prev_type = TKN_WORD;
 	return (FT_SUCCESS);
 }
-
-
 
 void	test_print_token_lst(t_list *token_list)
 {

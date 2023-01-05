@@ -6,16 +6,11 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 10:36:56 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/03 09:54:59 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 12:58:12 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ft_tree.h"
-
-
-
-#include "../../include/ft_tokenizer.h"
-#include <stdio.h>
+#include "../../include/ft_minishell.h"
 
 t_tree_node	*ft_tree_init(int type, void *node_content)
 {
