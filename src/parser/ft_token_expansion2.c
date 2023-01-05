@@ -23,6 +23,8 @@ int	ft_token_expand_expansion_sign(t_expand *expand, t_d_list *mnsh_envp)
 		if (ft_token_expand_str_control_with_expand(&(expand->ret_str),
 				expand->start, expand->len, mnsh_envp) == FT_ERROR)
 			return (FT_ERROR);
+		expand->start = expand->pos;
+		expand->len = 0;
 		return (FT_SUCCESS);
 	}
 	while (ft_token_expand_is_char_expendable((*expand->pos)) == FT_SUCCESS)
