@@ -12,21 +12,16 @@
 
 #include "../../include/ft_minishell.h"
 
-// 해당 키값이 존재하는 키인지 확인
-// 존재하지 않으면 set_new_env
-// 존재한다면 기존값 수정하기 
 void	set_env(t_detower *env_tower, char *key, char *value)
 {
 	t_d_list		*env;
-	t_env_ctnt	*set_target;
+	t_env_ctnt		*set_target;
 
 	env = env_tower->head;
 	set_target = find_env_keycmp(env, key);
 
 	if (set_target == NULL)
-	{
 		set_new_env(&(env_tower), key, value);
-	}
 	else
 	{
 		free(set_target->key);
@@ -45,21 +40,18 @@ void	set_env_value(t_env_ctnt *env, char *key, char *value)
 		env->value = NULL;
 }
 
-// env_tower에 새로운 key,value를 가진 t_envp_content를 가진 env_list를 추가한다.
 void	set_new_env(t_detower	**env_tower, char	*key, char	*value)
 {
 	t_d_list		*new_env_list;
-	t_env_ctnt	*new_env;
+	t_env_ctnt		*new_env;
 
 	new_env = env_new();
+	if (new_env == 0)
+		return ;
 	new_env_list = ft_d_lstnew(new_env);
-	if (new_env_list == NULL || new_env == NULL)
-	{
-		printf("new_env_list == NULL || new_env == NULL \n");
-	}
-	// new_env안에 key와 value를 넣는다.
+	if (new_env_list == 0)
+		return ;
 	set_env_value(new_env, key, value);
-	// env_tower에  new_env_list넣기
 	ft_deque_add_back(*env_tower, new_env_list);
 }
 
