@@ -11,9 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../include/ft_minishell.h"
-#include <fcntl.h>
-
-#include "../../include/ft_wrapper_functions.h"
 
 // redirection에 실패하는 케이스 존재할 수 있음
 // redir_fd 할 때 대상 fd가 available한지 확인하는 부분 넣으면 좋을 것 같음
@@ -26,8 +23,8 @@ int	execute_redir(t_tree_node *node, t_pipe *m_pipe)
 	int		ret_val;
 
 	redir_fd = -1;
-	redir = ((t_tree_redir *)node->content)->redir;
-	file_name = ((t_tree_redir *)node->content)->file_name;
+	redir = ((t_tree_rdr *)node->content)->redir;
+	file_name = ((t_tree_rdr *)node->content)->file_name;
 	if (ft_isdigit(*redir) == BOOL_TRUE)
 	{
 		redir_fd = ft_atoi(redir);
@@ -56,7 +53,7 @@ int	ft_redir_infile(char *file_name, t_pipe *m_pipe, int redir_fd)
 
 	if (redir_fd != -1 && ft_fstat(redir_fd, &buf) == -1)
 		return (FT_ERROR);
-	if (ft_access(file_name, F_OK | R_OK) == FT_ERROR)
+	if (ft_access(file_name, F_OK | R_OK) == -1)
 		return (FT_ERROR);
 	else
 	{

@@ -18,7 +18,7 @@
 void	set_env(t_detower *env_tower, char *key, char *value)
 {
 	t_d_list		*env;
-	t_envp_content	*set_target;
+	t_env_ctnt	*set_target;
 
 	env = env_tower->head;
 	set_target = find_env_keycmp(env, key);
@@ -36,7 +36,7 @@ void	set_env(t_detower *env_tower, char *key, char *value)
 	}
 }
 
-void	set_env_value(t_envp_content *env, char *key, char *value)
+void	set_env_value(t_env_ctnt *env, char *key, char *value)
 {
 	env->key = ft_strdup(key);
 	if (value)
@@ -49,7 +49,7 @@ void	set_env_value(t_envp_content *env, char *key, char *value)
 void	set_new_env(t_detower	**env_tower, char	*key, char	*value)
 {
 	t_d_list		*new_env_list;
-	t_envp_content	*new_env;
+	t_env_ctnt	*new_env;
 
 	new_env = env_new();
 	new_env_list = ft_d_lstnew(new_env);
@@ -63,14 +63,14 @@ void	set_new_env(t_detower	**env_tower, char	*key, char	*value)
 	ft_deque_add_back(*env_tower, new_env_list);
 }
 
-t_envp_content	*find_env_keycmp(t_d_list *env, char *env_key)
+t_env_ctnt	*find_env_keycmp(t_d_list *env, char *env_key)
 {
 	t_d_list	*my_env;
 
 	my_env = env;
 	while (my_env)
 	{
-		if (ft_strcmp(((t_envp_content *)my_env->content)->key, env_key) == 0)
+		if (ft_strcmp(((t_env_ctnt *)my_env->content)->key, env_key) == 0)
 		{
 			return (my_env->content);
 		}
@@ -79,11 +79,11 @@ t_envp_content	*find_env_keycmp(t_d_list *env, char *env_key)
 	return (NULL);
 }
 
-t_envp_content	*env_new(void)
+t_env_ctnt	*env_new(void)
 {
-	t_envp_content	*new;
+	t_env_ctnt	*new;
 
-	new = malloc(sizeof(t_envp_content));
+	new = malloc(sizeof(t_env_ctnt));
 	if (new == NULL)
 		return (NULL);
 	new->key = NULL;

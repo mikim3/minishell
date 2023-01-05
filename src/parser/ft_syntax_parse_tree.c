@@ -10,9 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../../include/ft_tree.h"
-// #include "../../include/ft_tokenizer.h"
-
 #include "../../include/ft_minishell.h"
 
 t_tree_node	*ft_syntax_parse_tree(t_list *token_list)
@@ -103,11 +100,11 @@ int	ft_syntax_parse_redirections(t_list **token, t_tree_node *cur_redirects, int
 	return (FT_SUCCESS);
 }
 
-t_tree_redir	*ft_node_content_redir(t_list **token)
+t_tree_rdr	*ft_node_content_redir(t_list **token)
 {
-	t_tree_redir	*redir_node;
+	t_tree_rdr	*redir_node;
 
-	redir_node = (t_tree_redir *)malloc(sizeof(t_tree_redir));
+	redir_node = (t_tree_rdr *)malloc(sizeof(t_tree_rdr));
 	if (redir_node == 0)
 		return (0);
 	redir_node->redir = ft_strdup(ft_token_what_str(*token));

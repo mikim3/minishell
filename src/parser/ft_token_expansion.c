@@ -10,14 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../../include/ft_tokenizer.h"
-// #include "../../include/ft_doubly_linked_list.h"
-// #include "../../include/ft_token_expansion.h"
-
-
 #include "../../include/ft_minishell.h"
-
-// #include <stdio.h>
 
 int	ft_token_expansion(t_list *token_list, t_detower *dll_envp_tower)
 {
@@ -265,9 +258,9 @@ char	*ft_compare_str_to_mnsh_envp_keys(char *str, t_d_list *mnsh_envp)
 	cp_value = 0;
 	while (mnsh_envp != 0)
 	{
-		if (ft_strcmp(str, ((t_envp_content *)mnsh_envp->content)->key) == FT_SUCCESS)
+		if (ft_strcmp(str, ((t_env_ctnt *)mnsh_envp->content)->key) == FT_SUCCESS)
 		{
-			cp_value = ft_strdup(((t_envp_content *)mnsh_envp->content)->value);
+			cp_value = ft_strdup(((t_env_ctnt *)mnsh_envp->content)->value);
 			if (cp_value == 0)
 				return (0);
 			return (cp_value);

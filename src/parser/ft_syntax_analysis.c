@@ -10,10 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../../include/ft_tokenizer.h"
-
-// #include <stdio.h>
-
 #include "../../include/ft_minishell.h"
 
 int	ft_syntax_analysis(t_list *token_list)

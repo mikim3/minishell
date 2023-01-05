@@ -24,15 +24,15 @@ void	ft_env(t_detower *env_tower, t_pipe *pipe_value)
 	output = NULL;
 	while (env)
 	{
-		if ((((t_envp_content *)env->content)->value) == NULL)
+		if ((((t_env_ctnt *)env->content)->value) == NULL)
 		{
 			env = env->next;
 			continue ;
 		}
 		line = ft_strjoin_infree(\
-		ft_strdup(((t_envp_content *)env->content)->key), ft_strdup("="));
+		ft_strdup(((t_env_ctnt *)env->content)->key), ft_strdup("="));
 		line = ft_strjoin_infree(line, \
-		ft_strdup((((t_envp_content *)env->content)->value)));
+		ft_strdup((((t_env_ctnt *)env->content)->value)));
 		line = ft_strjoin_infree(line, ft_strdup("\n"));
 		output = ft_strjoin_infree(output, line);
 		env = env->next;

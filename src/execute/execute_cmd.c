@@ -12,8 +12,6 @@
 
 #include "../../include/ft_minishell.h"
 
-#include "../../include/ft_wrapper_functions.h"
-
 void execute_cmd(t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe)
 {
 	if (is_built_in(token_tree->content))

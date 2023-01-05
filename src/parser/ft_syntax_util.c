@@ -10,11 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ft_tree.h"
-#include "../../include/ft_tokenizer.h"
-
-// token list node 넣으면 type 반환하는 함수 작성
-#include <stdio.h>
+#include "../../include/ft_minishell.h"
 
 int	ft_token_what_type(t_list *token)
 {
@@ -30,7 +26,7 @@ void	ft_free_a_tree_node(void *target)
 {
 	t_tree_node		*node;
 	t_tree_cmd 		*cmd_content;
-	t_tree_redir	*redir_content;
+	t_tree_rdr	*redir_content;
 	
 	node = (t_tree_node *)target;
 	if (node == 0)
@@ -48,7 +44,7 @@ void	ft_free_a_tree_node(void *target)
 	}
 	else if (node->type == NODE_REDIR || node->type == NODE_FD_REDIR)
 	{
-		redir_content = (t_tree_redir *)node->content;
+		redir_content = (t_tree_rdr *)node->content;
 		free(redir_content->redir);
 		redir_content->redir = 0;
 		free(redir_content->file_name);

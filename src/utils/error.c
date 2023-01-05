@@ -12,14 +12,14 @@
 
 #include "../../include/ft_minishell.h"
 
-void    print_err(char *msg,int exit_code)
+void	print_err(char *msg, int exit_code)
 {
-    ft_putstr_fd(msg,STDERR_FILENO);
-    ft_putstr_fd("\n",STDERR_FILENO);
-    g_exit_code = exit_code;
+	ft_putstr_fd(msg, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	g_exit_code = exit_code;
 }
 
-void    exitcode_with_err(char *str, char *str_error, int exit_code)
+void	exitcode_with_err(char *str, char *str_error, int exit_code)
 {
 	ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
@@ -30,6 +30,5 @@ void    exitcode_with_err(char *str, char *str_error, int exit_code)
 		ft_putstr_fd(str_error, STDERR_FILENO);
 	}
 	ft_putstr_fd("\n", STDERR_FILENO);
-    g_exit_code = exit_code;
-	// exit(exit_code);
+	g_exit_code = exit_code;
 }
