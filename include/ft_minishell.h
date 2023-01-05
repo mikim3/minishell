@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/05 15:24:17 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 16:49:49 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,14 @@ int			ft_redir_output_redirection(\
 
 int			ft_here_doc_expansion(\
 	t_list *token_list, t_detower *dll_envp_tower);
+int			ft_check_here_doc(t_list **token_node, char *redir, \
+	t_list *token_list, t_detower *dll_envp_tower);
+int			ft_here_doc_with_delimiter_control(t_list **token_node, \
+	t_list *token_list, t_detower *dll_envp_tower);
 int			ft_make_h_doc_wth_expand(\
 	char *token_str, t_detower *dll_envp_tower, int is_env_expand);
-void		ft_free_here_doc_memory(char *delimiter, char *buffer);
+int			ft_make_h_doc_loop(char *delimiter, \
+	int here_doc_fd, t_detower *dll_envp_tower, int is_env_expand);
 
 int			ft_token_expansion(t_list *token_list, t_detower *dll_envp_tower);
 int			ft_token_str_expansion(\
@@ -138,6 +143,10 @@ int			ft_syntax_analysis(t_list *token_list);
 int			ft_stx_a_pipeline(t_list *token_list, t_list *token, int token_pos);
 int			ft_stx_a_simple_cmd(\
 	t_list *token_list, t_list *token, int token_pos);
+
+int			ft_stx_a_word_and_cmd_suffix_case(\
+	t_list *token_list, t_list *token, int token_pos);
+
 int			ft_stx_a_cmd_prefix(\
 	t_list *token_list, t_list *token, int token_pos);
 int			ft_stx_a_cmd_suffix(\
@@ -158,8 +167,17 @@ int			ft_tree_node_pre_traversal(\
 int			ft_tree_node_post_traversal(\
 	t_tree_node *target_tree, void (*function)(void *));
 
+/*
+	ft_syntax_parse_tree
+*/
+
 t_tree_node	*ft_syntax_parse_tree(t_list *token_list);
 int			ft_syntax_parse_pipeline(t_list *token, t_tree_node **parse);
+int			ft_syntax_parse_pipeline_data(t_tree_node **parse, \
+	t_tree_node **recur_parse, t_tree_node **cur_redirects, \
+	t_tree_node **simple_cmd);
+int			ft_syntax_parse_token_traversal(int *token_type, t_list **token, \
+	t_tree_node *cur_redirects, t_tree_node *simple_cmd);
 
 int			ft_syntax_parse_redirections(\
 	t_list **token, t_tree_node *cur_redirects, int token_type);
@@ -167,10 +185,12 @@ t_tree_rdr	*ft_node_content_redir(t_list **token);
 
 int			ft_syntax_parse_cmd(t_list **token, t_tree_node *cmd);
 char		**ft_set_cmd_argv(char ***argv, char *str);
+char		**ft_set_cmd_argv_set_new_argv(char ***argv, char *str);
 
 void		ft_free_string_ptr_arr(char **argv);
 
 void		ft_free_a_tree_node(void *target);
+void		ft_free_a_tree_node_content(t_tree_node *node);
 
 /*
 	ft_wrapper_functions

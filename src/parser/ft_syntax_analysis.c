@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 11:41:04 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 14:31:19 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 16:19:38 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	ft_syntax_analysis(t_list *token_list)
 		g_exit_code = 258;
 		return (FT_ERROR);
 	}
-	printf("\nsyntax appropriate\n\n");
 	return (FT_SUCCESS);
 }
 
@@ -33,7 +32,7 @@ int	ft_stx_a_pipeline(t_list *token_list, t_list *token, int token_pos)
 {
 	token = ft_lst_num(token_list, token_pos);
 	if (token == 0)
-		return(-1);
+		return (-1);
 	if (ft_token_type(token) == TKN_PIPE)
 		return (-1);
 	token_pos = ft_stx_a_simple_cmd(token_list, token, token_pos);
@@ -53,10 +52,10 @@ int	ft_stx_a_pipeline(t_list *token_list, t_list *token, int token_pos)
 	return (token_pos);
 }
 
-int ft_stx_a_simple_cmd(t_list *token_list, t_list *token, int token_pos)
+int	ft_stx_a_simple_cmd(t_list *token_list, t_list *token, int token_pos)
 {
-	int stack_pos;
-	
+	int	stack_pos;
+
 	stack_pos = token_pos;
 	token_pos = ft_stx_a_cmd_prefix(token_list, token, stack_pos);
 	if (token_pos != -1)
@@ -65,114 +64,42 @@ int ft_stx_a_simple_cmd(t_list *token_list, t_list *token, int token_pos)
 		token = ft_lst_num(token_list, stack_pos);
 		if (token == 0)
 			return (-1);
-		token_pos = ft_stx_a_word(token_list, token, stack_pos);
+		token_pos = ft_stx_a_word_and_cmd_suffix_case(\
+			token_list, token, stack_pos);
 		if (token_pos == -1)
 			return (stack_pos);
-		else
-		{
-			stack_pos = token_pos;
-			token = ft_lst_num(token_list, stack_pos);
-			if (token == 0)
-				return (-1);
-			token_pos = ft_stx_a_cmd_suffix(token_list, token, stack_pos);
-			if (token_pos == -1)
-				return (stack_pos);
-			else
-				return (token_pos);
-		}
 	}
 	else
 	{
-		token_pos = ft_stx_a_word(token_list, token, stack_pos);
+		token_pos = ft_stx_a_word_and_cmd_suffix_case(\
+			token_list, token, stack_pos);
 		if (token_pos == -1)
 			return (stack_pos);
-		else
-		{
-			stack_pos = token_pos;
-			token = ft_lst_num(token_list, stack_pos);
-			if (token == 0)
-				return (-1);
-			token_pos = ft_stx_a_cmd_suffix(token_list, token, stack_pos);
-			if (token_pos == -1)
-				return (stack_pos);
-			else
-				return (token_pos);
-		}
 	}
 	stack_pos = token_pos;
 	return (stack_pos);
 }
 
-int ft_stx_a_cmd_prefix(t_list *token_list, t_list *token, int token_pos)
+int	ft_stx_a_word_and_cmd_suffix_case(\
+	t_list *token_list, t_list *token, int token_pos)
 {
-	token_pos = ft_stx_a_redir(token_list, token, token_pos);
-	if (token_pos == -1)
-		return (-1);
-	token = ft_lst_num(token_list, token_pos);
-	if (token == 0)
-		return (-1);
-	if (ft_token_type(token) == TKN_NULL)
-		return (token_pos);
-	if (ft_token_type(token) != TKN_WORD)
-	{
-		token_pos = ft_stx_a_cmd_prefix(token_list, token, token_pos);
-		if (token_pos == -1)
-			return (-1);
-	}
-	return (token_pos);
-}
+	int	stack_pos;
 
-int ft_stx_a_cmd_suffix(t_list *token_list, t_list *token, int token_pos)
-{
-	if (ft_token_type(token) == TKN_NULL)
-		return (token_pos);
-	else if (ft_token_type(token) == TKN_WORD)
-	{
-		token_pos = ft_stx_a_word(token_list, token, token_pos);
-		if (token_pos == -1)
-			return (-1);
-	}
+	stack_pos = token_pos;
+	token_pos = ft_stx_a_word(token_list, token, stack_pos);
+	if (token_pos == -1)
+		return (stack_pos);
 	else
 	{
-		token_pos = ft_stx_a_redir(token_list, token, token_pos);
-		if (token_pos == -1)
+		stack_pos = token_pos;
+		token = ft_lst_num(token_list, stack_pos);
+		if (token == 0)
 			return (-1);
-	}
-	token = ft_lst_num(token_list, token_pos);
-	if (token == 0)
-		return (-1);
-	if (ft_token_type(token) == TKN_NULL
-		|| ft_token_type(token) == TKN_PIPE)
-		return (token_pos);
-	token_pos = ft_stx_a_cmd_suffix(token_list, token, token_pos);
-	if (token_pos == -1)
-		return (-1);
-	return (token_pos);
-}
-
-int ft_stx_a_redir(t_list *token_list, t_list *token, int token_pos)
-{
-	token = ft_lst_num(token_list, token_pos);
-	if (ft_token_type(token) == TKN_REDIRECT
-		|| ft_token_type(token) == TKN_FD_REDIRECT)
-	{
-		token_pos = ft_stx_a_word(token_list, token->next, token_pos + 1);
+		token_pos = ft_stx_a_cmd_suffix(token_list, token, stack_pos);
 		if (token_pos == -1)
-			return (-1);
+			return (stack_pos);
+		else
+			return (token_pos);
 	}
-	else
-		return (-1);
-	return (token_pos);
-}
-
-int	ft_stx_a_word(t_list *token_list, t_list *token, int token_pos)
-{
-	token = ft_lst_num(token_list, token_pos);
-	if (token == 0)
-		return (-1);
-	if (ft_token_type(token) == TKN_NULL)
-		return (-1);
-	if (ft_token_type(token) != TKN_WORD)
-		return (-1);
-	return (token_pos + 1);
+	return (stack_pos);
 }
