@@ -24,3 +24,20 @@ void	double_char_free(char **double_char)
 	}
 	free(double_char);
 }
+
+void	ft_free_string_ptr_arr(char **argv)
+{
+	int	i;
+
+	i = 0;
+	if (argv == 0)
+		return ;
+	while (argv[i] != 0)
+	{
+		free(argv[i]);
+		argv[i] = 0;
+		i++;
+	}
+	free(argv);
+	return ;
+}

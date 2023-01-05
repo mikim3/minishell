@@ -102,20 +102,3 @@ char	**ft_set_cmd_argv_set_new_argv(char ***argv, char *str)
 	}
 	return (new_argv);
 }
-
-void	ft_free_string_ptr_arr(char **argv)
-{
-	int	i;
-
-	i = 0;
-	if (argv == 0)
-		return ;
-	while (argv[i] != 0)
-	{
-		free(argv[i]);
-		argv[i] = 0;
-		i++;
-	}
-	free(argv);
-	return ;
-}

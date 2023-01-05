@@ -40,15 +40,16 @@ void	fork_routine(t_tree_node *pipeline, \
 	while (pipeline != 0)
 	{
 		if (next_pipe_check(pipeline, m_pipe) == FT_ERROR)
-			break ; // pipe 에러 시에 그 전 동작들은?
+			break ; // kshim pipe 에러 시에 그 전 동작들은?
 		if ((*iter) == 0 && m_pipe->next_pipe_check == BOOL_FALSE
 			&& is_built_in(pipeline->left->right->content) == BOOL_TRUE)
 		{
 			m_pipe->mnsh_builtin = BOOL_TRUE;
-			if (ft_tree_node_pre_traversal2(pipeline->left, \
+			if (ft_mnsh_tree_pre_traversal(pipeline->left, \
 				dll_envp_tower, m_pipe, &ft_execute_tree) == FT_ERROR)
 			{
 				///// 부모, non_pipe, 빌트인
+				// 특정 fd 닫기 필요? kshim
 			}
 			return ;
 		}
@@ -80,7 +81,7 @@ int	fork_action(t_pipe *m_pipe, \
 void	parent_routine(t_pipe	*m_pipe)
 {
 	// printf("getpid() == %d \n", getpid());
-	// printf("child_pid == %d \n", pid);	
+	// printf("child_pid == %d \n", pid); mikim3
 	set_signal(SIG_IGNORE, SIG_IGNORE);
 	if (m_pipe->pre_pipe_check == BOOL_TRUE)
 	{
@@ -110,8 +111,8 @@ void	child_routine(t_pipe *m_pipe, \
 			|| ft_dup2(m_pipe->pipe[P_WRITE], m_pipe->outfile_fd) == -1
 			|| ft_close(m_pipe->pipe[P_WRITE]) == -1)
 			exit(g_exit_code);
-	if (ft_tree_node_pre_traversal2(pipeline->left, dll_envp_tower, \
-		m_pipe, &ft_execute_tree) == FT_ERROR)// error 시 뒤처리
+	if (ft_mnsh_tree_pre_traversal(pipeline->left, dll_envp_tower, \
+		m_pipe, &ft_execute_tree) == FT_ERROR)// error 시 뒤처리 kshim
 		exit(g_exit_code);
 	if (m_pipe->mnsh_builtin == BOOL_FALSE)
 		exit(g_exit_code);

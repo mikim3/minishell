@@ -95,7 +95,6 @@ int	ft_seperate_env_key_value(t_env_ctnt *content, char *env)
 	return (FT_SUCCESS);
 }
 
-// ft_free_string_ptr_arr 함수를 공용으로 만들 수 있을 것 같다. 문자열 포인터 배열을 해제하는 함수로
 char	**ft_set_char_envp_from_dll(t_detower *dll_envp_tower, \
 	char **old_mnsh_envp)
 {
@@ -107,7 +106,7 @@ char	**ft_set_char_envp_from_dll(t_detower *dll_envp_tower, \
 	ptr_arr_len = ft_deque_lstsize(dll_envp_tower);
 	new_envp = (char **)malloc(sizeof(char *) * (ptr_arr_len + 1));
 	if (new_envp == 0)
-		return (0); // 예전 envp 어떻게 처리할까? 에러 코드는 무엇일까? 동작은 어떻게 될까?
+		return (0); // 예전 envp 어떻게 처리할까? 에러 코드는 무엇일까? 동작은 어떻게 될까? kshim
 	new_envp[ptr_arr_len] = 0;
 	lst_node = dll_envp_tower->head;
 	iter = 0;
