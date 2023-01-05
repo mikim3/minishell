@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:15:08 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/05 15:27:45 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 18:57:33 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,26 @@ char	*ft_getcwd(char *buf, size_t size)
 	if (output == NULL)
 		exitcode_with_err("getcwd()", strerror(errno), 1);
 	return (output);
+}
+
+int	ft_access(const char *file, int flags)
+{
+	int	ret_val;
+
+	ret_val = access(
+			file, flags);
+	if (ret_val == -1)
+		exitcode_with_err("access()", strerror(errno), 1);
+	return (ret_val);
+}
+
+int	ft_fstat(int fd, struct stat *buf)
+{
+	int	ret_val;
+
+	ret_val = fstat(
+			fd, buf);
+	if (ret_val == -1)
+		exitcode_with_err("fstat()", strerror(errno), 1);
+	return (ret_val);
 }

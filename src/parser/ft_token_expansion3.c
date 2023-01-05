@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 16:48:15 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 18:04:26 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 18:49:54 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,20 +90,4 @@ char	*ft_compare_str_to_mnsh_envp_keys(char *str, t_d_list *mnsh_envp)
 		mnsh_envp = mnsh_envp->next;
 	}
 	return (0);
-}
-
-int	ft_token_check_for_quote(t_list *token)
-{
-	char	*str_pos;
-
-	str_pos = ft_token_str(token);
-	while (*str_pos != '\0')
-	{
-		if (*str_pos == '\'' || *str_pos == '\"')
-		{
-			return (BOOL_TRUE);
-		}
-		str_pos++;
-	}
-	return (BOOL_FALSE);
 }

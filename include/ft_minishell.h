@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/05 18:15:57 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 18:59:24 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,15 +95,15 @@ int			ft_make_h_doc_loop(char *delimiter, \
 int			ft_token_expansion(t_list *token_list, t_detower *dll_envp_tower);
 int			ft_token_str_expansion(\
 	char **token_str, t_d_list *mnsh_envp, int expand_mode);
-int			ft_token_expand_init_struct(t_expand **expand, char **token_str);
-void		ft_token_expand_free_struct(t_expand **expand);
+int			ft_token_expand_str_process_before_expand(t_expand *expand);
+int			ft_token_expand_expansion_checker(\
+	t_expand *expand, t_d_list *mnsh_envp, int expand_mode);
 
 int			ft_token_expand_expansion_sign(\
 	t_expand *expand, t_d_list *mnsh_envp);
 int			ft_token_expand_double_quotes(\
 	t_expand *expand, t_d_list *mnsh_envp, int expand_mode);
 int			ft_token_expand_single_quotes(t_expand *expand);
-int			ft_token_expand_is_char_expendable(int cha);
 
 int			ft_token_expand_str_control_with_expand(\
 	char **ret_str, char *start, int len, t_d_list *mnsh_envp);
@@ -112,9 +112,12 @@ int			ft_token_expand_str_control_without_expand(\
 int			ft_token_expand_str_control_attach(\
 	char **ret_str, char **tmp_str, char **tmp_buffer);
 
-char		*ft_compare_str_to_mnsh_envp_keys(char *str, t_d_list *mnsh_envp);
-
 int			ft_token_check_for_quote(t_list *token);
+int			ft_token_expand_init_struct(t_expand **expand, char **token_str);
+void		ft_token_expand_free_struct(t_expand **expand);
+int			ft_token_expand_is_char_expendable(int cha);
+
+char		*ft_compare_str_to_mnsh_envp_keys(char *str, t_d_list *mnsh_envp);
 
 /*
 	ft_tokenizer
@@ -202,18 +205,6 @@ char		**ft_set_cmd_argv(char ***argv, char *str);
 char		**ft_set_cmd_argv_set_new_argv(char ***argv, char *str);
 
 void		ft_free_string_ptr_arr(char **argv);
-
-/*
-	ft_wrapper_functions
-*/
-
-int			ft_open(const char *str, int flags, mode_t mode);
-int			ft_close(int fd);
-pid_t		ft_fork(void);
-pid_t		ft_pipe(int fd[2]);
-int			ft_dup2(int oldfd, int newfd);
-int			ft_access(const char *file, int flags);
-int			ft_fstat(int fd, struct stat *buf);
 
 /*
 	builtin
@@ -312,9 +303,22 @@ void		signal_handler2(int signo);
 	utils
 */
 
+void		exitcode_with_err(char *str, char *str_error, int exit_code);
+
+/*
+	ft_wrapper_functions
+*/
+
 void		ft_execve(char *file, char **argv, char **envp);
 int			ft_chdir(char *dir);
-void		exitcode_with_err(char *str, char *str_error, int exit_code);
 char		*ft_getcwd(char *buf, size_t size);
+int			ft_access(const char *file, int flags);
+int			ft_fstat(int fd, struct stat *buf);
+
+int			ft_open(const char *str, int flags, mode_t mode);
+int			ft_close(int fd);
+pid_t		ft_fork(void);
+pid_t		ft_pipe(int fd[2]);
+int			ft_dup2(int oldfd, int newfd);
 
 #endif

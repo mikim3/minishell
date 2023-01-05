@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:57:52 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 18:23:06 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 18:57:02 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,49 +46,14 @@ int	ft_token_str_expansion(
 		return (FT_ERROR);
 	while (*(expand->pos) != '\0')
 	{
-		if (expand->len != 0 && (*(expand->pos) == '$' \
-			|| *(expand->pos) == '\"' || *(expand->pos) == '\''))
-		{
-			if (ft_token_expand_str_control_without_expand(\
-					&(expand->ret_str), expand->start, expand->len) == FT_ERROR)
-				return (ft_token_expand_free_struct(&expand), FT_ERROR);
-			else
-			{
-				expand->start = expand->pos;
-				expand->len = 0;
-			}
-		}
-		if ((expand_mode == EXPAND_ALL || expand_mode == EXPAND_ENV_ONLY) \
-			&& *(expand->pos) == '$')
-		{
-			if (ft_token_expand_expansion_sign(expand, mnsh_envp) == FT_ERROR)
-				return (ft_token_expand_free_struct(&expand), FT_ERROR);
-		}
-		else if ((expand_mode == EXPAND_ALL \
-			|| expand_mode == EXPAND_QUOTE_ONLY) && *(expand->pos) == '\"')
-		{
-			if (ft_token_expand_double_quotes(\
+		if (ft_token_expand_str_process_before_expand(expand) == FT_ERROR)
+			return (FT_ERROR);
+		if (ft_token_expand_expansion_checker(\
 				expand, mnsh_envp, expand_mode) == FT_ERROR)
-				return (ft_token_expand_free_struct(&expand), FT_ERROR);
-		}
-		else if ((expand_mode == EXPAND_ALL \
-			|| expand_mode == EXPAND_QUOTE_ONLY) && *(expand->pos) == '\'')
-		{
-			if (ft_token_expand_single_quotes(expand) == FT_ERROR)
-				return (ft_token_expand_free_struct(&expand), FT_ERROR);
-		}
-		else
-		{
-			expand->pos++;
-			expand->len++;
-		}
+			return (FT_ERROR);
 	}
-	if (expand->len != 0)
-	{
-		if (ft_token_expand_str_control_without_expand(
-				&(expand->ret_str), expand->start, expand->len) == FT_ERROR)
-			return (ft_token_expand_free_struct(&expand), FT_ERROR);
-	}
+	if (ft_token_expand_str_process_before_expand(expand) == FT_ERROR)
+		return (FT_ERROR);
 	if (expand->ret_str == 0)
 		return (FT_SUCCESS);
 	free(*token_str);
@@ -99,32 +64,49 @@ int	ft_token_str_expansion(
 	return (FT_SUCCESS);
 }
 
-// int	ft_token_expand_expansion_checker()
-// {
-
-// }
-
-
-int	ft_token_expand_init_struct(t_expand **expand, char **token_str)
+int	ft_token_expand_str_process_before_expand(t_expand *expand)
 {
-	*expand = (t_expand *)malloc(sizeof(t_expand));
-	if (*expand == 0)
-		return (FT_ERROR);
-	(*expand)->pos = *token_str;
-	(*expand)->ret_str = 0;
-	(*expand)->start = *token_str;
-	(*expand)->len = 0;
+	if (expand->len != 0 && (*(expand->pos) == '$' || *(expand->pos) == '\'' \
+		|| *(expand->pos) == '\"' || *(expand->pos) == '\0'))
+	{
+		if (ft_token_expand_str_control_without_expand(\
+				&(expand->ret_str), expand->start, expand->len) == FT_ERROR)
+			return (ft_token_expand_free_struct(&expand), FT_ERROR);
+		else
+		{
+			expand->start = expand->pos;
+			expand->len = 0;
+		}
+	}
 	return (FT_SUCCESS);
 }
 
-void	ft_token_expand_free_struct(t_expand **expand)
+int	ft_token_expand_expansion_checker(
+		t_expand *expand, t_d_list *mnsh_envp, int expand_mode)
 {
-	(*expand)->pos = 0;
-	(*expand)->len = 0;
-	(*expand)->start = 0;
-	if ((*expand)->ret_str != 0)
-		free((*expand)->ret_str);
-	(*expand)->ret_str = 0;
-	free(*expand);
-	*expand = 0;
+	if ((expand_mode == EXPAND_ALL || expand_mode == EXPAND_ENV_ONLY) \
+		&& *(expand->pos) == '$')
+	{
+		if (ft_token_expand_expansion_sign(expand, mnsh_envp) == FT_ERROR)
+			return (ft_token_expand_free_struct(&expand), FT_ERROR);
+	}
+	else if ((expand_mode == EXPAND_ALL \
+		|| expand_mode == EXPAND_QUOTE_ONLY) && *(expand->pos) == '\"')
+	{
+		if (ft_token_expand_double_quotes(\
+			expand, mnsh_envp, expand_mode) == FT_ERROR)
+			return (ft_token_expand_free_struct(&expand), FT_ERROR);
+	}
+	else if ((expand_mode == EXPAND_ALL \
+		|| expand_mode == EXPAND_QUOTE_ONLY) && *(expand->pos) == '\'')
+	{
+		if (ft_token_expand_single_quotes(expand) == FT_ERROR)
+			return (ft_token_expand_free_struct(&expand), FT_ERROR);
+	}
+	else
+	{
+		expand->pos++;
+		expand->len++;
+	}
+	return (FT_SUCCESS);
 }

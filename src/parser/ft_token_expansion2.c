@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 18:04:36 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 18:22:01 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 18:50:05 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,4 @@ int	ft_token_expand_single_quotes(t_expand *expand)
 	expand->start = ++expand->pos;
 	expand->len = 0;
 	return (FT_SUCCESS);
-}
-
-int	ft_token_expand_is_char_expendable(int cha)
-{
-	if (('a' <= cha && cha <= 'z')
-		|| ('A' <= cha && cha <= 'Z')
-		|| ('0' <= cha && cha <= '9')
-		|| '_' == cha)
-		return (FT_SUCCESS);
-	return (FT_ERROR);
 }
