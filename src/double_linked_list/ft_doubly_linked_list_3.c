@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ft_doubly_linked_list.h"
+#include "../../include/ft_minishell.h"
 
 void	ft_deque_add_prev_node(t_detower *detower,
 		t_d_list *pos, t_d_list *new_elem)

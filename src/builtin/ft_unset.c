@@ -47,7 +47,7 @@ void	unset_env(t_detower *env_tower, char *key)
 	{
 		while (env_list)
 		{
-			if (ft_strcmp(((t_envp_content *)env_list->content)->key, key) == 0)
+			if (ft_strcmp(((t_env_ctnt *)env_list->content)->key, key) == 0)
 			{
 				delete_t_d_list(env_tower, env_list, prev);
 				return ;
@@ -80,9 +80,9 @@ void	delete_t_d_list(t_detower *env_tower, t_d_list	*env, t_d_list	*prev)
 
 void	free_env_list(t_d_list **target)
 {
-	free(((t_envp_content *)((*target)->content))->key);
-	if (((t_envp_content *)((*target)->content))->value != NULL)
-		free(((t_envp_content *)((*target)->content))->value);
+	free(((t_env_ctnt *)((*target)->content))->key);
+	if (((t_env_ctnt *)((*target)->content))->value != NULL)
+		free(((t_env_ctnt *)((*target)->content))->value);
 	free(((*target)->content));
 	(*target)->next = NULL;
 	free(*target);

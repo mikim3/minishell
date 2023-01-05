@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/04 17:06:55 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 15:18:35 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	init_pipe(t_pipe *m_pipe)
 	m_pipe->next_pipe_check = BOOL_FALSE;
 	m_pipe->pre_pipe_check = BOOL_FALSE;
 	m_pipe->pre_pipe_read_end = -1;
-//	m_pipe->pipe_write_end = STDOUT_FILENO;
 	m_pipe->infile_fd = STDIN_FILENO;
 	m_pipe->outfile_fd = STDOUT_FILENO;
 	m_pipe->mnsh_builtin = BOOL_FALSE;
 	m_pipe->in_redirected = BOOL_FALSE;
 	m_pipe->out_redirected = BOOL_FALSE;
+	m_pipe->here_doc_opened = BOOL_FALSE;
 }
 
 void	main_init(int argc, char *argv[])
@@ -81,12 +81,10 @@ int	main(int argc, char **argv, char **envp)
 						if (token_tree != 0)
 						{
 							//작업 임시 테스트
-							test_print_token_lst(token_list);
 							init_pipe(&m_pipe);
 							
 							ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
 							// ft_execute_tree(token_tree,dll_envp_tower, &m_pipe);
-							ft_tree_node_pre_traversal(token_tree, &test_tree_node_check_for_content);
 							
 							// 실행용
 							//ft_tree_node_pre_traversal2(token_tree, dll_envp_tower, &m_pipe, &ft_execute_tree);

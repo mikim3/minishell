@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ft_doubly_linked_list.h"
-#include <stdlib.h>
+#include "../../include/ft_minishell.h"
 
 void	ft_deque_add_back(t_detower *detower, t_d_list *new_elem)
 {

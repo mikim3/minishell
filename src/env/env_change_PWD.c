@@ -15,7 +15,7 @@
 void	change_pwd(t_detower *env_tower, char *select)
 {
 	t_d_list		*env;
-	t_envp_content	*set_pwd;
+	t_env_ctnt	*set_pwd;
 	char			*pwd_path;
 
 	pwd_path = ft_getcwd(NULL, 0);
@@ -36,7 +36,7 @@ void	change_pwd(t_detower *env_tower, char *select)
 void	change_oldpwd(t_detower *env_tower, char *get_cwd)
 {
 	t_d_list		*env;
-	t_envp_content	*set_pwd;
+	t_env_ctnt	*set_pwd;
 
 	env = env_tower->head;
 	set_pwd = find_env_keycmp(env, "OLDPWD");

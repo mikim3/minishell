@@ -6,19 +6,15 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 11:41:04 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/04 15:38:56 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 15:29:26 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// #include "../../include/ft_tokenizer.h"
-
-// #include <stdio.h>
 
 #include "../../include/ft_minishell.h"
 
 int	ft_syntax_analysis(t_list *token_list)
 {
-	if (ft_token_what_type(token_list) == TKN_NULL)
+	if (ft_token_type(token_list) == TKN_NULL)
 		return (FT_SUCCESS);
 	if (ft_stx_a_pipeline(token_list, token_list, 1) == -1)
 	{
@@ -37,16 +33,16 @@ int	ft_stx_a_pipeline(t_list *token_list, t_list *token, int token_pos)
 {
 	token = ft_lst_num(token_list, token_pos);
 	if (token == 0)
-		return(-1);
-	if (ft_token_what_type(token) == TKN_PIPE)
+		return (-1);
+	if (ft_token_type(token) == TKN_PIPE)
 		return (-1);
 	token_pos = ft_stx_a_simple_cmd(token_list, token, token_pos);
 	if (token_pos == -1)
 		return (-1);
 	token = ft_lst_num(token_list, token_pos);
-	if (ft_token_what_type(token) == TKN_NULL)
+	if (ft_token_type(token) == TKN_NULL)
 		return (token_pos);
-	if (ft_token_what_type(token) == TKN_PIPE)
+	if (ft_token_type(token) == TKN_PIPE)
 	{
 		token_pos = ft_stx_a_pipeline(token_list, token->next, token_pos + 1);
 		if (token_pos == -1)
@@ -59,8 +55,8 @@ int	ft_stx_a_pipeline(t_list *token_list, t_list *token, int token_pos)
 
 int ft_stx_a_simple_cmd(t_list *token_list, t_list *token, int token_pos)
 {
-	int stack_pos;
-	
+	int	stack_pos;
+
 	stack_pos = token_pos;
 	token_pos = ft_stx_a_cmd_prefix(token_list, token, stack_pos);
 	if (token_pos != -1)
@@ -107,7 +103,7 @@ int ft_stx_a_simple_cmd(t_list *token_list, t_list *token, int token_pos)
 	return (stack_pos);
 }
 
-int ft_stx_a_cmd_prefix(t_list *token_list, t_list *token, int token_pos)
+int	ft_stx_a_cmd_prefix(t_list *token_list, t_list *token, int token_pos)
 {
 	token_pos = ft_stx_a_redir(token_list, token, token_pos);
 	if (token_pos == -1)
@@ -115,9 +111,9 @@ int ft_stx_a_cmd_prefix(t_list *token_list, t_list *token, int token_pos)
 	token = ft_lst_num(token_list, token_pos);
 	if (token == 0)
 		return (-1);
-	if (ft_token_what_type(token) == TKN_NULL)
+	if (ft_token_type(token) == TKN_NULL)
 		return (token_pos);
-	if (ft_token_what_type(token) != TKN_WORD)
+	if (ft_token_type(token) != TKN_WORD)
 	{
 		token_pos = ft_stx_a_cmd_prefix(token_list, token, token_pos);
 		if (token_pos == -1)
@@ -126,11 +122,11 @@ int ft_stx_a_cmd_prefix(t_list *token_list, t_list *token, int token_pos)
 	return (token_pos);
 }
 
-int ft_stx_a_cmd_suffix(t_list *token_list, t_list *token, int token_pos)
+int	ft_stx_a_cmd_suffix(t_list *token_list, t_list *token, int token_pos)
 {
-	if (ft_token_what_type(token) == TKN_NULL)
+	if (ft_token_type(token) == TKN_NULL)
 		return (token_pos);
-	else if (ft_token_what_type(token) == TKN_WORD)
+	else if (ft_token_type(token) == TKN_WORD)
 	{
 		token_pos = ft_stx_a_word(token_list, token, token_pos);
 		if (token_pos == -1)
@@ -145,8 +141,8 @@ int ft_stx_a_cmd_suffix(t_list *token_list, t_list *token, int token_pos)
 	token = ft_lst_num(token_list, token_pos);
 	if (token == 0)
 		return (-1);
-	if (ft_token_what_type(token) == TKN_NULL
-		|| ft_token_what_type(token) == TKN_PIPE)
+	if (ft_token_type(token) == TKN_NULL
+		|| ft_token_type(token) == TKN_PIPE)
 		return (token_pos);
 	token_pos = ft_stx_a_cmd_suffix(token_list, token, token_pos);
 	if (token_pos == -1)
@@ -154,11 +150,11 @@ int ft_stx_a_cmd_suffix(t_list *token_list, t_list *token, int token_pos)
 	return (token_pos);
 }
 
-int ft_stx_a_redir(t_list *token_list, t_list *token, int token_pos)
+int	ft_stx_a_redir(t_list *token_list, t_list *token, int token_pos)
 {
 	token = ft_lst_num(token_list, token_pos);
-	if (ft_token_what_type(token) == TKN_REDIRECT
-		|| ft_token_what_type(token) == TKN_FD_REDIRECT)
+	if (ft_token_type(token) == TKN_REDIRECT
+		|| ft_token_type(token) == TKN_FD_REDIRECT)
 	{
 		token_pos = ft_stx_a_word(token_list, token->next, token_pos + 1);
 		if (token_pos == -1)
@@ -174,9 +170,9 @@ int	ft_stx_a_word(t_list *token_list, t_list *token, int token_pos)
 	token = ft_lst_num(token_list, token_pos);
 	if (token == 0)
 		return (-1);
-	if (ft_token_what_type(token) == TKN_NULL)
+	if (ft_token_type(token) == TKN_NULL)
 		return (-1);
-	if (ft_token_what_type(token) != TKN_WORD)
+	if (ft_token_type(token) != TKN_WORD)
 		return (-1);
 	return (token_pos + 1);
 }

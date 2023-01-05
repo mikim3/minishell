@@ -6,21 +6,18 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 13:46:11 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/04 15:28:44 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 15:29:00 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// #include "../../include/ft_tree.h"
-// #include "../../include/ft_tokenizer.h"
 
 #include "../../include/ft_minishell.h"
 
 t_tree_node	*ft_syntax_parse_tree(t_list *token_list)
 {
-	t_tree_node *parse_tree;
+	t_tree_node	*parse_tree;
 	int			status;
 
-	if (ft_token_what_type(token_list) == TKN_NULL)
+	if (ft_token_type(token_list) == TKN_NULL)
 	{
 		ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
 		return (0);
@@ -35,10 +32,10 @@ t_tree_node	*ft_syntax_parse_tree(t_list *token_list)
 	return (parse_tree);
 }
 
-int ft_syntax_parse_pipeline(t_list *token, t_tree_node **parse)
+int	ft_syntax_parse_pipeline(t_list *token, t_tree_node **parse)
 {
-	t_tree_node *recur_parse;
-	t_tree_node *cur_redirects;
+	t_tree_node	*recur_parse;
+	t_tree_node	*cur_redirects;
 	t_tree_node	*simple_cmd;
 	int			token_type;
 
@@ -58,7 +55,7 @@ int ft_syntax_parse_pipeline(t_list *token, t_tree_node **parse)
 		return (FT_ERROR);
 	(*parse)->left = simple_cmd;
 	cur_redirects = simple_cmd->left;
-	token_type = ft_token_what_type(token);
+	token_type = ft_token_type(token);
 	while (token_type != TKN_NULL && token_type != TKN_PIPE)
 	{
 		if (token_type == TKN_REDIRECT || token_type == TKN_FD_REDIRECT)
@@ -73,7 +70,7 @@ int ft_syntax_parse_pipeline(t_list *token, t_tree_node **parse)
 				return (FT_ERROR);
 		}
 		token = token->next;
-		token_type = ft_token_what_type(token);
+		token_type = ft_token_type(token);
 	}
 	if (token_type == TKN_PIPE)
 	{
@@ -87,7 +84,6 @@ int ft_syntax_parse_pipeline(t_list *token, t_tree_node **parse)
 
 int	ft_syntax_parse_redirections(t_list **token, t_tree_node *cur_redirects, int token_type)
 {
-
 	if (token_type == TKN_REDIRECT)
 		cur_redirects->left = ft_tree_init(NODE_REDIR, 0);
 	else if (token_type == TKN_FD_REDIRECT)
@@ -103,18 +99,18 @@ int	ft_syntax_parse_redirections(t_list **token, t_tree_node *cur_redirects, int
 	return (FT_SUCCESS);
 }
 
-t_tree_redir	*ft_node_content_redir(t_list **token)
+t_tree_rdr	*ft_node_content_redir(t_list **token)
 {
-	t_tree_redir	*redir_node;
+	t_tree_rdr	*redir_node;
 
-	redir_node = (t_tree_redir *)malloc(sizeof(t_tree_redir));
+	redir_node = (t_tree_rdr *)malloc(sizeof(t_tree_rdr));
 	if (redir_node == 0)
 		return (0);
-	redir_node->redir = ft_strdup(ft_token_what_str(*token));
+	redir_node->redir = ft_strdup(ft_token_str(*token));
 	if (redir_node->redir == 0)
 		return (0);
 	*token = (*token)->next;
-	redir_node->file_name = ft_strdup(ft_token_what_str(*token));
+	redir_node->file_name = ft_strdup(ft_token_str(*token));
 	if (redir_node->file_name == 0)
 		return (0);
 	return (redir_node);
@@ -122,19 +118,19 @@ t_tree_redir	*ft_node_content_redir(t_list **token)
 
 int	ft_syntax_parse_cmd(t_list **token, t_tree_node *cmd)
 {
-	if (ft_strcmp(ft_token_what_str(*token), "") == 0)
+	if (ft_strcmp(ft_token_str(*token), "") == 0)
 		return (FT_SUCCESS);
 	if (cmd->content == 0)
 	{
 		cmd->content = (t_tree_cmd *)malloc(sizeof(t_tree_cmd));
 		if (cmd->content == 0)
 			return (FT_ERROR);
-		((t_tree_cmd *)(cmd->content))->cmd_name = ft_strdup(ft_token_what_str(*token));
+		((t_tree_cmd *)(cmd->content))->cmd_name = ft_strdup(ft_token_str(*token));
 		if (((t_tree_cmd *)(cmd->content))->cmd_name == 0)
 			return (FT_ERROR);
 		((t_tree_cmd *)(cmd->content))->cmd_argv = 0;
 	}
-	((t_tree_cmd *)(cmd->content))->cmd_argv = ft_set_cmd_argv(&(((t_tree_cmd *)(cmd->content))->cmd_argv), ft_token_what_str(*token));
+	((t_tree_cmd *)(cmd->content))->cmd_argv = ft_set_cmd_argv(&(((t_tree_cmd *)(cmd->content))->cmd_argv), ft_token_str(*token));
 	if (((t_tree_cmd *)(cmd->content))->cmd_argv == 0)
 		return (FT_ERROR);
 	return (FT_SUCCESS);

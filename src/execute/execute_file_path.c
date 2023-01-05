@@ -76,9 +76,9 @@ char	**get_env_path(t_detower *dll_envp_tower)
 	index = 0;
 	while (node != NULL)
 	{
-		if (!ft_strcmp(((t_envp_content *)node->content)->key, "PATH"))
+		if (!ft_strcmp(((t_env_ctnt *)node->content)->key, "PATH"))
 			env_path_value = ft_split(
-					((t_envp_content *)node->content)->value, ':');
+					((t_env_ctnt *)node->content)->value, ':');
 		node = node->next;
 	}
 	return (env_path_value);

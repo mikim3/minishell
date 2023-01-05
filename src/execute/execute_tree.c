@@ -6,13 +6,11 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 23:21:44 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/05 12:26:59 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 15:29:31 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ft_minishell.h"
-
-#include "../../include/ft_wrapper_functions.h"
 
 int	next_pipe_check(t_tree_node *node,t_pipe *m_pipe)
 {

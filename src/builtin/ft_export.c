@@ -21,20 +21,20 @@ static char	*show_env_in_export(t_d_list	*env)
 	output = NULL;
 	while (env)
 	{
-		if (((t_envp_content *)env->content)->value != NULL)
+		if (((t_env_ctnt *)env->content)->value != NULL)
 		{
 			line = ft_strjoin_infree(ft_strdup("declare -x ")
-					, ft_strdup(((t_envp_content *)env->content)->key));
+					, ft_strdup(((t_env_ctnt *)env->content)->key));
 			line = ft_strjoin_infree(line, ft_strdup("=\""));
 			line = ft_strjoin_infree(line,
-					ft_strdup((((t_envp_content *)env->content)->value)));
+					ft_strdup((((t_env_ctnt *)env->content)->value)));
 			line = ft_strjoin_infree(line, ft_strdup("\"\n"));
 			output = ft_strjoin_infree(output, line);
 		}
 		else
 		{
 			line = ft_strjoin_infree(strdup("declare -x "), \
-			ft_strdup(((t_envp_content *)env->content)->key));
+			ft_strdup(((t_env_ctnt *)env->content)->key));
 			line = ft_strjoin_infree(line, ft_strdup("\n"));
 			output = ft_strjoin_infree(output, line);
 		}

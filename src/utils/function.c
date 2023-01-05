@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:15:08 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/04 17:36:52 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 15:27:45 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	ft_execve(char *file, char **argv, char **envp)
 	if (execve(file, argv, envp) == -1)
 	{
 		printf("errno %d \n",errno);
+		// strncmp ./  /  이경우는 따로 생각하기
 		if (errno == ENOENT) //  No such file or directory
 			exitcode_with_err(argv[0], strerror(errno), 127);
 		else if (errno == EACCES) //  Permission denied

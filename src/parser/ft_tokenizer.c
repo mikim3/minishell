@@ -6,20 +6,11 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:01:52 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 12:59:53 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 15:27:31 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <readline/readline.h>
-#include "../../include/ft_tree.h"
-#include "../../include/ft_tokenizer.h"
-#include "../../include/ft_doubly_linked_list.h"
-#include "../../include/ft_token_expansion.h"
-
-// 예외처리를 임시로 exit로 해둠. exit 사용을 위한 헤더
-#include <stdlib.h>
-#include <unistd.h>
+#include "../../include/ft_minishell.h"
 
 void	*ft_tokenizer(char *str)
 {
@@ -36,16 +27,16 @@ void	*ft_tokenizer(char *str)
 		error = ft_tokenizing_loop(&tknizer, error, &prev_type);
 		if (error == BOOL_TRUE)
 		{
-			ft_free_tokenizer_list_and_token(&(tknizer.tkn_list),
-				&(tknizer.tkn), TKN_TKNIZE_FAIL);
-			exit(137);
+			ft_free_tokenizer_list_and_token(\
+				&(tknizer.tkn_list), &(tknizer.tkn), TKN_TKNIZE_FAIL);
+			exit(1);
 		}
 	}
 	if (ft_token_processor(&tknizer, &prev_type) == FT_ERROR)
 	{
-		ft_free_tokenizer_list_and_token(&(tknizer.tkn_list),
-			&(tknizer.tkn), TKN_TKNIZE_FAIL);
-		exit(137);
+		ft_free_tokenizer_list_and_token(\
+			&(tknizer.tkn_list), &(tknizer.tkn), TKN_TKNIZE_FAIL);
+		exit(1);
 	}
 	return ((void *)(tknizer.tkn_list));
 }
@@ -89,24 +80,7 @@ int	ft_tokenizing_loop(t_tknizer *tknizer, int error, int *prev_type)
 		else
 			error = ft_token_processor(tknizer, prev_type);
 	}
-	if (error == BOOL_FALSE
-		&& ft_isspace(*(tknizer->str_pos)) == BOOL_TRUE)
-	{
-		if (tknizer->tkn_len != 0)
-			error = ft_token_processor(tknizer, prev_type);
-		tknizer->tkn_start++;
-		tknizer->str_pos++;
-		if (ft_isdigit(*(tknizer->str_pos)) == BOOL_TRUE)
-			tknizer->io_num_mode = BOOL_TRUE;
-	}
-	else
-	{
-		if (*prev_type != TKN_OPERATOR
-			&& ft_isdigit(*(tknizer->str_pos)) == BOOL_FALSE)
-			tknizer->io_num_mode = BOOL_FALSE;
-		tknizer->str_pos++;
-		tknizer->tkn_len++;
-	}
+	error = ft_check_for_space(tknizer, error, prev_type);
 	return (error);
 }
 
@@ -133,77 +107,25 @@ int	ft_close_quote(t_tknizer *tknizer, int *prev_type)
 	return (FT_SUCCESS);
 }
 
-void	test_print_token_lst(t_list *token_list)
+int	ft_check_for_space(t_tknizer *tknizer, int error, int *prev_type)
 {
-	int		i;
-	char	*type[6] = {"NULL", "WORD", "OPERATOR", "PIPE", "REDIRECT", "FD_REDIRECT"};
-
-	i = 1;
-	while (token_list != 0)
+	if (error == BOOL_FALSE
+		&& ft_isspace(*(tknizer->str_pos)) == BOOL_TRUE)
 	{
-		printf("token %d : %s, ", i, ((t_tkn *)token_list->content)->str);
-		printf("type %s\n", type[((t_tkn *)token_list->content)->type]);
-		token_list = token_list->next;
-		i++;
+		if (tknizer->tkn_len != 0)
+			error = ft_token_processor(tknizer, prev_type);
+		tknizer->tkn_start++;
+		tknizer->str_pos++;
+		if (ft_isdigit(*(tknizer->str_pos)) == BOOL_TRUE)
+			tknizer->io_num_mode = BOOL_TRUE;
 	}
-	return ;
-}
-
-void	test_tree_node_check_for_content(void *tree_node)
-{
-	t_tree_node *node;
-	int	i;
-
-	i = 0;
-	node = (t_tree_node *)tree_node;
-	if (node->type == NODE_CMD)
+	else
 	{
-		if (node->content == 0)
-			return ;
-		printf("node_cmd_name : %s\n", ((t_tree_cmd *)node->content)->cmd_name);
-		while (((t_tree_cmd *)node->content)->cmd_argv[i] != 0)
-		{
-			printf("node_cmd_argv : %s\n", ((t_tree_cmd *)node->content)->cmd_argv[i]);
-			i++;
-		}
-		printf("\n");
+		if (*prev_type != TKN_OPERATOR
+			&& ft_isdigit(*(tknizer->str_pos)) == BOOL_FALSE)
+			tknizer->io_num_mode = BOOL_FALSE;
+		tknizer->str_pos++;
+		tknizer->tkn_len++;
 	}
-	else if (node->type == NODE_REDIR
-		|| node->type == NODE_FD_REDIR)
-	{
-		if (node -> content == 0)
-			return ;
-		printf("node_redir : %s\n", ((t_tree_redir *)node->content)->redir);
-		printf("node_file_name : %s\n", ((t_tree_redir *)node->content)->file_name);
-	}
-	return ;
-}
-
-void	test_print_dll_envp(t_detower *dll)
-{
-	t_d_list		*node;
-	
-	node = dll->head;
-	printf("dll_envp\n\n");
-	while (node != 0)
-	{
-		printf("%s\n",((t_envp_content *)node->content)->key);
-		node = node->next;
-	}
-	printf("\n");
-}
-
-void	test_print_mnsh_envp(char **mnsh_envp)
-{
-	int	iter;
-
-	iter = 0;
-	printf("mnsh_envp\n\n");
-	while (mnsh_envp[iter] != 0)
-	{
-		printf("%s\n", mnsh_envp[iter]);
-		iter++;
-	}
-	printf("\n");
-	return ;
+	return (error);
 }
