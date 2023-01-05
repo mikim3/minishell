@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 13:46:11 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 15:29:00 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 16:29:02 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,7 @@ int	ft_syntax_parse_pipeline(t_list *token, t_tree_node **parse)
 	t_tree_node	*simple_cmd;
 	int			token_type;
 
-	recur_parse = 0;
-	cur_redirects = 0;
-	*parse = ft_tree_init(NODE_PIPELINE, 0);
-	if (*parse == 0)
-		return (FT_ERROR);
-	simple_cmd = ft_tree_init(NODE_SIMPLE_CMD, 0);
-	if (simple_cmd == 0)
-		return (FT_ERROR);
-	simple_cmd->left = ft_tree_init(NODE_REDIRECTIONS, 0);
-	if (simple_cmd->left == 0)
-		return (FT_ERROR);
-	simple_cmd->right = ft_tree_init(NODE_CMD, 0);
-	if (simple_cmd->right == 0)
-		return (FT_ERROR);
-	(*parse)->left = simple_cmd;
-	cur_redirects = simple_cmd->left;
+
 	token_type = ft_token_type(token);
 	while (token_type != TKN_NULL && token_type != TKN_PIPE)
 	{
@@ -79,6 +64,29 @@ int	ft_syntax_parse_pipeline(t_list *token, t_tree_node **parse)
 			return (FT_ERROR);
 		(*parse)->right = recur_parse;
 	}
+	return (FT_SUCCESS);
+}
+
+int	ft_syntax_parse_pipeline_data(t_tree_node **parse,
+	t_tree_node **recur_parse, t_tree_node **cur_redirects,
+	t_tree_node **simple_cmd)
+{
+	*recur_parse = 0;
+	*cur_redirects = 0;
+	*parse = ft_tree_init(NODE_PIPELINE, 0);
+	if (*parse == 0)
+		return (FT_ERROR);
+	*simple_cmd = ft_tree_init(NODE_SIMPLE_CMD, 0);
+	if (*simple_cmd == 0)
+		return (FT_ERROR);
+	(*simple_cmd)->left = ft_tree_init(NODE_REDIRECTIONS, 0);
+	if ((*simple_cmd)->left == 0)
+		return (FT_ERROR);
+	(*simple_cmd)->right = ft_tree_init(NODE_CMD, 0);
+	if ((*simple_cmd)->right == 0)
+		return (FT_ERROR);
+	(*parse)->left = *simple_cmd;
+	*cur_redirects = (*simple_cmd)->left;
 	return (FT_SUCCESS);
 }
 
@@ -134,62 +142,4 @@ int	ft_syntax_parse_cmd(t_list **token, t_tree_node *cmd)
 	if (((t_tree_cmd *)(cmd->content))->cmd_argv == 0)
 		return (FT_ERROR);
 	return (FT_SUCCESS);
-}
-
-char **ft_set_cmd_argv(char ***argv, char *str)
-{
-	int		argv_size;
-	char	**new_argv;
-	int		i;
-
-	if (str == 0 || ft_strcmp(str, "") == FT_SUCCESS)
-		return (*argv);
-	argv_size = 1;
-	if (*argv != 0)
-	{
-		while ((*argv)[argv_size - 1] != 0)
-			argv_size++;
-	}
-	new_argv = ft_calloc((argv_size + 1), sizeof(char *));
-	if (new_argv == 0)
-		return (0);
-	new_argv[argv_size] = 0;
-	new_argv[argv_size - 1] = ft_strdup(str);
-	if (new_argv[argv_size - 1] == 0)
-	{
-		ft_free_string_ptr_arr(new_argv);
-		return (0);
-	}
-	if (*argv == 0)
-		return (new_argv);
-	i = 0;
-	while ((*argv)[i] != 0)
-	{
-		new_argv[i] = ft_strdup((*argv)[i]);
-		if (new_argv[i] == 0)
-		{
-			ft_free_string_ptr_arr(new_argv);
-			return (0);
-		}
-		i++;
-	}
-	ft_free_string_ptr_arr(*argv);
-	return (new_argv);
-}
-
-void	ft_free_string_ptr_arr(char **argv)
-{
-	int	i;
-
-	i = 0;
-	if (argv == 0)
-		return ;
-	while (argv[i] != 0)
-	{
-		free(argv[i]);
-		argv[i] = 0;
-		i++;
-	}
-	free(argv);
-	return ;
 }

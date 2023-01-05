@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/05 16:10:30 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 16:23:56 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,10 @@ int			ft_syntax_analysis(t_list *token_list);
 int			ft_stx_a_pipeline(t_list *token_list, t_list *token, int token_pos);
 int			ft_stx_a_simple_cmd(\
 	t_list *token_list, t_list *token, int token_pos);
+
+int			ft_stx_a_word_and_cmd_suffix_case(\
+	t_list *token_list, t_list *token, int token_pos);
+
 int			ft_stx_a_cmd_prefix(\
 	t_list *token_list, t_list *token, int token_pos);
 int			ft_stx_a_cmd_suffix(\
@@ -176,6 +180,7 @@ char		**ft_set_cmd_argv(char ***argv, char *str);
 void		ft_free_string_ptr_arr(char **argv);
 
 void		ft_free_a_tree_node(void *target);
+void		ft_free_a_tree_node_content(t_tree_node *node);
 
 /*
 	ft_wrapper_functions

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 11:41:04 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 16:13:56 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 16:19:38 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,39 +64,17 @@ int	ft_stx_a_simple_cmd(t_list *token_list, t_list *token, int token_pos)
 		token = ft_lst_num(token_list, stack_pos);
 		if (token == 0)
 			return (-1);
-		token_pos = ft_stx_a_word(token_list, token, stack_pos);
+		token_pos = ft_stx_a_word_and_cmd_suffix_case(\
+			token_list, token, stack_pos);
 		if (token_pos == -1)
 			return (stack_pos);
-		else
-		{
-			stack_pos = token_pos;
-			token = ft_lst_num(token_list, stack_pos);
-			if (token == 0)
-				return (-1);
-			token_pos = ft_stx_a_cmd_suffix(token_list, token, stack_pos);
-			if (token_pos == -1)
-				return (stack_pos);
-			else
-				return (token_pos);
-		}
 	}
 	else
 	{
-		token_pos = ft_stx_a_word(token_list, token, stack_pos);
+		token_pos = ft_stx_a_word_and_cmd_suffix_case(\
+			token_list, token, stack_pos);
 		if (token_pos == -1)
 			return (stack_pos);
-		else
-		{
-			stack_pos = token_pos;
-			token = ft_lst_num(token_list, stack_pos);
-			if (token == 0)
-				return (-1);
-			token_pos = ft_stx_a_cmd_suffix(token_list, token, stack_pos);
-			if (token_pos == -1)
-				return (stack_pos);
-			else
-				return (token_pos);
-		}
 	}
 	stack_pos = token_pos;
 	return (stack_pos);
@@ -123,4 +101,5 @@ int	ft_stx_a_word_and_cmd_suffix_case(\
 		else
 			return (token_pos);
 	}
+	return (stack_pos);
 }
