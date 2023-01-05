@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/05 15:24:17 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 16:10:30 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,14 @@ int			ft_redir_output_redirection(\
 
 int			ft_here_doc_expansion(\
 	t_list *token_list, t_detower *dll_envp_tower);
+int			ft_check_here_doc(t_list **token_node, char *redir, \
+	t_list *token_list, t_detower *dll_envp_tower);
+int			ft_here_doc_with_delimiter_control(t_list **token_node, \
+	t_list *token_list, t_detower *dll_envp_tower);
 int			ft_make_h_doc_wth_expand(\
 	char *token_str, t_detower *dll_envp_tower, int is_env_expand);
-void		ft_free_here_doc_memory(char *delimiter, char *buffer);
+int			ft_make_h_doc_loop(char *delimiter, \
+	int here_doc_fd, t_detower *dll_envp_tower, int is_env_expand);
 
 int			ft_token_expansion(t_list *token_list, t_detower *dll_envp_tower);
 int			ft_token_str_expansion(\
