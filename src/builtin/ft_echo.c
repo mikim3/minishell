@@ -18,36 +18,35 @@ static int	ft_strcmp_option_check(char *s1)
 
 	i = 0;
 	if (s1[i] != '-')
-		return (0);// option이 아니다.
-	if (s1[1])// '-'다음 글자가 존재함
+		return (0);
+	if (s1[1])
 		i++;
-	else// '-' 다음 비어있으면 option이 아니다.  
+	else
 		return (0);
 	while (i < ft_strlen(s1))
 	{
-		if (s1[i] != 'n')//ㅎㅏ나라도 n이 아니면 0반환 옵션이 아니다.
+		if (s1[i] != 'n')
 			return (0);
 		i++;
 	}
-	return (1);//결국 끝까지 n만 있다면 이건 option이 맞다.
+	return (1);
 }
 
-// no_option_index --> 어디부터 옵션이 아닌 str이 나오는지 판단 여기부터는  
 static int	use_u_option_check(t_tree_cmd *cmd, int *no_option_index)
 {
 	int	index;
 	int	use_u_option_check;
 
 	index = 0;
-	use_u_option_check = 0;// 기본적으로 옵션 안 쓴상태
+	use_u_option_check = 0;
 	while (cmd->cmd_argv[++index])
 	{
-		if ((ft_strcmp_option_check(cmd->cmd_argv[index]) == 1))  // n이 맞는지 판단
+		if ((ft_strcmp_option_check(cmd->cmd_argv[index]) == 1))
 			use_u_option_check = 1;
 		else
 			break ;
 	}
-	*no_option_index = index;// 옵션을 넘긴 시작지점을 넘겨준다.
+	*no_option_index = index;
 	return (use_u_option_check);
 }
 

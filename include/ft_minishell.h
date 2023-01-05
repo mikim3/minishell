@@ -51,6 +51,7 @@ void		ft_deque_add_next_node(t_detower *detower, t_d_list *pos,
 				t_d_list *new_elem);
 int			ft_deque_lstsize(t_detower *detower);
 t_detower	*ft_set_envp_dll(char **envp);
+t_detower	*ft_set_envp_dll_action(char **envp, t_detower *dll_envp_tower);
 t_env_ctnt	*ft_set_envp_content(char *env);
 int			ft_seperate_env_key_value(t_env_ctnt *content, char *env);
 char		**ft_set_char_envp_from_dll(\
@@ -246,8 +247,10 @@ t_env_ctnt	*env_new(void);
 void		execute_cmd(\
 	t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
 
-void	fork_routine(t_tree_node *pipeline, \
+void		fork_routine(t_tree_node *pipeline, \
 	t_pipe *m_pipe, int *iter, t_detower *dll_envp_tower);
+int			fork_action(t_pipe *m_pipe, \
+	t_tree_node *pipeline, t_detower *dll_envp_tower);
 void		parent_routine(t_pipe	*m_pipe);
 void		child_routine(t_pipe *m_pipe, \
 	t_tree_node *pipeline, t_detower *dll_envp_tower);
