@@ -6,13 +6,13 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 14:00:14 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 15:28:19 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 16:46:35 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ft_minishell.h"
 
-t_detower *ft_set_envp_dll(char **envp)
+t_detower	*ft_set_envp_dll(char **envp)
 {
 	t_detower		*dll_envp_tower;
 	t_d_list		*new_list;
@@ -101,7 +101,6 @@ char	**ft_set_char_envp_from_dll(t_detower *dll_envp_tower, char **old_mnsh_envp
 	new_envp[ptr_arr_len] = 0;
 	lst_node = dll_envp_tower->head;
 	iter = 0;
-	// printf("\n\n char**\n");
 	while (iter < ptr_arr_len)
 	{
 		new_envp[iter] = ft_set_new_envp_string(lst_node);
@@ -119,7 +118,7 @@ char	**ft_set_char_envp_from_dll(t_detower *dll_envp_tower, char **old_mnsh_envp
 
 char	*ft_set_new_envp_string(t_d_list *lst_node)
 {
-	t_env_ctnt	*content;
+	t_env_ctnt		*content;
 	char			*ret_str;
 	char			*tmp_str;
 
@@ -150,7 +149,6 @@ char	*ft_set_new_envp_string(t_d_list *lst_node)
 			return (0);
 		}
 		free(tmp_str);
-		// printf("%s\n", ret_str);
 	}
 	return (ret_str);	
 }

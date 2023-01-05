@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:57:52 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 15:26:30 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 16:56:20 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	ft_token_str_expansion(char **token_str, t_d_list *mnsh_envp, int expand_mod
 	if (len != 0)
 	{
 		if (ft_token_expand_str_control_without_expand(
-			&ret_str, start, len) == FT_ERROR)
+				&ret_str, start, len) == FT_ERROR)
 			return (free(ret_str), FT_ERROR);
 	}
 	if (ret_str == 0)
@@ -134,9 +134,6 @@ int	ft_token_expand_expansion_sign(char **pos, char **ret_str, t_d_list *mnsh_en
 	return (FT_SUCCESS);
 }
 
-	// while (**pos != '\0' && **pos != '$' && **pos != '\'' && **pos != '\n'
-	// 	&& **pos != '\"' && ft_isspace(**pos) == BOOL_FALSE)
-
 int	ft_token_expand_double_quotes(char **pos, char **ret_str, t_d_list *mnsh_envp, int expand_mode)
 {
 	int		len;
@@ -153,9 +150,10 @@ int	ft_token_expand_double_quotes(char **pos, char **ret_str, t_d_list *mnsh_env
 		if ((expand_mode == EXPAND_ALL) && **pos == '$')
 		{
 			if (ft_token_expand_str_control_without_expand(
-				ret_str, start, len) == FT_ERROR)
+					ret_str, start, len) == FT_ERROR)
 				return (FT_ERROR);
-			if (ft_token_expand_expansion_sign(pos, ret_str, mnsh_envp) == FT_ERROR)
+			if (ft_token_expand_expansion_sign(
+					pos, ret_str, mnsh_envp) == FT_ERROR)
 				return (FT_ERROR);
 			len = 0;
 			start = *pos;
@@ -167,7 +165,7 @@ int	ft_token_expand_double_quotes(char **pos, char **ret_str, t_d_list *mnsh_env
 		}
 	}
 	if (ft_token_expand_str_control_without_expand(
-		ret_str, start, len) == FT_ERROR)
+			ret_str, start, len) == FT_ERROR)
 		return (FT_ERROR);
 	return (FT_SUCCESS);
 }
@@ -189,107 +187,7 @@ int	ft_token_expand_single_quotes(char **pos, char **ret_str)
 		(*pos)++;
 	}
 	if (ft_token_expand_str_control_without_expand(
-		ret_str, start, len) == FT_ERROR)
+			ret_str, start, len) == FT_ERROR)
 		return (FT_ERROR);
 	return (FT_SUCCESS);
-}
-
-int	ft_token_expand_str_control_with_expand(
-	char **ret_str, char *start, int len, t_d_list *mnsh_envp)
-{
-	char	*tmp_buffer;
-	char	*tmp_str;
-
-	tmp_str = ft_strndup(start, len);
-	if (tmp_str == 0)
-		return (FT_ERROR);
-	if (*tmp_str == '?')
-		tmp_buffer = ft_itoa(g_exit_code);
-	else
-		tmp_buffer = ft_compare_str_to_mnsh_envp_keys(tmp_str, mnsh_envp);
-	free(tmp_str);
-	if (tmp_buffer == 0)
-	{
-		tmp_buffer = ft_strdup("");
-		if (tmp_buffer == 0)
-			return (FT_ERROR);
-	}
-	tmp_str = *ret_str;
-	if (tmp_str == 0)
-		*ret_str = ft_strjoin("", tmp_buffer);
-	else
-		*ret_str = ft_strjoin(tmp_str, tmp_buffer);	
-	free(tmp_buffer);
-	if (*ret_str == 0)
-	{
-		*ret_str = tmp_str;
-		return (FT_ERROR);
-	}
-	if (tmp_str != 0)
-		free(tmp_str);
-	return (FT_SUCCESS);
-}
-
-int	ft_token_expand_str_control_without_expand(char **ret_str, char *start, int len)
-{
-	char	*tmp_buffer;
-	char	*tmp_str;
-
-	tmp_buffer = ft_strndup(start, len);
-	if (tmp_buffer == 0)
-		return (FT_ERROR);
-	tmp_str = *ret_str;
-	if (tmp_str == 0)
-		*ret_str = ft_strjoin("", tmp_buffer);
-	else
-		*ret_str = ft_strjoin(tmp_str, tmp_buffer);	
-	free(tmp_buffer);
-	if (*ret_str == 0)
-	{
-		*ret_str = tmp_str;
-		return (FT_ERROR);
-	}
-	if (tmp_str != 0)
-		free(tmp_str);
-	return (FT_SUCCESS);
-}
-
-char	*ft_compare_str_to_mnsh_envp_keys(char *str, t_d_list *mnsh_envp)
-{
-	char	*cp_value;
-	
-	cp_value = 0;
-	while (mnsh_envp != 0)
-	{
-		if (ft_strcmp(str, ((t_env_ctnt *)mnsh_envp->content)->key) == FT_SUCCESS)
-		{
-			cp_value = ft_strdup(((t_env_ctnt *)mnsh_envp->content)->value);
-			if (cp_value == 0)
-				return (0);
-			return (cp_value);
-		}
-		mnsh_envp = mnsh_envp->next;
-	}
-	return (0);
-}
-
-int	ft_token_is_expandable(t_list *token)
-{
-	return (((t_tkn *)token->content)->expandable);
-}
-
-int	ft_token_check_for_quote(t_list *token)
-{
-	char	*str_pos;
-
-	str_pos = ft_token_str(token);
-	while (*str_pos != '\0')
-	{
-		if (*str_pos == '\'' || *str_pos == '\"')
-		{
-			return (BOOL_TRUE);
-		}
-		str_pos++;
-	}
-	return (BOOL_FALSE);
 }

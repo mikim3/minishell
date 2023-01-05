@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 16:24:51 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 16:31:41 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 16:45:28 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,36 @@ int	ft_syntax_parse_cmd(t_list **token, t_tree_node *cmd)
 
 char	**ft_set_cmd_argv(char ***argv, char *str)
 {
-	int		argv_size;
+	int		iter;
 	char	**new_argv;
-	int		i;
 
 	if (str == 0 || ft_strcmp(str, "") == FT_SUCCESS)
 		return (*argv);
+	new_argv = ft_set_cmd_argv_set_new_argv(argv, str);
+	if (new_argv == 0)
+		return (0);
+	if (*argv == 0)
+		return (new_argv);
+	iter = 0;
+	while ((*argv)[iter] != 0)
+	{
+		new_argv[iter] = ft_strdup((*argv)[iter]);
+		if (new_argv[iter] == 0)
+		{
+			ft_free_string_ptr_arr(new_argv);
+			return (0);
+		}
+		iter++;
+	}
+	ft_free_string_ptr_arr(*argv);
+	return (new_argv);
+}
+
+char	**ft_set_cmd_argv_set_new_argv(char ***argv, char *str)
+{
+	int		argv_size;
+	char	**new_argv;
+
 	argv_size = 1;
 	if (*argv != 0)
 	{
@@ -76,20 +100,6 @@ char	**ft_set_cmd_argv(char ***argv, char *str)
 		ft_free_string_ptr_arr(new_argv);
 		return (0);
 	}
-	if (*argv == 0)
-		return (new_argv);
-	i = 0;
-	while ((*argv)[i] != 0)
-	{
-		new_argv[i] = ft_strdup((*argv)[i]);
-		if (new_argv[i] == 0)
-		{
-			ft_free_string_ptr_arr(new_argv);
-			return (0);
-		}
-		i++;
-	}
-	ft_free_string_ptr_arr(*argv);
 	return (new_argv);
 }
 

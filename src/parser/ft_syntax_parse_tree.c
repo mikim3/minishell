@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 13:46:11 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 16:33:02 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 16:38:46 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,23 +43,9 @@ int	ft_syntax_parse_pipeline(t_list *token, t_tree_node **parse)
 			&cur_redirects, &simple_cmd) == FT_ERROR)
 		return (FT_ERROR);
 	token_type = ft_token_type(token);
-	while (token_type != TKN_NULL && token_type != TKN_PIPE)
-	{
-		if (token_type == TKN_REDIRECT || token_type == TKN_FD_REDIRECT)
-		{
-			if (ft_syntax_parse_redirections(&token,
-					cur_redirects, token_type) == FT_ERROR)
-				return (FT_ERROR);
-			cur_redirects = cur_redirects->right;
-		}
-		else if (token_type == TKN_WORD)
-		{
-			if (ft_syntax_parse_cmd(&token, simple_cmd->right) == FT_ERROR)
-				return (FT_ERROR);
-		}
-		token = token->next;
-		token_type = ft_token_type(token);
-	}
+	if (ft_syntax_parse_token_traversal(&token_type, &token,
+			cur_redirects, simple_cmd) == FT_ERROR)
+		return (FT_ERROR);
 	if (token_type == TKN_PIPE)
 	{
 		token = token->next;
@@ -90,6 +76,29 @@ int	ft_syntax_parse_pipeline_data(t_tree_node **parse,
 		return (FT_ERROR);
 	(*parse)->left = *simple_cmd;
 	*cur_redirects = (*simple_cmd)->left;
+	return (FT_SUCCESS);
+}
+
+int	ft_syntax_parse_token_traversal(int *token_type, t_list **token,
+	t_tree_node *cur_redirects, t_tree_node *simple_cmd)
+{
+	while (*token_type != TKN_NULL && *token_type != TKN_PIPE)
+	{
+		if (*token_type == TKN_REDIRECT || *token_type == TKN_FD_REDIRECT)
+		{
+			if (ft_syntax_parse_redirections(token,
+					cur_redirects, *token_type) == FT_ERROR)
+				return (FT_ERROR);
+			cur_redirects = cur_redirects->right;
+		}
+		else if (*token_type == TKN_WORD)
+		{
+			if (ft_syntax_parse_cmd(token, simple_cmd->right) == FT_ERROR)
+				return (FT_ERROR);
+		}
+		*token = (*token)->next;
+		*token_type = ft_token_type(*token);
+	}
 	return (FT_SUCCESS);
 }
 
