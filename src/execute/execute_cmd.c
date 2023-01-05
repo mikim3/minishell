@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:49:10 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/05 15:08:39 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/05 17:17:24 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void	fork_routine(t_tree_node *pipeline, \
 			parent_routine(m_pipe);  //  &m_pipe로 가야 되나???
 		else
 		{
-			printf("pid error\n");
+			parent_routine(m_pipe);  //
+			break ;
 			// 부모 동작 실행 후  break ;
 		}
 		pipeline = pipeline->right;
