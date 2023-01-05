@@ -18,8 +18,12 @@ void	ft_exit(t_tree_cmd *cmd, t_pipe *pipe_value)
 	ft_putendl_fd("exit", pipe_value->outfile_fd);
 	if (cmd->cmd_argv[1] == NULL)
 		exit(g_exit_code);
-	g_exit_code = ft_atoi(cmd->cmd_argv[1]);
-	if (cmd->cmd_argv[2] != NULL)
+	if (cmd->cmd_argv[2] == NULL)
+	{
+		g_exit_code = (unsigned char)ft_atoi(cmd->cmd_argv[1]);
+		exit(g_exit_code);
+	}
+	else
 	{
 		ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
 		ft_putstr_fd(": exit: too many arguments\n", STDERR_FILENO);
