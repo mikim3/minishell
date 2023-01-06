@@ -39,7 +39,6 @@ int	ft_chdir(char *dir)
 	return_value = chdir(dir);
 	if (return_value == -1)
 	{
-		printf("chdir return_value == -1 \n");
 		if (errno == ENOENT)
 			exitcode_with_err("cd", strerror(errno), 127);
 		else if (errno == EACCES)
