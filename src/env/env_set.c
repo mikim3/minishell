@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_set.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 13:42:02 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/26 15:14:19 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/01/06 14:01:12 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	set_env(t_detower *env_tower, char *key, char *value)
 
 	env = env_tower->head;
 	set_target = find_env_keycmp(env, key);
-
 	if (set_target == NULL)
 		set_new_env(&(env_tower), key, value);
 	else

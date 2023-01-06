@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:49:10 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/05 18:47:09 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/06 13:40:36 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,5 @@ void	execute_external(t_tree_node *node, \
 	ft_execve(file_path, ((t_tree_cmd *)node->content)->cmd_argv, env);
 	if (!file_path)
 		free(file_path);
+	ft_free_string_ptr_arr(env);
 }

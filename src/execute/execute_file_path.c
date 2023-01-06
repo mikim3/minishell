@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_file_path.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 17:25:19 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/29 17:25:40 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/01/06 13:59:15 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ char	*get_file_path_from_env_path(char *command, t_detower *dll_envp_tower)
 	{
 		tmp = ft_strjoin("/", command);
 		file_path = ft_strjoin(env_path_values[index], tmp);
+		free(tmp);
 		if (access(file_path, X_OK) == -1)
 		{
 			free(file_path);
+			file_path = 0;
 		}
 		else
 			break ;

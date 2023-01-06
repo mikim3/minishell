@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_change_PWD.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 12:55:47 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/30 13:14:28 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/01/06 14:06:32 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	change_pwd(t_detower *env_tower, char *select)
 {
 	t_d_list		*env;
-	t_env_ctnt	*set_pwd;
+	t_env_ctnt		*set_pwd;
 	char			*pwd_path;
 
 	pwd_path = ft_getcwd(NULL, 0);
@@ -36,7 +36,7 @@ void	change_pwd(t_detower *env_tower, char *select)
 void	change_oldpwd(t_detower *env_tower, char *get_cwd)
 {
 	t_d_list		*env;
-	t_env_ctnt	*set_pwd;
+	t_env_ctnt		*set_pwd;
 
 	env = env_tower->head;
 	set_pwd = find_env_keycmp(env, "OLDPWD");

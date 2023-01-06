@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 11:56:25 by kshim             #+#    #+#             */
-/*   Updated: 2022/12/30 09:22:08 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/06 14:06:10 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_deque_add_next_node(t_detower *detower,
 	return ;
 }
 
-int		ft_deque_lstsize(t_detower *detower)
+int	ft_deque_lstsize(t_detower *detower)
 {
 	int			iter;
 	t_d_list	*node;
