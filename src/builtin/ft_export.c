@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 21:58:13 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/05 19:53:52 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/06 18:36:47 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ void	ft_export(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
 	{
 		output = show_env_in_export(env);
 		write(pipe_value->outfile_fd, output, ft_strlen(output));
-	}
+		free(output);
+	} // mikim3333 else 여야하는지 확인하기
 	ft_export_while(cmd, env_tower);
 }
 

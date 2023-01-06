@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 17:25:19 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/06 14:41:23 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/06 18:48:38 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ char	**get_env_path(t_detower *dll_envp_tower)
 
 	node = dll_envp_tower->head;
 	index = 0;
+	env_path_value = 0;
 	while (node != NULL)
 	{
 		if (!ft_strcmp(((t_env_ctnt *)node->content)->key, "PATH"))
