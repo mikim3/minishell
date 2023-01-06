@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 13:53:23 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 16:10:31 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/06 21:13:01 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int	ft_make_h_doc_wth_expand(\
 	delimiter = ft_strjoin(token_str, "\n");
 	if (delimiter == 0)
 		return (FT_ERROR);
+	set_signal(SIG_HERE_DOC, SIG_IGNORE);
 	while (1)
 	{
 		ret = ft_make_h_doc_loop(\
@@ -106,11 +107,11 @@ int	ft_make_h_doc_wth_expand(\
 		if (ret == FT_ERROR)
 			break ;
 		else if (ret == FT_SUCCESS)
-			return (free(delimiter), FT_SUCCESS);
+			return (set_signal(SIG_HANDLER, SIG_IGNORE), \
+				free(delimiter), FT_SUCCESS);
 	}
-	free(delimiter);
 	ft_close(here_doc_fd);
-	return (FT_ERROR);
+	return (free(delimiter), FT_ERROR);
 }
 
 int	ft_make_h_doc_loop(char *delimiter, \
@@ -121,7 +122,7 @@ int	ft_make_h_doc_loop(char *delimiter, \
 
 	tmp_buf = readline("> ");
 	if (tmp_buf == 0)
-		return (FT_ERROR);
+		return (FT_SUCCESS);
 	buffer = ft_strjoin(tmp_buf, "\n");
 	free(tmp_buf);
 	if (buffer == 0)

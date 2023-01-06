@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/06 14:40:00 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/06 20:57:31 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ void		ft_free_tokenizer_list_and_token(\
 	t_list **token_list, t_tkn **token, int procedure);
 void		ft_free_a_token_list_content(void *target);
 
+
 /*
 	parser - ft_syntax_analysis
 */
@@ -175,6 +176,8 @@ char		*ft_token_str(t_list *token);
 int			ft_token_is_expandable(t_list *token);
 void		ft_free_a_tree_node(void *target);
 void		ft_free_a_tree_node_content(t_tree_node *node);
+void		ft_free_a_tree_node_cmd_content(t_tree_node *node);
+void		ft_free_a_tree_node_redir_content(t_tree_node *node);
 
 /*
 	parser - ft_tree
@@ -304,7 +307,7 @@ int			main_parser(t_list **token_list, t_detower **dll_envp_tower);
 
 void		set_signal(int sig_int, int sig_quit);
 void		signal_handler(int signo);
-void		signal_handler2(int signo);
+void		signal_handler_here_doc(int signo);
 
 /*
 	utils
