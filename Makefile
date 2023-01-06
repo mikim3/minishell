@@ -1,7 +1,7 @@
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 RM = rm
 RMFLAGS = -f
 
@@ -34,7 +34,7 @@ SRC_DOUBLY_LINKED_LIST	=	ft_doubly_linked_list_1.c ft_doubly_linked_list_2.c ft_
 							ft_envp_doubly_linked_list.c ft_envp_doubly_linked_list2.c
 SRC_DOUBLY_LINKED_LIST	:= $(addprefix $(SRC_DOUBLY_LINKED_LIST_DIR)/, $(SRC_DOUBLY_LINKED_LIST))
 
-SRC_ENV	= env_set.c env_check.c env_change_pwd.c
+SRC_ENV	= env_set.c env_check.c env_pwd_change.c
 SRC_ENV	:= $(addprefix $(SRC_ENV_DIR)/, $(SRC_ENV))
 
 SRC_EXECUTE	= execute_cmd.c execute_tree.c execute_pipe.c execute_pipe2.c execute_file_path.c execute_fork.c execute_fork2.c
