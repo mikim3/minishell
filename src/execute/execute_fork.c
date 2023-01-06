@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_file_path.c                                :+:      :+:    :+:   */
+/*   execute_fork.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 17:25:19 by mikim3            #+#    #+#             */
-/*   Updated: 2022/12/29 17:25:40 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/01/06 12:41:14 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,11 @@ void	fork_routine(t_tree_node *pipeline, \
 				dll_envp_tower, m_pipe, &ft_execute_tree) == FT_ERROR)
 			{
 				///// 부모, non_pipe, 빌트인
-				// 특정 fd 닫기 필요? kshim
+				// 특정 fd 닫기 필요? kshim 1.5 => 만약 열린게 있으면 닫아야해서 닫기로 함 kshim 1.6
+				fork_after_traversal(m_pipe);
+				return ;
 			}
+			fork_after_traversal(m_pipe);
 			return ;
 		}
 		if (fork_action(m_pipe, pipeline, dll_envp_tower) == FT_ERROR)
@@ -112,15 +115,21 @@ void	child_routine(t_pipe *m_pipe, \
 			|| ft_close(m_pipe->pipe[P_WRITE]) == -1)
 			exit(g_exit_code);
 	if (ft_mnsh_tree_pre_traversal(pipeline->left, dll_envp_tower, \
-		m_pipe, &ft_execute_tree) == FT_ERROR)// error 시 뒤처리 kshim
+		m_pipe, &ft_execute_tree) == FT_ERROR)// error 시 뒤처리 kshim -> 사실 자식은 닫아버리면 그게 뒤처리나 마찬가지긴하다.
 		exit(g_exit_code);
+	fork_after_traversal(m_pipe);
+}
+
+// traversal 후 처리 중 코드 중복이 있을 것 같아서 함수로 빼냈음. kshim 1/6
+void	fork_after_traversal(t_pipe *m_pipe)
+{
 	if (m_pipe->mnsh_builtin == BOOL_FALSE)
 		exit(g_exit_code);
 	else
 	{
 		if (m_pipe->out_redirected == BOOL_TRUE)
-			close(m_pipe->outfile_fd);
+			ft_close(m_pipe->outfile_fd);
 		if (m_pipe->in_redirected == BOOL_TRUE)
-			close(m_pipe->infile_fd);
+			ft_close(m_pipe->infile_fd);
 	}
 }

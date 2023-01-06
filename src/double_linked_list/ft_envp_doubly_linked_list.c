@@ -6,12 +6,13 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 14:00:14 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 19:53:48 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/06 12:18:41 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ft_minishell.h"
 
+// kshim 이 함수에서 실패하는 경우 - 동적 할당에 실패 -> 그냥 나가거나 프로그램 종료
 t_detower	*ft_set_envp_dll(char **envp)
 {
 	t_detower		*dll_envp_tower;
@@ -106,7 +107,7 @@ char	**ft_set_char_envp_from_dll(t_detower *dll_envp_tower, \
 	ptr_arr_len = ft_deque_lstsize(dll_envp_tower);
 	new_envp = (char **)malloc(sizeof(char *) * (ptr_arr_len + 1));
 	if (new_envp == 0)
-		return (0); // 예전 envp 어떻게 처리할까? 에러 코드는 무엇일까? 동작은 어떻게 될까? kshim
+		return (0);
 	new_envp[ptr_arr_len] = 0;
 	lst_node = dll_envp_tower->head;
 	iter = 0;
@@ -123,62 +124,4 @@ char	**ft_set_char_envp_from_dll(t_detower *dll_envp_tower, \
 	}
 	ft_free_string_ptr_arr(old_mnsh_envp);
 	return (new_envp);
-}
-
-char	*ft_set_new_envp_string(t_d_list *lst_node)
-{
-	t_env_ctnt		*content;
-	char			*ret_str;
-	char			*tmp_str;
-
-	content = (t_env_ctnt *)lst_node->content;
-	if (content->key == 0)
-	{
-		if (content->value == 0)
-			return (0);
-		ret_str = ft_strdup(content->value);
-		if (ret_str == 0)
-			return (0);
-	}
-	else if (content->value == 0)
-	{
-		ret_str = ft_strdup(content->key);
-		if (ret_str == 0)
-			return (0);
-	}
-	else
-	{
-		tmp_str = ft_strjoin(content->key, "=");
-		if (tmp_str == 0)
-			return (0);
-		ret_str = ft_strjoin(tmp_str, content->value);
-		if (ret_str == 0)
-		{
-			free(tmp_str);
-			return (0);
-		}
-		free(tmp_str);
-	}
-	return (ret_str);
-}
-
-void	ft_free_t_envp_content(void	*content)
-{
-	t_env_ctnt	*target;
-
-	target = (t_env_ctnt *)content;
-	if (target == 0)
-		return ;
-	if (target->key != 0)
-	{
-		free(target->key);
-		target->key = 0;
-	}
-	if (target->value != 0)
-	{
-		free(target->value);
-		target->value = 0;
-	}
-	free(target);
-	return ;
 }

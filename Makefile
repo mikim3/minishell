@@ -15,10 +15,10 @@ LIBFT_FLAG = -Llibft -lft
 
 READLINE_FLAG = -lreadline
 
-READLINE_LIB 	= -lreadline -L${HOME}/brew/opt/readline/lib
-READLINE_INC	= -I${HOME}/brew/opt/readline/include
-# READLINE_LIB 	= -lreadline -L${HOME}/.brew/opt/readline/lib
-# READLINE_INC	= -I${HOME}/.brew/opt/readline/include
+# READLINE_LIB 	= -lreadline -L${HOME}/brew/opt/readline/lib
+# READLINE_INC	= -I${HOME}/brew/opt/readline/include
+READLINE_LIB 	= -lreadline -L${HOME}/.brew/opt/readline/lib
+READLINE_INC	= -I${HOME}/.brew/opt/readline/include
 
 SRCDIR = ./src
 
@@ -34,7 +34,8 @@ SRC_UTILS_DIR	= $(SRCDIR)/utils
 SRC_BUILTIN	= ft_cd.c ft_echo.c ft_env.c ft_exit.c ft_export.c ft_pwd.c ft_unset.c 
 SRC_BUILTIN	:= $(addprefix $(SRC_BUILTIN_DIR)/, $(SRC_BUILTIN))
 
-SRC_DOUBLY_LINKED_LIST	= ft_doubly_linked_list_1.c ft_doubly_linked_list_2.c ft_doubly_linked_list_3.c ft_envp_doubly_linked_list.c
+SRC_DOUBLY_LINKED_LIST	=	ft_doubly_linked_list_1.c ft_doubly_linked_list_2.c ft_doubly_linked_list_3.c \
+							ft_envp_doubly_linked_list.c ft_envp_doubly_linked_list2.c
 SRC_DOUBLY_LINKED_LIST	:= $(addprefix $(SRC_DOUBLY_LINKED_LIST_DIR)/, $(SRC_DOUBLY_LINKED_LIST))
 
 SRC_ENV	= env_set.c env_check.c env_change_PWD.c

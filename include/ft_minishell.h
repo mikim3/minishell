@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/05 18:59:24 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/06 12:33:35 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <readline/history.h>
 # include <term.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
 # include <fcntl.h>
 
 # define SHELL_NAME "BABYSHELL"
@@ -256,6 +257,7 @@ int			fork_action(t_pipe *m_pipe, \
 void		parent_routine(t_pipe	*m_pipe);
 void		child_routine(t_pipe *m_pipe, \
 	t_tree_node *pipeline, t_detower *dll_envp_tower);
+void		fork_after_traversal(t_pipe *m_pipe);
 
 int			is_built_in(t_tree_cmd *cmd);
 void		execute_builtin(\
