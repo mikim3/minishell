@@ -20,7 +20,6 @@ char	*get_file_path_from_env_path(char *command, t_detower *dll_envp_tower)
 	int		index;
 
 	file_path = NULL;
-	// key가 PATH인 환경변수의 value값을 split(:)으로 나누어서 env_path_values에 저장
 	env_path_values = get_env_path(dll_envp_tower);
 	index = 0;
 	while (env_path_values[index])

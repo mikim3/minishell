@@ -12,7 +12,6 @@
 
 #include "../../include/ft_minishell.h"
 
-// 어떤 상황에 어떤 종료코드를 넣는게 가장 옳을지 좀더 고민이 필요함
 void	ft_env(t_detower *env_tower, t_pipe *pipe_value)
 {
 	char		*output;

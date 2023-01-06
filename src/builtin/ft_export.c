@@ -23,8 +23,7 @@ static char	*show_env_in_export(t_d_list	*env)
 	{
 		if (((t_env_ctnt *)env->content)->value != NULL)
 		{
-			line = ft_strjoin_infree(ft_strdup("declare -x ")
-					, ft_strdup(((t_env_ctnt *)env->content)->key));
+			line = ft_strjoin("declare -x ", ((t_env_ctnt *)env->content)->key);
 			line = ft_strjoin_infree(line, ft_strdup("=\""));
 			line = ft_strjoin_infree(line,
 					ft_strdup((((t_env_ctnt *)env->content)->value)));
@@ -33,8 +32,7 @@ static char	*show_env_in_export(t_d_list	*env)
 		}
 		else
 		{
-			line = ft_strjoin_infree(strdup("declare -x "), \
-			ft_strdup(((t_env_ctnt *)env->content)->key));
+			line = ft_strjoin("declare -x ", ((t_env_ctnt *)env->content)->key);
 			line = ft_strjoin_infree(line, ft_strdup("\n"));
 			output = ft_strjoin_infree(output, line);
 		}
@@ -43,21 +41,13 @@ static char	*show_env_in_export(t_d_list	*env)
 	return (output);
 }
 
-void	ft_export(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
+static void	ft_export_while(t_tree_cmd *cmd, t_detower *env_tower)
 {
-	int			index;
 	char		*key;
 	char		*value;
-	char		*output;
-	t_d_list	*env;
+	int			index;
 
-	env = env_tower->head;
 	index = 0;
-	if (cmd->cmd_argv[1] == NULL) // export 명령만 들어온경우
-	{
-		output = show_env_in_export(env);  // 출력해야할 값 출력
-		write(pipe_value->outfile_fd, output, ft_strlen(output));
-	}
 	while (cmd->cmd_argv[++index])
 	{
 		key = NULL;
@@ -78,8 +68,19 @@ void	ft_export(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
 	}
 }
 
-// export 보여주기
+void	ft_export(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
+{
+	char		*output;
+	t_d_list	*env;
 
+	env = env_tower->head;
+	if (cmd->cmd_argv[1] == NULL)
+	{
+		output = show_env_in_export(env);
+		write(pipe_value->outfile_fd, output, ft_strlen(output));
+	}
+	ft_export_while(cmd, env_tower);
+}
 
 int	div_key_value(char *arg, char **key, char **value)
 {
@@ -91,7 +92,6 @@ int	div_key_value(char *arg, char **key, char **value)
 	while (arg[index] && arg[index] != '=' )
 		index++;
 	*key = ft_substr(arg, 0, index);
-	// 길이가  index보다 크면 즉 value가 존재하면 값넣고 값 없어도 NULL넣어줘야함
 	if (ft_strlen(arg) - index)
 		*value = ft_substr(arg, index + 1, ft_strlen(arg) - index);
 	else
