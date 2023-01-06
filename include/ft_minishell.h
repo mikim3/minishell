@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/06 12:33:35 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/06 12:52:53 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,9 +251,9 @@ void		execute_cmd(\
 	t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
 
 void		fork_routine(t_tree_node *pipeline, \
-	t_pipe *m_pipe, int *iter, t_detower *dll_envp_tower);
-int			fork_action(t_pipe *m_pipe, \
-	t_tree_node *pipeline, t_detower *dll_envp_tower);
+	t_pipe *m_pipe, t_exec_fork *exec_data, t_detower *dll_envp_tower);
+int			fork_action(t_tree_node *pipeline, \
+	t_pipe *m_pipe, t_exec_fork *exec_data, t_detower *dll_envp_tower);
 void		parent_routine(t_pipe	*m_pipe);
 void		child_routine(t_pipe *m_pipe, \
 	t_tree_node *pipeline, t_detower *dll_envp_tower);
@@ -273,7 +273,7 @@ void		execute_external(\
 	t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
 int			execute_noprint_builtin(\
 	t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe);
-void		wait_child(void);
+void		wait_child(t_exec_fork *exec_data);
 int			next_pipe_check(t_tree_node *node, t_pipe *m_pipe);
 void		ft_execute_tree(\
 	t_tree_node *node, t_detower *dll_envp_tower, t_pipe *m_pipe);

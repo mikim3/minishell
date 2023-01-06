@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 17:25:19 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/06 12:42:47 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/06 13:31:22 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,62 +16,59 @@ void	execute_fork(t_tree_node *token_tree, \
 	t_detower *dll_envp_tower, t_pipe *m_pipe)
 {
 	t_tree_node	*pipeline;
-	pid_t		pid;
-	int			status;
-	int			iter;
+	t_exec_fork	exec_data;
 
+	exec_data.repeat = 0;
 	g_exit_code = 0;
 	pipeline = token_tree;
-	iter = 0;
+	exec_data.pid = 0;
+	exec_data.iter = 0;
+	exec_data.status = 0;
 	m_pipe->infile_fd = STDIN_FILENO;
 	m_pipe->outfile_fd = STDOUT_FILENO;
-	fork_routine(pipeline, m_pipe, &iter, dll_envp_tower);
-	while (iter != 0)
+	fork_routine(pipeline, m_pipe, &exec_data, dll_envp_tower);
+	while (exec_data.iter > 0)
 	{
-		wait_child();
-		iter--;
+		wait_child(&exec_data);
+		exec_data.iter--;
 	}
 	return ;
 }
 
 void	fork_routine(t_tree_node *pipeline, \
-	t_pipe *m_pipe, int *iter, t_detower *dll_envp_tower)
+	t_pipe *m_pipe, t_exec_fork *exec_data, t_detower *dll_envp_tower)
 {
 	while (pipeline != 0)
 	{
 		if (next_pipe_check(pipeline, m_pipe) == FT_ERROR)
-			break ; // kshim pipe 에러 시에 그 전 동작들은?
-		if ((*iter) == 0 && m_pipe->next_pipe_check == BOOL_FALSE
+		{
+			parent_routine(m_pipe);
+			break ;
+		}
+		if ((exec_data->iter) == 0 && m_pipe->next_pipe_check == BOOL_FALSE
 			&& is_built_in(pipeline->left->right->content) == BOOL_TRUE)
 		{
 			m_pipe->mnsh_builtin = BOOL_TRUE;
 			if (ft_mnsh_tree_pre_traversal(pipeline->left, \
 				dll_envp_tower, m_pipe, &ft_execute_tree) == FT_ERROR)
-			{
-				///// 부모, non_pipe, 빌트인
-				// 특정 fd 닫기 필요? kshim 1.5 => 만약 열린게 있으면 닫아야해서 닫기로 함 kshim 1.6
-				fork_after_traversal(m_pipe);
-				return ;
-			}
-			fork_after_traversal(m_pipe);
-			return ;
+				return (fork_after_traversal(m_pipe));
+			return (fork_after_traversal(m_pipe));
 		}
-		if (fork_action(m_pipe, pipeline, dll_envp_tower) == FT_ERROR)
+		if (fork_action(\
+			pipeline, m_pipe, exec_data, dll_envp_tower) == FT_ERROR)
 			break ;
 		pipeline = pipeline->right;
-		(*iter)++;
+		(exec_data->iter)++;
 	}
 }
 
-int	fork_action(t_pipe *m_pipe, \
-	t_tree_node *pipeline, t_detower *dll_envp_tower)
+int	fork_action(t_tree_node *pipeline, \
+	t_pipe *m_pipe, t_exec_fork *exec_data, t_detower *dll_envp_tower)
 {
-	pid_t	pid;
-
-	pid = ft_fork();
-	if (pid == 0)
+	exec_data->pid = ft_fork();
+	if (exec_data->pid == 0)
 		child_routine(m_pipe, pipeline, dll_envp_tower);
-	else if (pid > 0)
+	else if (exec_data->pid > 0)
 		parent_routine(m_pipe);
 	else
 	{
@@ -83,8 +80,6 @@ int	fork_action(t_pipe *m_pipe, \
 
 void	parent_routine(t_pipe	*m_pipe)
 {
-	// printf("getpid() == %d \n", getpid());
-	// printf("child_pid == %d \n", pid); mikim3
 	set_signal(SIG_IGNORE, SIG_IGNORE);
 	if (m_pipe->pre_pipe_check == BOOL_TRUE)
 	{

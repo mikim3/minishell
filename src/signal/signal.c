@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 18:24:01 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/06 12:41:55 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/06 13:19:48 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,36 +71,32 @@ void	signal_handler(int signo)
 // 	}
 // 	g_exit_code = fix_g_exit_code;
 // 	set_signal(SIG_HANDLER, SIG_IGNORE);
-// }
+//
 
-void	wait_child(void)
+void	wait_child(t_exec_fork *exec_data)
 {
-	int		status;
+	pid_t	wait_pid;
+	int		sig_status;
 	int		signo;
-	int		repeat;
 	int		fix_g_exit_code;
 
-	repeat = 0;
-	while (wait(&status) != -1)
-	{	
-		printf("int status - %d\n", status);
-		if (WIFSIGNALED(status))
-		{
-			signo = WTERMSIG(status);
-			if (signo == SIGINT && repeat++ == 0)
-				ft_putstr_fd("^C\n", STDERR_FILENO);
-			else if (signo == SIGQUIT && repeat++ == 0)
-				ft_putstr_fd("^\\Quit: 3\n", STDERR_FILENO);
+	wait_pid = wait(&exec_data->status);
+	sig_status = exec_data->status;
+	printf("int status - %d\n", exec_data->status);
+	if (WIFSIGNALED(sig_status))
+	{
+		signo = WTERMSIG(sig_status);
+		if (signo == SIGINT && exec_data->repeat++ == 0)
+			ft_putstr_fd("^C\n", STDERR_FILENO);
+		else if (signo == SIGQUIT && exec_data->repeat++ == 0)
+			ft_putstr_fd("^\\Quit: 3\n", STDERR_FILENO);
+		if (wait_pid == exec_data->pid)
 			g_exit_code = 128 + signo;
-		}
-		else// 현재는 가장 마지막에 들어온 녀석의 g_exit_code를 저장하지만 
-		{
-			printf("g_exit_code in else ===  %d\n", g_exit_code);
-			if (repeat++ == 0)
-				fix_g_exit_code = WEXITSTATUS(status);
-		}
-		printf("g_exit_code - %d\n", g_exit_code);
 	}
-	g_exit_code = fix_g_exit_code;
+	else
+	{
+		if (wait_pid == exec_data->pid)
+			g_exit_code = exec_data->status;
+	}
 	set_signal(SIG_HANDLER, SIG_IGNORE);
 }

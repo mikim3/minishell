@@ -33,6 +33,14 @@ typedef struct s_envp_content{
 	char	*value;
 }	t_env_ctnt;
 
+// execute_fork
+typedef struct s_fork_pid_data{
+	pid_t	pid;
+	int		iter;
+	int		repeat;
+	int		status;
+}		t_exec_fork;
+
 // ft_pipe
 
 typedef struct s_redirection_data
