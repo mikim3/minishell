@@ -45,7 +45,6 @@ void	wait_child(t_exec_fork *exec_data)
 	pid_t	wait_pid;
 	int		sig_status;
 	int		signo;
-	int		fix_g_exit_code;
 
 	wait_pid = wait(&exec_data->status);
 	sig_status = exec_data->status;

@@ -14,7 +14,7 @@
 
 static int	ft_strcmp_option_check(char *s1)
 {
-	size_t				i;
+	size_t	i;
 
 	i = 0;
 	if (s1[i] != '-')

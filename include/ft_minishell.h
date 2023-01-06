@@ -264,13 +264,11 @@ void		execute_builtin(\
 	t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe);
 char		**get_env_path(t_detower *dll_envp_tower);
 
-void		double_char_free(char **double_char);
-
 char		*get_file_path_from_env_path(\
 	char *command, t_detower *dll_envp_tower);
 char		*set_file_path(char *command, t_detower *dll_envp_tower);
 void		execute_external(\
-	t_tree_node *token_tree, t_detower *dll_envp_tower, t_pipe *m_pipe);
+	t_tree_node *token_tree, t_detower *dll_envp_tower);
 int			execute_noprint_builtin(\
 	t_tree_cmd *cmd, t_detower *dll_envp_tower, t_pipe *m_pipe);
 void		wait_child(t_exec_fork *exec_data);
@@ -292,7 +290,7 @@ int			ft_tree_node_pre_traversal_exe_cmd_set(\
 void		print_err(char *msg, int exit_code);
 
 // main.c
-void		main_init(int argc, char *argv[]);
+void		main_init(void);
 void		term_init(void);
 void		init_pipe(t_pipe *m_pipe);
 char		*ft_readline(char *prompt, struct termios *main_term);

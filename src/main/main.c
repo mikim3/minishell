@@ -20,15 +20,18 @@ int	main(int argc, char **argv, char **envp)
 	t_detower			*dll_envp_tower;
 	struct termios		main_term;
 
+	if (argc == 0 && argv == 0)
+		return (FT_ERROR);
 	tcgetattr(STDIN_FILENO, &main_term);
-	main_init(argc, argv);
+	main_init();
 	dll_envp_tower = ft_set_envp_dll(envp);
 	if (dll_envp_tower == 0)
 		return (FT_ERROR);
+	token_tree = 0;
 	while (1)
 	{
 		term_init();
-		input = ft_readline("minishell$ ", &main_term);
+		input = ft_readline("BABYSHELL$ ", &main_term);
 		token_list = (t_list *)ft_tokenizer(input);
 		main_loop(token_list, dll_envp_tower, token_tree, &main_term);
 		free(input);
@@ -44,7 +47,7 @@ char	*ft_readline(char *prompt, struct termios *main_term)
 	input = readline(prompt);
 	if (input == NULL)
 	{
-		printf("see you later \n");
+		ft_putstr_fd("see you later \n", STDOUT_FILENO);
 		tcsetattr(STDIN_FILENO, TCSANOW, main_term);
 		exit(g_exit_code);
 	}

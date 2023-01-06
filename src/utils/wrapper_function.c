@@ -54,7 +54,7 @@ char	*ft_getcwd(char *buf, size_t size)
 {
 	char	*output;
 
-	output = getcwd(NULL, 0);
+	output = getcwd(buf, size);
 	if (output == NULL)
 		exitcode_with_err("getcwd()", strerror(errno), 1);
 	return (output);

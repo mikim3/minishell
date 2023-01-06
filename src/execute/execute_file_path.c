@@ -71,7 +71,6 @@ char	**get_env_path(t_detower *dll_envp_tower)
 	t_d_list	*node;
 	int			index;
 	char		**env_path_value;
-	int			loc;
 
 	node = dll_envp_tower->head;
 	index = 0;
