@@ -37,16 +37,17 @@ typedef struct s_envp_content{
 
 typedef struct s_redirection_data
 {
-	int		pipe[2];
-	int		infile_fd;
-	int		outfile_fd;
-	int		pre_pipe_read_end;
-	int		pre_pipe_check;
-	int		next_pipe_check;
-	int		mnsh_builtin;
-	int		in_redirected;
-	int		out_redirected;
-	int		here_doc_opened;
+	int				pipe[2];
+	int				infile_fd;
+	int				outfile_fd;
+	int				pre_pipe_read_end;
+	int				pre_pipe_check;
+	int				next_pipe_check;
+	int				mnsh_builtin;
+	int				in_redirected;
+	int				out_redirected;
+	int				here_doc_opened;
+	struct termios	*term;
 }		t_pipe;
 
 // ft_token_expansion

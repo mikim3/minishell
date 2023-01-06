@@ -17,10 +17,14 @@ void	ft_exit(t_tree_cmd *cmd, t_pipe *pipe_value)
 	g_exit_code = 0;
 	ft_putendl_fd("exit", pipe_value->outfile_fd);
 	if (cmd->cmd_argv[1] == NULL)
+	{
+		tcsetattr(STDIN_FILENO, TCSANOW, pipe_value->term);
 		exit(g_exit_code);
-	if (cmd->cmd_argv[2] == NULL)
+	}
+	else if (cmd->cmd_argv[2] == NULL)
 	{
 		g_exit_code = (unsigned char)ft_atoi(cmd->cmd_argv[1]);
+		tcsetattr(STDIN_FILENO, TCSANOW, pipe_value->term);
 		exit(g_exit_code);
 	}
 	else

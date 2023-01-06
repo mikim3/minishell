@@ -291,10 +291,12 @@ void		print_err(char *msg, int exit_code);
 
 // main.c
 void		main_init(int argc, char *argv[]);
+void		term_init(void);
 void		init_pipe(t_pipe *m_pipe);
-char		*ft_readline(char *prompt);
+char		*ft_readline(char *prompt, struct termios *main_term);
 void		main_loop(t_list *token_list, t_detower *dll_envp_tower, \
-	t_tree_node *token_tree);
+	t_tree_node *token_tree, struct termios *term);
+int			main_parser(t_list **token_list, t_detower **dll_envp_tower);
 
 /*
 	signal.c
