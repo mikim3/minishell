@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 13:42:02 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/06 14:01:12 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/06 14:40:08 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ t_env_ctnt	*env_new(void)
 	t_env_ctnt	*new;
 
 	new = malloc(sizeof(t_env_ctnt));
-	if (new == NULL)
-		return (NULL);
+	if (new == 0)
+		return (0);
 	new->key = NULL;
 	new->value = NULL;
 	return (new);

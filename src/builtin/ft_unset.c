@@ -6,11 +6,9 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:17:03 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/03 12:49:35 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/06 14:26:32 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// https://wiki.kldp.org/HOWTO/html/Adv-Bash-Scr-HOWTO/internal.html
 
 #include "../../include/ft_minishell.h"
 

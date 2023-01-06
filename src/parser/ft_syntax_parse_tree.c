@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 13:46:11 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 16:38:46 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/06 14:10:37 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_tree_node	*ft_syntax_parse_tree(t_list *token_list)
 	{
 		ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
 		ft_tree_node_post_traversal(parse_tree, &ft_free_a_tree_node);
-		exit(137);
+		return (0);
 	}
 	return (parse_tree);
 }

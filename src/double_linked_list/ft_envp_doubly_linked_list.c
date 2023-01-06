@@ -6,13 +6,12 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 14:00:14 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/06 12:18:41 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/06 14:07:29 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ft_minishell.h"
 
-// kshim 이 함수에서 실패하는 경우 - 동적 할당에 실패 -> 그냥 나가거나 프로그램 종료
 t_detower	*ft_set_envp_dll(char **envp)
 {
 	t_detower		*dll_envp_tower;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   function.c                                         :+:      :+:    :+:   */
+/*   wrapper_function.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:15:08 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/05 18:57:33 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/06 14:25:55 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ void	ft_execve(char *file, char **argv, char **envp)
 				exitcode_with_err(argv[0], strerror(errno), 1);
 		}
 		else
-		{
-			if (errno == ENOENT)
-				exitcode_with_err(argv[0], "command not found", 127);
-		}
+			exitcode_with_err(argv[0], "command not found", 127);
 	}
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 23:21:44 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/06 12:41:13 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/06 14:26:14 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,6 @@ int	next_pipe_check(t_tree_node *node, t_pipe *m_pipe)
 	return (FT_SUCCESS);
 }
 
-// kshim execute_redir나 execute_cmd가 실패할 경우 추가 처리가 따로 필요한가?
-	// 1.6 kshim -> 여기서 에러 상태는 g_exit_code로 설정하고, 이걸 traversal 함수에서 감지하고 있다.
-	// 그래서 traversal 함수의 결과가 error일 때 redir, cmd를 모두 포괄하는 함수를 한 번만 수행하거나,
-	// redir와 cmd의 에러에 따른 동작을 분화할 필요가 있다.
 void	ft_execute_tree(t_tree_node *node, \
 	t_detower *dll_envp_tower, t_pipe *m_pipe)
 {

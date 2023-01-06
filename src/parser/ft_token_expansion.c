@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:57:52 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 18:57:02 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/06 14:10:15 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_token_expansion(t_list *token_list, t_detower *dll_envp_tower)
 			{
 				ft_free_tokenizer_list_and_token(\
 					&token_list, 0, TKN_TKNIZE_SUCCESSED);
-				exit(137);
+				return (FT_ERROR);
 			}	
 		}
 		token_node = token_node->next;

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 18:24:01 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/06 14:04:28 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/06 14:26:48 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	wait_child(t_exec_fork *exec_data)
 
 	wait_pid = wait(&exec_data->status);
 	sig_status = exec_data->status;
-	printf("int status - %d\n", exec_data->status);
 	if (WIFSIGNALED(sig_status))
 	{
 		signo = WTERMSIG(sig_status);

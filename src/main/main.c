@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/05 19:54:35 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/06 14:58:00 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	main(int argc, char **argv, char **envp)
 		return (FT_ERROR);
 	while (1)
 	{
-		input = ft_readline("minishell$ ");
+		input = ft_readline("BABYSHELL$ ");
 		token_list = (t_list *)ft_tokenizer(input);
 		main_loop(token_list, dll_envp_tower, token_tree);
 		free(input);
