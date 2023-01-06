@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:16:16 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/03 18:44:31 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/06 18:21:44 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	ft_exit(t_tree_cmd *cmd, t_pipe *pipe_value)
 	{
 		g_exit_code = (unsigned char)ft_atoi(cmd->cmd_argv[1]);
 		tcsetattr(STDIN_FILENO, TCSANOW, pipe_value->term);
+		printf("in child - %d\n", g_exit_code);
 		exit(g_exit_code);
 	}
 	else

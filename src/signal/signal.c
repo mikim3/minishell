@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 18:24:01 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/06 16:17:58 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/06 18:13:30 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,6 @@ void	wait_child(t_exec_fork *exec_data)
 		if (wait_pid == exec_data->pid)
 			g_exit_code = WEXITSTATUS(exec_data->status);
 	}
+	printf("after signal - %d\n", g_exit_code);
 	set_signal(SIG_HANDLER, SIG_IGNORE);
 }
