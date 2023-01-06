@@ -30,8 +30,6 @@ int	ft_token_is_expandable(t_list *token)
 void	ft_free_a_tree_node(void *target)
 {
 	t_tree_node		*node;
-	t_tree_cmd		*cmd_content;
-	t_tree_rdr		*redir_content;
 
 	node = (t_tree_node *)target;
 	if (node == 0)

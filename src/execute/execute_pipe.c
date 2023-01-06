@@ -17,7 +17,6 @@ int	execute_redir(t_tree_node *node, t_pipe *m_pipe)
 	int		redir_fd;
 	char	*redir;
 	char	*file_name;
-	int		ret_val;
 
 	redir_fd = -1;
 	redir = ((t_tree_rdr *)node->content)->redir;

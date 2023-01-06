@@ -25,7 +25,7 @@ void	init_pipe(t_pipe *m_pipe)
 	m_pipe->here_doc_opened = BOOL_FALSE;
 }
 
-void	main_init(int argc, char *argv[])
+void	main_init(void)
 {
 	struct termios	term;
 

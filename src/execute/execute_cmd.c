@@ -18,7 +18,7 @@ void	execute_cmd(t_tree_node *token_tree, \
 	if (is_built_in(token_tree->content))
 		execute_builtin(token_tree->content, dll_envp_tower, m_pipe);
 	else
-		execute_external(token_tree, dll_envp_tower, m_pipe);
+		execute_external(token_tree, dll_envp_tower);
 }
 
 int	is_built_in(t_tree_cmd *cmd)
@@ -61,7 +61,7 @@ void	execute_builtin(t_tree_cmd *cmd, \
 }
 
 void	execute_external(t_tree_node *node, \
-	t_detower *dll_envp_tower, t_pipe *m_pipe)
+	t_detower *dll_envp_tower)
 {
 	char			*file_path;
 	char			**env;

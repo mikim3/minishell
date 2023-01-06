@@ -12,19 +12,6 @@
 
 #include "../../include/ft_minishell.h"
 
-void	double_char_free(char **double_char)
-{
-	int	i;
-
-	i = 0;
-	while (double_char[i])
-	{
-		free(double_char[i]);
-		i++;
-	}
-	free(double_char);
-}
-
 void	ft_free_string_ptr_arr(char **argv)
 {
 	int	i;
