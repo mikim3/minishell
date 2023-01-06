@@ -44,7 +44,7 @@ SRC_ENV	:= $(addprefix $(SRC_ENV_DIR)/, $(SRC_ENV))
 SRC_EXECUTE	= execute_cmd.c execute_tree.c execute_pipe.c execute_pipe2.c execute_file_path.c execute_fork.c execute_fork2.c
 SRC_EXECUTE	:= $(addprefix $(SRC_EXECUTE_DIR)/, $(SRC_EXECUTE))
 
-SRC_MAIN	= main.c
+SRC_MAIN	= main.c init.c
 SRC_MAIN	:= $(addprefix $(SRC_MAIN_DIR)/, $(SRC_MAIN))
 
 SRC_PARSER	=	ft_tokenizer.c ft_token_processing.c ft_tokenizer_util.c ft_syntax_analysis.c ft_syntax_analysis2.c \
