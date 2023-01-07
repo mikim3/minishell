@@ -12,46 +12,44 @@
 
 #include "../../include/ft_minishell.h"
 
-long long	ft_atoill(const char *str)
+static long long	ft_atoill(char *str, int *check)
 {
-	unsigned long long	ret;
-	unsigned long long	tmp;
-	long long			check;
-	int					sign;
+	long long	ret;
+	long long	tmp;
+	int			sign;
 
+	*check = FT_SUCCESS;
 	ret = 0;
 	tmp = 0;
 	sign = 1;
+	if (!ft_strcmp(str, "-9223372036854775808"))
+		return (0);
 	while ((*str >= 9 && *str <= 13) || *str == 32)
 		str++;
 	sign = 1 - ((*str == '-') << 1);
-	printf("sign %d\n",sign);
 	str += (*str == '+' || *str == '-');
 	while (*str >= '0' && *str <= '9')
 	{
-		tmp = ret * 10 + (*str - '0');
-		if ((tmp - (*(str++) - '0')) / 10 == ret)
-			ret = tmp;
-		else
+		tmp = ret * 10 + (*(str++) - '0');
+		if (((ret > 0) && (tmp < 0)) || ((ret < 0) && (tmp > 0)))
 		{
-			printf("else in \n");
-			if (sign == 1)
-				return (-1);
-			else if (sign == -1)
-				return (-1);
+			printf("overflow \n");
+			*check = FT_ERROR;
+			return (-1);
 		}
-		printf("ret %lld\n",ret);
-		printf("tmp %lld\n",tmp);
+		ret = tmp;
 	}
+	if (*str && !(*str >= '0' && *str <= '9'))
+		*check = FT_ERROR;
 	return ((ret * sign));
 }
 
-
-
 void	ft_exit(t_tree_cmd *cmd, t_pipe *pipe_value)
 {
+	int	check;
+
 	g_exit_code = 0;
-	ft_putendl_fd("exit", pipe_value->outfile_fd);
+	ft_putstr_fd("exit\n", pipe_value->outfile_fd);
 	if (cmd->cmd_argv[1] == NULL)
 	{
 		tcsetattr(STDIN_FILENO, TCSANOW, pipe_value->term);
@@ -59,11 +57,11 @@ void	ft_exit(t_tree_cmd *cmd, t_pipe *pipe_value)
 	}
 	else if (cmd->cmd_argv[2] == NULL)
 	{
-		printf("ft_atoi === %d\n",ft_atoi(cmd->cmd_argv[1]));
-		printf("ft_atoil === %lld\n",ft_atoill(cmd->cmd_argv[1]));
-		g_exit_code = (unsigned char)ft_atoill(cmd->cmd_argv[1]);
+		g_exit_code = (unsigned char)ft_atoill(cmd->cmd_argv[1], &check);
+		if (check == FT_ERROR)
+			exitcode_with_err2("exit", cmd->cmd_argv[1], \
+			"numeric argument required", 255);
 		tcsetattr(STDIN_FILENO, TCSANOW, pipe_value->term);
-		printf("in child - %d\n", g_exit_code);
 		exit(g_exit_code);
 	}
 	else
