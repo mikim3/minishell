@@ -12,35 +12,58 @@
 
 #include "../../include/ft_minishell.h"
 
+static void	ft_atoill_numcheck(char *str, int *check)
+{
+	if (*str && !(*str >= '0' && *str <= '9'))
+		*check = FT_ERROR;
+}
+
+static int	ft_atoill_strcmp(const char *s1, const char *s2)
+{
+	const unsigned char	*s1_uc;
+	const unsigned char	*s2_uc;
+	size_t				i;
+
+	s1_uc = (const unsigned char *)s1;
+	s2_uc = (const unsigned char *)s2;
+	i = 0;
+	// s1을 00은 무시하게 바꾸기 아니면 매커니즘 자체를 바꾸기 
+	//  아니면 00은 제거 하고 문자열 돌려받고 시작하기
+	while (s1_uc[i] && s2_uc[i] && s1[i] != '\0' && s2[i] != '\0')
+	{
+		if (s1_uc[i] != s2_uc[i])
+			break ;
+		i++;
+	}
+	return ((int)(s1_uc[i] - s2_uc[i]));
+}
+
 static long long	ft_atoill(char *str, int *check)
 {
 	long long	ret;
 	long long	tmp;
 	int			sign;
 
-	*check = FT_SUCCESS;
 	ret = 0;
 	tmp = 0;
 	sign = 1;
-	if (!ft_strcmp(str, "-9223372036854775808"))
+	if (!ft_atoill_strcmp(str, "-9223372036854775808"))
 		return (0);
 	while ((*str >= 9 && *str <= 13) || *str == 32)
 		str++;
 	sign = 1 - ((*str == '-') << 1);
 	str += (*str == '+' || *str == '-');
+	ft_atoill_numcheck(str, check);
 	while (*str >= '0' && *str <= '9')
 	{
 		tmp = ret * 10 + (*(str++) - '0');
 		if (((ret > 0) && (tmp < 0)) || ((ret < 0) && (tmp > 0)))
 		{
-			printf("overflow \n");
 			*check = FT_ERROR;
 			return (-1);
 		}
 		ret = tmp;
 	}
-	if (*str && !(*str >= '0' && *str <= '9'))
-		*check = FT_ERROR;
 	return ((ret * sign));
 }
 
@@ -48,6 +71,7 @@ void	ft_exit(t_tree_cmd *cmd, t_pipe *pipe_value)
 {
 	int	check;
 
+	check = FT_SUCCESS;
 	g_exit_code = 0;
 	ft_putstr_fd("exit\n", pipe_value->outfile_fd);
 	if (cmd->cmd_argv[1] == NULL)
@@ -71,60 +95,3 @@ void	ft_exit(t_tree_cmd *cmd, t_pipe *pipe_value)
 		g_exit_code = 1;
 	}
 }
-
-
-
-
-// int	ft_exit_num_check(char *str)
-// {
-// 	long long	num;
-// 	int			p_m;
-// 	int			num_of_digits;
-
-// 	num = 0;
-// 	p_m = 1;
-// 	num_of_digits = 0;
-// 	while ((9 <= *str && *str <= 13) || *str == ' ')
-// 		str++;
-// 	if (*str == '-')
-// 		p_m = -1;
-// 	if (*str == '+' || *str == '-')
-// 		str++;
-// 	while (*str >= '0' && *str <= '9')
-// 	{
-// 		num = num * 10 + (*str - '0');
-// 		num_of_digits++;
-// 		if (num < 0 || num_of_digits > 19)
-// 			return (-1);
-// 		str++;
-// 	}
-// 	return (num * p_m);
-// }
-
-
-
-// int	ft_exit_atoi(char *str)
-// {
-// 	long long	num;
-// 	int			p_m;
-// 	int			num_of_digits;
-
-// 	num = 0;
-// 	p_m = 1;
-// 	num_of_digits = 0;
-// 	while ((9 <= *str && *str <= 13) || *str == ' ')
-// 		str++;
-// 	if (*str == '-')
-// 		p_m = -1;
-// 	if (*str == '+' || *str == '-')
-// 		str++;
-// 	while (*str >= '0' && *str <= '9')
-// 	{
-// 		num = num * 10 + (*str - '0');
-// 		num_of_digits++;
-// 		if (num < 0 || num_of_digits > 19)
-// 			return (-1);
-// 		str++;
-// 	}
-// 	return (num * p_m);
-// }
