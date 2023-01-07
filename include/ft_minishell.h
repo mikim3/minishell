@@ -206,7 +206,6 @@ int			ft_syntax_parse_cmd(t_list **token, t_tree_node *cmd);
 char		**ft_set_cmd_argv(char ***argv, char *str);
 char		**ft_set_cmd_argv_set_new_argv(char ***argv, char *str);
 
-void		ft_free_string_ptr_arr(char **argv);
 
 /*
 	builtin
@@ -286,9 +285,6 @@ int			ft_tree_node_pre_traversal_exe_cmd_set(\
 	main
 */
 
-// error.c
-void		print_err(char *msg, int exit_code);
-
 // main.c
 void		main_init(void);
 void		term_init(void);
@@ -310,7 +306,13 @@ void		signal_handler2(int signo);
 	utils
 */
 
+// error.c
 void		exitcode_with_err(char *str, char *str_error, int exit_code);
+void		exitcode_with_err2(char *str, \
+	char *str_err1, char *str_err2, int exit_code);
+
+// utils.c
+void		ft_free_string_ptr_arr(char **argv);
 
 /*
 	ft_wrapper_functions
