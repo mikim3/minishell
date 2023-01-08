@@ -19,6 +19,12 @@ void	ft_cd(t_tree_cmd *cmd, t_detower *env_tower)
 	pwd_path = ft_getcwd(NULL, 0);
 	if (pwd_path == NULL)
 		return ;
+	if (cmd->cmd_argv[1] == "~")
+		if (ft_chdir(ft_getenv("HOME")) == -1)
+		{
+			free(pwd_path);
+			return ;
+		}
 	if (cmd->cmd_argv[1] != NULL)
 	{
 		if (ft_chdir(cmd->cmd_argv[1]) == -1)
