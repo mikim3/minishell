@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 08:38:58 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/06 20:56:45 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 07:28:13 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ int	ft_token_is_expandable(t_list *token)
 void	ft_free_a_tree_node(void *target)
 {
 	t_tree_node		*node;
-	t_tree_cmd		*cmd_content;
-	t_tree_rdr		*redir_content;
 
 	node = (t_tree_node *)target;
 	if (node == 0)

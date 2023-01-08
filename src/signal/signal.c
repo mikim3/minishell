@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 18:24:01 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/06 21:50:32 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 08:01:02 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,28 +44,11 @@ void	signal_handler(int signo)
 
 void	signal_handler_here_doc(int signo)
 {
-	extern int		rl_catch_signals;
-	struct termios	org_term;
-	struct termios	tmp_term;
-	int				ch;
-
-	ch = 0;
-	rl_catch_signals = 0;
 	if (signo == SIGINT)
 	{
-		tcgetattr(STDIN_FILENO, &org_term);
-		tcgetattr(STDIN_FILENO, &tmp_term);
-		tmp_term.c_lflag &= ~(ICANON | ECHO);
-		tcsetattr(STDIN_FILENO, TCSANOW, &tmp_term);
 		g_exit_code = 1;
-		ch = 4;
-		write(0, &ch, sizeof(int));
-		// readline 대기 멈추는 법
-			// 이걸 호출한 readline에 eof를 주기?
-				// 근데 이러면 error를 줄 수가 없음. 구분이 안된다.
-				// 그럼 여기서 설정한 전역 변수를 이용해보자
-					// -> 이러면 eof만 줄 수 있으면 됨
-		tcsetattr(STDIN_FILENO, TCSANOW, &org_term);
+		write(1, "\n", 1);
+		close(STDIN_FILENO);
 	}
 }
 

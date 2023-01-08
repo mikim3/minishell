@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/06 20:57:31 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 07:53:51 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int			ft_redir_output_redirection(\
 	t_pipe *m_pipe, int file_fd, int redir_fd);
 
 /*
-	parser - ft_token_expansion
+	ft_here_doc
 */
 
 int			ft_here_doc_expansion(\
@@ -93,6 +93,11 @@ int			ft_make_h_doc_wth_expand(\
 	char *token_str, t_detower *dll_envp_tower, int is_env_expand);
 int			ft_make_h_doc_loop(char *delimiter, \
 	int here_doc_fd, t_detower *dll_envp_tower, int is_env_expand);
+int			ft_make_h_doc_readline(char **buffer, int *here_doc_stop);
+
+/*
+	parser - ft_token_expansion
+*/
 
 int			ft_token_expansion(t_list *token_list, t_detower *dll_envp_tower);
 int			ft_token_str_expansion(\
@@ -145,7 +150,6 @@ int			ft_is_operator(char cha);
 void		ft_free_tokenizer_list_and_token(\
 	t_list **token_list, t_tkn **token, int procedure);
 void		ft_free_a_token_list_content(void *target);
-
 
 /*
 	parser - ft_syntax_analysis

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 13:53:23 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/06 21:13:01 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 08:17:00 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,14 +104,11 @@ int	ft_make_h_doc_wth_expand(\
 	{
 		ret = ft_make_h_doc_loop(\
 			delimiter, here_doc_fd, dll_envp_tower, is_env_expand);
-		if (ret == FT_ERROR)
+		if (ret == FT_ERROR || ret == FT_SUCCESS)
 			break ;
-		else if (ret == FT_SUCCESS)
-			return (set_signal(SIG_HANDLER, SIG_IGNORE), \
-				free(delimiter), FT_SUCCESS);
 	}
 	ft_close(here_doc_fd);
-	return (free(delimiter), FT_ERROR);
+	return (set_signal(SIG_HANDLER, SIG_IGNORE), free(delimiter), ret);
 }
 
 int	ft_make_h_doc_loop(char *delimiter, \
@@ -119,10 +116,13 @@ int	ft_make_h_doc_loop(char *delimiter, \
 {
 	char	*buffer;
 	char	*tmp_buf;
+	int		here_doc_stop;
 
-	tmp_buf = readline("> ");
-	if (tmp_buf == 0)
-		return (FT_SUCCESS);
+	here_doc_stop = BOOL_FALSE;
+	if (ft_make_h_doc_readline(&tmp_buf, &here_doc_stop) == FT_ERROR)
+		return (FT_ERROR);
+	if (here_doc_stop == BOOL_TRUE)
+		return (free(tmp_buf), FT_SUCCESS);
 	buffer = ft_strjoin(tmp_buf, "\n");
 	free(tmp_buf);
 	if (buffer == 0)
@@ -137,7 +137,55 @@ int	ft_make_h_doc_loop(char *delimiter, \
 	}
 	if (write(here_doc_fd, buffer, ft_strlen(buffer)) < 0)
 		return (free(buffer), FT_ERROR);
-	free(buffer);
-	buffer = 0;
-	return (-1);
+	return (free(buffer), -1);
 }
+
+int	ft_make_h_doc_readline(char **buffer, int *here_doc_stop)
+{
+	int	org_exit_code;
+	int	ret;
+	int	tmp_fd;
+
+	org_exit_code = g_exit_code;
+	g_exit_code = 0;
+	tmp_fd = dup(STDIN_FILENO);
+	ret = FT_SUCCESS;
+	*buffer = readline("> ");
+	if (*buffer == 0)
+	{
+		if (g_exit_code == 0)
+		{
+			*here_doc_stop = BOOL_TRUE;
+			ft_putstr_fd("\x1b[1A", STDOUT_FILENO);
+			ft_putstr_fd("\033[2C", STDOUT_FILENO);
+			ret = FT_SUCCESS;
+		}
+		else if (g_exit_code == 1)
+		{
+			org_exit_code = 1;
+			dup2(tmp_fd, STDIN_FILENO);
+			close(tmp_fd);
+			ret = FT_ERROR;
+		}
+	}
+	g_exit_code = org_exit_code;
+	return (ret);
+}
+
+// int	ft_make_h_doc_readline_eof_condition(int *here_doc_stop, int *org_exit_code, int tmp_fd)
+// {
+// 	if (g_exit_code == 0)
+// 	{
+// 		*here_doc_stop = BOOL_TRUE;
+// 		ft_putstr_fd("\x1b[1A", STDOUT_FILENO);
+// 		ft_putstr_fd("\033[2C", STDOUT_FILENO);
+// 		return (FT_SUCCESS);
+// 	}
+// 	else if (g_exit_code == 1)
+// 	{
+// 		org_exit_code = 1;
+// 		dup2(tmp_fd, STDIN_FILENO);
+// 		close(tmp_fd);
+// 		return(FT_ERROR);
+// 	}
+// }
