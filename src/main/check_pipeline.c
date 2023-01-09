@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 13:35:39 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/09 14:58:19 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 16:01:08 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	main_check_pipeline_readline(char **input, char **cpy_org)
 			return (FT_ERROR);
 		free(tmp);
 	}
-	return (free(*input), FT_SUCCESS);
+	return (FT_SUCCESS);
 }
 
 int	main_check_pipeline_readline_loop(char **input)

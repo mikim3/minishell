@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/09 14:41:22 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 15:36:21 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	main_loop(char *input, t_detower *dll_envp_tower, struct termios *term)
 		ft_tree_node_post_traversal(token_tree, \
 			&ft_free_a_tree_node);
 	}
-	return (FT_SUCCESS);
+	return (free(org_input), FT_SUCCESS);
 }
 
 int	main_parser(char *input, t_list **token_list,
