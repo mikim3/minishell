@@ -16,7 +16,7 @@ static void	ft_atoill_numcheck(char *str, int *check)
 {
 	while (*str)
 	{
-		if (*str && !(*str >= '0' && *str <= '9'))
+		if (!(*str >= '0' && *str <= '9'))
 			*check = FT_ERROR;
 		str++;
 	}
