@@ -218,7 +218,6 @@ int			ft_syntax_parse_cmd(t_list **token, t_tree_node *cmd);
 char		**ft_set_cmd_argv(char ***argv, char *str);
 char		**ft_set_cmd_argv_set_new_argv(char ***argv, char *str);
 
-
 /*
 	builtin
 */
@@ -338,6 +337,8 @@ void		ft_free_string_ptr_arr(char **argv);
 void		ft_execve(char *file, char **argv, char **envp);
 int			ft_chdir(char *dir, t_tree_cmd *cmd);
 char		*ft_getcwd(char *buf, size_t size);
+char		*ft_getenv(char *path_name);
+
 int			ft_access(const char *file, int flags);
 int			ft_fstat(int fd, struct stat *buf);
 
