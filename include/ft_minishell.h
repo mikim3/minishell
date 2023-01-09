@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/09 13:50:28 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 14:40:34 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,7 +296,6 @@ int			ft_tree_node_pre_traversal_exe_cmd_set(\
 	main
 */
 
-// main.c
 void		main_init(void);
 void		term_init(void);
 void		init_pipe(t_pipe *m_pipe);
@@ -306,9 +305,10 @@ int			main_loop(char *input, \
 int			main_parser(char *input, t_list **token_list, \
 	t_tree_node **token_tree, t_detower **dll_envp_tower);
 
-int			main_check_pipeline(t_tree_node *pipeline, \
+int			main_check_pipeline(char **org_input, t_tree_node *pipeline, \
 	t_detower *dll_envp_tower);
-int			main_check_pipeline_readline(char **input);
+int			main_check_pipeline_readline(char **input, char **org_input);
+int			main_check_pipeline_readline_loop(char **input);
 
 /*
 	signal.c

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/09 13:35:59 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 14:41:22 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ char	*ft_readline(char *prompt, struct termios *main_term)
 		tcsetattr(STDIN_FILENO, TCSANOW, main_term);
 		exit(g_exit_code);
 	}
-	if (*input != '\0')
-		add_history(input);
 	return (input);
 }
 
@@ -58,6 +56,7 @@ int	main_loop(char *input, t_detower *dll_envp_tower, struct termios *term)
 	t_list		*token_list;
 	t_tree_node	*token_tree;
 	int			err;
+	char		*org_input;
 
 	m_pipe.term = term;
 	err = main_parser(input, &token_list, &token_tree, &dll_envp_tower);
@@ -66,8 +65,11 @@ int	main_loop(char *input, t_detower *dll_envp_tower, struct termios *term)
 	else
 	{
 		init_pipe(&m_pipe);
-		if (main_check_pipeline(token_tree, dll_envp_tower) == FT_ERROR)
-			return (ft_tree_node_post_traversal(\
+		org_input = ft_strdup(input);
+		if (org_input == 0
+			|| main_check_pipeline(&org_input, token_tree, \
+				dll_envp_tower) == FT_ERROR)
+			return (free(org_input), ft_tree_node_post_traversal(\
 				token_tree, &ft_free_a_tree_node), FT_ERROR);
 		execute_fork(token_tree, dll_envp_tower, &m_pipe);
 		ft_tree_node_post_traversal(token_tree, \
