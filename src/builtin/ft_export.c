@@ -23,7 +23,7 @@ static char	*show_env_in_export(t_d_list	*env)
 	{
 		if (((t_env_ctnt *)env->content)->value != NULL)
 		{
-			line = ft_strjoin("declare -x ", ((t_env_ctnt *)env->content)->key);
+			line = ft_strdup(((t_env_ctnt *)env->content)->key);
 			line = ft_strjoin_infree(line, ft_strdup("=\""));
 			line = ft_strjoin_infree(line,
 					ft_strdup((((t_env_ctnt *)env->content)->value)));
@@ -32,7 +32,7 @@ static char	*show_env_in_export(t_d_list	*env)
 		}
 		else
 		{
-			line = ft_strjoin("declare -x ", ((t_env_ctnt *)env->content)->key);
+			line = ft_strdup(((t_env_ctnt *)env->content)->key);
 			line = ft_strjoin_infree(line, ft_strdup("\n"));
 			output = ft_strjoin_infree(output, line);
 		}
