@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/09 12:49:58 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 13:22:55 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ char		*ft_compare_str_to_mnsh_envp_keys(char *str, t_d_list *mnsh_envp);
 	parser - ft_tokenizer
 */
 
-void		*ft_tokenizer(char *str);
+int			ft_tokenizer(char *str, t_list **token_list);
 int			ft_initialize_tokenizer( t_tknizer *tknizer, char *str);
 int			ft_tokenizing_loop(t_tknizer *tknizer, int error, int *prev_type);
 int			ft_close_quote(t_tknizer *tknizer, int *prev_type);
@@ -306,9 +306,10 @@ void		main_init(void);
 void		term_init(void);
 void		init_pipe(t_pipe *m_pipe);
 char		*ft_readline(char *prompt, struct termios *main_term);
-void		main_loop(t_list *token_list, t_detower *dll_envp_tower, \
-	t_tree_node *token_tree, struct termios *term);
-int			main_parser(t_list **token_list, t_detower **dll_envp_tower);
+int			main_loop(char *input, \
+	t_detower *dll_envp_tower, struct termios *term);
+int			main_parser(char *input, t_list **token_list, \
+	t_detower **dll_envp_tower);
 
 int			main_check_pipeline(t_tree_node *pipeline, \
 	t_detower *dll_envp_tower);

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/09 12:54:57 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 13:24:09 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_list				*token_list;
 	char				*input;
-	t_tree_node			*token_tree;
 	t_detower			*dll_envp_tower;
 	struct termios		main_term;
 
@@ -27,13 +25,11 @@ int	main(int argc, char **argv, char **envp)
 	dll_envp_tower = ft_set_envp_dll(envp);
 	if (dll_envp_tower == 0)
 		return (FT_ERROR);
-	token_tree = 0;
 	while (1)
 	{
 		term_init();
 		input = ft_readline("BABYSHELL$ ", &main_term);
-		token_list = (t_list *)ft_tokenizer(input);
-		main_loop(token_list, dll_envp_tower, token_tree, &main_term);
+		main_loop(input, dll_envp_tower, &main_term);
 		free(input);
 		tcsetattr(STDIN_FILENO, TCSANOW, &main_term);
 	}
@@ -56,44 +52,42 @@ char	*ft_readline(char *prompt, struct termios *main_term)
 	return (input);
 }
 
-void	main_loop(t_list *token_list, t_detower *dll_envp_tower, \
-	t_tree_node *token_tree, struct termios *term)
+int	main_loop(char *input, t_detower *dll_envp_tower, struct termios *term)
 {
-	t_pipe	m_pipe;
-	int		err;
+	t_pipe		m_pipe;
+	t_list		*token_list;
+	t_tree_node	*token_tree;
+	int			err;
 
-	err = BOOL_FALSE;
 	m_pipe.term = term;
-	err = main_parser(&token_list, &dll_envp_tower);
-	if (err == BOOL_FALSE)
+	err = main_parser(input, &token_list, &dll_envp_tower);
+	if (err == BOOL_TRUE)
+		return (FT_ERROR);
+	token_tree = ft_syntax_parse_tree(token_list);
+	if (token_tree == 0)
+		err = BOOL_TRUE;
+	else
 	{
-		token_tree = ft_syntax_parse_tree(token_list);
-		if (token_tree == 0)
-			err = BOOL_TRUE;
-		else
-		{
-			ft_free_tokenizer_list_and_token(&token_list, \
-				0, TKN_TKNIZE_SUCCESSED);
-			init_pipe(&m_pipe);
-			if (main_check_pipeline(token_tree, dll_envp_tower) == FT_ERROR)
-			{
-				ft_tree_node_post_traversal(token_tree, &ft_free_a_tree_node);
-				return ;
-			}
-			execute_fork(token_tree, dll_envp_tower, &m_pipe);
-			ft_tree_node_post_traversal(token_tree, \
-				&ft_free_a_tree_node);
-		}
+		ft_free_tokenizer_list_and_token(&token_list, \
+			0, TKN_TKNIZE_SUCCESSED);
+		init_pipe(&m_pipe);
+		if (main_check_pipeline(token_tree, dll_envp_tower) == FT_ERROR)
+			return (ft_tree_node_post_traversal(\
+				token_tree, &ft_free_a_tree_node), FT_ERROR);
+		execute_fork(token_tree, dll_envp_tower, &m_pipe);
+		ft_tree_node_post_traversal(token_tree, \
+			&ft_free_a_tree_node);
 	}
+	return (FT_SUCCESS);
 }
 
-int	main_parser(t_list **token_list, t_detower **dll_envp_tower)
+int	main_parser(char *input, t_list **token_list, t_detower **dll_envp_tower)
 {
 	int	err;
 
-	err = BOOL_FALSE;
-	if (token_list == 0)
-		err = BOOL_TRUE;
+	err = ft_tokenizer(input, token_list);
+	if (err == BOOL_TRUE)
+		return (FT_ERROR);
 	if (err == BOOL_FALSE && ft_syntax_analysis(*token_list) == FT_ERROR)
 		err = BOOL_TRUE;
 	if (err == BOOL_FALSE && ft_here_doc_expansion(*token_list, \
@@ -124,8 +118,7 @@ int	main_check_pipeline(t_tree_node *pipeline, \
 				return (FT_ERROR);
 			ft_tree_node_post_traversal(pipeline, \
 				&ft_free_a_tree_node);
-			token_list = (t_list *)ft_tokenizer(input);
-			err = main_parser(&token_list, &dll_envp_tower);
+			err = main_parser(input, &token_list, &dll_envp_tower);
 			if (err == BOOL_FALSE)
 			{
 				pipeline = ft_syntax_parse_tree(token_list);
