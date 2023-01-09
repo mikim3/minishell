@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/06 21:45:57 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 10:27:24 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,3 +99,26 @@ int	main_parser(t_list **token_list, t_detower **dll_envp_tower)
 		err = BOOL_TRUE;
 	return (err);
 }
+
+// int	main_check_pipeline(t_tree_node *pipeline, \
+// 	t_detower *dll_envp_tower, struct termios *term)
+// {
+// 	char	*input;
+// 	t_list	*token_list;
+
+// 	while (pipeline != 0)
+// 	{
+// 		if (pipeline->left->left->left == 0 && pipeline->left->right->left == 0)
+// 		{
+// 			input = readline("> ");
+// 			if (input == NULL)
+// 			{
+// 				// ctrl-d로 EOF 줌 -> > bash: syntax error: unexpected end of file
+// 			}
+// 			if (*input != '\0')
+// 				// add_history(input); // 기존 history 문자열에 덧붙이게 만들어야 함
+// 			main_loop(token_list, dll_envp_tower, pipeline, term);
+// 		}
+// 		pipeline = pipeline->right;
+// 	}
+// }

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 13:46:11 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/06 14:10:37 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 10:26:53 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ t_tree_node	*ft_syntax_parse_tree(t_list *token_list)
 	t_tree_node	*parse_tree;
 	int			status;
 
+	parse_tree = 0;
 	if (ft_token_type(token_list) == TKN_NULL)
 	{
 		ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
@@ -39,7 +40,7 @@ int	ft_syntax_parse_pipeline(t_list *token, t_tree_node **parse)
 	t_tree_node	*simple_cmd;
 	int			token_type;
 
-	if (ft_syntax_parse_pipeline_data(parse, &recur_parse,
+	if (*parse == 0 && ft_syntax_parse_pipeline_data(parse, &recur_parse,
 			&cur_redirects, &simple_cmd) == FT_ERROR)
 		return (FT_ERROR);
 	token_type = ft_token_type(token);

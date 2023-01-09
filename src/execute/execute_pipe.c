@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 11:01:23 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/06 13:58:44 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 09:36:50 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,12 @@ int	execute_redir(t_tree_node *node, t_pipe *m_pipe)
 	{
 		redir_fd = ft_atoi(redir);
 		if (redir_fd < 0)
-			return (FT_ERROR);
+		{
+			ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
+			ft_putstr_fd(": file descriptor out of range", STDERR_FILENO);
+			if (redir_fd == -1)
+				redir_fd = -2;
+		}
 		while (ft_isdigit(*redir) == BOOL_TRUE)
 			redir++;
 	}
