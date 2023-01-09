@@ -55,9 +55,7 @@ void	ft_cd(t_tree_cmd *cmd, t_detower *env_tower)
 {
 	char		*pwd_path;
 
-	pwd_path = ft_getcwd(NULL, 0);
-	if (pwd_path == NULL)
-		return ;
+	pwd_path = getcwd(NULL, 0);
 	ft_cd_do(cmd, env_tower);
 	change_pwd(env_tower, "PWD");
 	change_oldpwd(env_tower, pwd_path);

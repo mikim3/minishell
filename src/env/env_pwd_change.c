@@ -18,9 +18,7 @@ void	change_pwd(t_detower *env_tower, char *select)
 	t_env_ctnt		*set_pwd;
 	char			*pwd_path;
 
-	pwd_path = ft_getcwd(NULL, 0);
-	if (pwd_path == NULL)
-		return ;
+	pwd_path = getcwd(NULL, 0);
 	env = env_tower->head;
 	set_pwd = find_env_keycmp(env, select);
 	if (set_pwd != NULL)
