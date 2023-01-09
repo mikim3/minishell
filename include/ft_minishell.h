@@ -218,7 +218,6 @@ int			ft_syntax_parse_cmd(t_list **token, t_tree_node *cmd);
 char		**ft_set_cmd_argv(char ***argv, char *str);
 char		**ft_set_cmd_argv_set_new_argv(char ***argv, char *str);
 
-
 /*
 	builtin
 */
@@ -346,5 +345,8 @@ int			ft_close(int fd);
 pid_t		ft_fork(void);
 pid_t		ft_pipe(int fd[2]);
 int			ft_dup2(int oldfd, int newfd);
+
+void		ft_char_free(char *str);
+char		*ft_getenv(char *path_name);
 
 #endif
