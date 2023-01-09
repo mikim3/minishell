@@ -14,8 +14,12 @@
 
 static void	ft_atoill_numcheck(char *str, int *check)
 {
-	if (*str && !(*str >= '0' && *str <= '9'))
-		*check = FT_ERROR;
+	while (*str)
+	{
+		if (*str && !(*str >= '0' && *str <= '9'))
+			*check = FT_ERROR;
+		str++;
+	}
 }
 
 static int	ft_atoill_strcmp(const char *s1, const char *s2)
@@ -23,19 +27,22 @@ static int	ft_atoill_strcmp(const char *s1, const char *s2)
 	const unsigned char	*s1_uc;
 	const unsigned char	*s2_uc;
 	size_t				i;
+	size_t				j;
 
 	s1_uc = (const unsigned char *)s1;
 	s2_uc = (const unsigned char *)s2;
-	i = 0;
-	// s1을 00은 무시하게 바꾸기 아니면 매커니즘 자체를 바꾸기 
-	//  아니면 00은 제거 하고 문자열 돌려받고 시작하기
-	while (s1_uc[i] && s2_uc[i] && s1[i] != '\0' && s2[i] != '\0')
+	i = 1;
+	j = 1;
+	while (s1_uc[i] == '0')
+		i++;
+	while (s1_uc[i] && s2_uc[j] && s1[i] != '\0' && s2[j] != '\0')
 	{
-		if (s1_uc[i] != s2_uc[i])
+		if (s1_uc[i] != s2_uc[j])
 			break ;
 		i++;
+		j++;
 	}
-	return ((int)(s1_uc[i] - s2_uc[i]));
+	return ((int)(s1_uc[i] - s2_uc[j]));
 }
 
 static long long	ft_atoill(char *str, int *check)
@@ -79,7 +86,7 @@ void	ft_exit(t_tree_cmd *cmd, t_pipe *pipe_value)
 		tcsetattr(STDIN_FILENO, TCSANOW, pipe_value->term);
 		exit(g_exit_code);
 	}
-	else if (cmd->cmd_argv[2] == NULL)
+	else
 	{
 		g_exit_code = (unsigned char)ft_atoill(cmd->cmd_argv[1], &check);
 		if (check == FT_ERROR)
@@ -88,10 +95,7 @@ void	ft_exit(t_tree_cmd *cmd, t_pipe *pipe_value)
 		tcsetattr(STDIN_FILENO, TCSANOW, pipe_value->term);
 		exit(g_exit_code);
 	}
-	else
-	{
-		ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
-		ft_putstr_fd(": exit: too many arguments\n", STDERR_FILENO);
-		g_exit_code = 1;
-	}
+	ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
+	ft_putstr_fd(": exit: too many arguments\n", STDERR_FILENO);
+	g_exit_code = 1;
 }

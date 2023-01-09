@@ -22,19 +22,23 @@ char	*get_file_path_from_env_path(char *command, t_detower *dll_envp_tower)
 	file_path = NULL;
 	env_path_values = get_env_path(dll_envp_tower);
 	index = 0;
-	while (env_path_values[index])
+	if (env_path_values)
 	{
-		tmp = ft_strjoin("/", command);
-		file_path = ft_strjoin(env_path_values[index], tmp);
-		free(tmp);
-		if (access(file_path, X_OK) == -1)
+		while (env_path_values[index])
 		{
-			free(file_path);
-			file_path = 0;
+			tmp = ft_strjoin("/", command);
+			file_path = ft_strjoin(env_path_values[index], tmp);
+			free(tmp);
+			tmp = 0;
+			if (access(file_path, X_OK) == -1)
+			{
+				free(file_path);
+				file_path = 0;
+			}
+			else
+				break ;
+			index++;
 		}
-		else
-			break ;
-		index++;
 	}
 	if (env_path_values)
 		ft_free_string_ptr_arr(env_path_values);

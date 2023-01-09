@@ -335,7 +335,7 @@ void		ft_free_string_ptr_arr(char **argv);
 */
 
 void		ft_execve(char *file, char **argv, char **envp);
-int			ft_chdir(char *dir);
+int			ft_chdir(char *dir, t_tree_cmd *cmd);
 char		*ft_getcwd(char *buf, size_t size);
 int			ft_access(const char *file, int flags);
 int			ft_fstat(int fd, struct stat *buf);
