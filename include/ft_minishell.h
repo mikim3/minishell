@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/09 18:53:57 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 20:10:57 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,16 @@ int			ft_redir_output_redirection(\
 */
 
 int			ft_here_doc_expansion(\
-	t_list *token_list, t_detower *dll_envp_tower);
-int			ft_check_here_doc(t_list **token_node, char *redir, \
-	t_list *token_list, t_detower *dll_envp_tower);
+	t_list *token_list, t_detower *dll_envp_tower, int *pipe_num);
+int			ft_check_here_doc(t_heredoc *heredoc, \
+	t_detower *dll_envp_tower, int pipe_num);
 int			ft_here_doc_with_delimiter_control(t_list **token_node, \
-	t_list *token_list, t_detower *dll_envp_tower);
+	t_list *token_list, t_detower *dll_envp_tower, int pipe_num);
+
 int			ft_make_h_doc_wth_expand(\
-	char *token_str, t_detower *dll_envp_tower, int is_env_expand);
+	char *token_str, t_detower *dll_envp_tower, \
+	int pipe_num, int is_env_expand);
+char		*ft_make_h_doc_file_name(int pipe_num);
 int			ft_make_h_doc_loop(char *delimiter, \
 	int here_doc_fd, t_detower *dll_envp_tower, int is_env_expand);
 int			ft_make_h_doc_readline(char **buffer, int *here_doc_stop);
@@ -302,11 +305,14 @@ void		init_pipe(t_pipe *m_pipe);
 char		*ft_readline(char *prompt, struct termios *main_term);
 int			main_loop(char *input, \
 	t_detower *dll_envp_tower, struct termios *term);
-int			main_parser(char *input, t_list **token_list, \
-	t_tree_node **token_tree, t_detower **dll_envp_tower);
+int			main_parser(t_parser *parser, t_tree_node **tree_node, \
+	t_detower **dll_envp_tower);
 
-int			main_check_pipeline(char **org_input, t_tree_node *pipeline, \
+int			main_check_pipeline(t_parser *parser, \
 	t_detower *dll_envp_tower);
+int			main_check_pipeline_loop(t_tree_node **pipeline, \
+	t_tree_node **prev_pipeline, \
+	t_parser *parser, t_detower *dll_envp_tower);
 int			main_check_pipeline_readline(char **input, char **org_input);
 int			main_check_pipeline_readline_loop(char **input);
 

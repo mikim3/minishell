@@ -57,7 +57,18 @@ typedef struct s_redirection_data
 	int				out_redirected;
 	int				here_doc_opened;
 	struct termios	*term;
+	int				pipe_num;
 }		t_pipe;
+
+// ft_token_here_doc
+
+typedef struct s_here_doc_data{
+	t_list	*token_node;
+	t_list	*token_list;
+	char	*redir;
+	char	*tmp;
+	int		type;
+}	t_heredoc;
 
 // ft_token_expansion
 
@@ -105,5 +116,15 @@ typedef struct s_minishell_tree_node_cmd{
 	char	*cmd_name;
 	char	**cmd_argv;
 }	t_tree_cmd;
+
+// main
+
+typedef struct s_parser_data{
+	t_list		*token_list;
+	t_tree_node	*token_tree;
+	char		*input;
+	char		*org_cpy;
+	int			pipe_num;
+}		t_parser;
 
 #endif

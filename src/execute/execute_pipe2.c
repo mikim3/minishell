@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 15:20:22 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/09 09:35:00 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 20:02:12 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,19 +65,24 @@ int	ft_redir_append(char *file_name, t_pipe *m_pipe, int redir_fd)
 int	ft_redir_here_doc(t_pipe *m_pipe, int redir_fd)
 {
 	int			file_fd;
+	char		*tmp;
 	struct stat	buf;
 
 	if (redir_fd != -1 && ft_fstat(redir_fd, &buf) == -1)
 		return (FT_ERROR);
-	file_fd = ft_open("/tmp/.mnsh_here_doc.tmp", O_RDONLY, 0);
-	if (file_fd == -1)
+	tmp = ft_make_h_doc_file_name(m_pipe->pipe_num);
+	if (tmp == 0)
 		return (FT_ERROR);
+	file_fd = ft_open(tmp, O_RDONLY, 0);
+	if (file_fd == -1)
+		return (free(tmp), FT_ERROR);
 	m_pipe->here_doc_opened = BOOL_TRUE;
-	if (unlink("/tmp/.mnsh_here_doc.tmp") < 0)
+	if (unlink(tmp) < 0)
 	{
 		exitcode_with_err("unlink()", strerror(errno), 1);
-		return (FT_ERROR);
+		return (free(tmp), FT_ERROR);
 	}
+	free(tmp);
 	if (ft_redir_input_redirection(m_pipe, file_fd, redir_fd) == FT_ERROR)
 		return (FT_ERROR);
 	return (FT_SUCCESS);
