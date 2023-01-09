@@ -79,8 +79,9 @@ void	ft_export(t_tree_cmd *cmd, t_detower *env_tower, t_pipe *pipe_value)
 		output = show_env_in_export(env);
 		write(pipe_value->outfile_fd, output, ft_strlen(output));
 		free(output);
-	} // mikim3333 else 여야하는지 확인하기
-	ft_export_while(cmd, env_tower);
+	}
+	else
+		ft_export_while(cmd, env_tower);
 }
 
 int	div_key_value(char *arg, char **key, char **value)

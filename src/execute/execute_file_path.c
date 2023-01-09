@@ -12,22 +12,20 @@
 
 #include "../../include/ft_minishell.h"
 
-char	*get_file_path_from_env_path(char *command, t_detower *dll_envp_tower)
+static char	*get_file_path_from_env_loop(char **env_path_values, char *command)
 {
-	char	*file_path;
-	char	**env_path_values;
 	char	*tmp;
 	int		index;
+	char	*file_path;
 
 	file_path = NULL;
-	env_path_values = get_env_path(dll_envp_tower);
 	index = 0;
 	if (env_path_values)
 	{
 		while (env_path_values[index])
 		{
 			tmp = ft_strjoin("/", command);
-			file_path = ft_strjoin(env_path_values[index], tmp);
+			file_path = ft_strjoin(env_path_values[index++], tmp);
 			free(tmp);
 			tmp = 0;
 			if (access(file_path, X_OK) == -1)
@@ -37,9 +35,19 @@ char	*get_file_path_from_env_path(char *command, t_detower *dll_envp_tower)
 			}
 			else
 				break ;
-			index++;
 		}
 	}
+	return (file_path);
+}
+
+char	*get_file_path_from_env_path(char *command, t_detower *dll_envp_tower)
+{
+	char	*file_path;
+	char	**env_path_values;
+
+	file_path = NULL;
+	env_path_values = get_env_path(dll_envp_tower);
+	file_path = get_file_path_from_env_loop(env_path_values, command);
 	if (env_path_values)
 		ft_free_string_ptr_arr(env_path_values);
 	return (file_path);
