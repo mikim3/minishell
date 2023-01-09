@@ -26,7 +26,8 @@ void	exitcode_with_err(char *str, char *str_error, int exit_code)
 	g_exit_code = exit_code;
 }
 
-void	exitcode_with_err2(char *str, char *str_err1, char *str_err2, int exit_code)
+void	exitcode_with_err2(char *str, \
+	char *str_err1, char *str_err2, int exit_code)
 {
 	ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
