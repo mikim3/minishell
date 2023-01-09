@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 13:35:39 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/09 14:41:14 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 14:58:19 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ int	main_check_pipeline(char **org_cpy, t_tree_node *pipeline, \
 				&ft_free_a_tree_node);
 			if (main_parser(input, &token_list, \
 				&pipeline, &dll_envp_tower) == BOOL_TRUE)
-				return (FT_ERROR);
+				return (free(input), FT_ERROR);
 			else
 				prev_pipeline->right = pipeline;
+			free(input);
 		}
 		prev_pipeline = pipeline;
 		pipeline = pipeline->right;
@@ -60,7 +61,7 @@ int	main_check_pipeline_readline(char **input, char **cpy_org)
 			return (FT_ERROR);
 		free(tmp);
 	}
-	return (FT_SUCCESS);
+	return (free(*input), FT_SUCCESS);
 }
 
 int	main_check_pipeline_readline_loop(char **input)
