@@ -39,7 +39,8 @@ typedef enum e_pwd_set{
 typedef enum e_signal{
 	SIG_IGNORE = 0,
 	SIG_DEFAULT,
-	SIG_HANDLER
+	SIG_HANDLER,
+	SIG_HERE_DOC
 }		t_signal;
 
 // ft_token_expansion

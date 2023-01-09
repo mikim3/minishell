@@ -6,13 +6,13 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:01:52 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/06 14:08:57 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 13:19:36 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ft_minishell.h"
 
-void	*ft_tokenizer(char *str)
+int	ft_tokenizer(char *str, t_list **token_list)
 {
 	t_tknizer	tknizer;
 	int			prev_type;
@@ -21,24 +21,19 @@ void	*ft_tokenizer(char *str)
 	prev_type = TKN_WORD;
 	error = BOOL_FALSE;
 	if (ft_initialize_tokenizer(&tknizer, str) == FT_ERROR)
-		return (0);
+		return (BOOL_TRUE);
 	while (*(tknizer.str_pos) != '\0')
 	{
 		error = ft_tokenizing_loop(&tknizer, error, &prev_type);
 		if (error == BOOL_TRUE)
-		{
-			ft_free_tokenizer_list_and_token(\
-				&(tknizer.tkn_list), &(tknizer.tkn), TKN_TKNIZE_FAIL);
-			return (0);
-		}
+			return (ft_free_tokenizer_list_and_token(&(tknizer.tkn_list), \
+				&(tknizer.tkn), TKN_TKNIZE_FAIL), BOOL_TRUE);
 	}
 	if (ft_token_processor(&tknizer, &prev_type) == FT_ERROR)
-	{
-		ft_free_tokenizer_list_and_token(\
-			&(tknizer.tkn_list), &(tknizer.tkn), TKN_TKNIZE_FAIL);
-		return (0);
-	}
-	return ((void *)(tknizer.tkn_list));
+		return (ft_free_tokenizer_list_and_token(\
+			&(tknizer.tkn_list), &(tknizer.tkn), TKN_TKNIZE_FAIL), BOOL_TRUE);
+	*token_list = tknizer.tkn_list;
+	return (BOOL_FALSE);
 }
 
 int	ft_initialize_tokenizer(t_tknizer *tknizer, char *str)
@@ -75,7 +70,7 @@ int	ft_tokenizing_loop(t_tknizer *tknizer, int error, int *prev_type)
 	if (error == BOOL_FALSE && *prev_type != TKN_OPERATOR
 		&& ft_is_operator(*(tknizer->str_pos)) == BOOL_TRUE)
 	{
-		if (tknizer->io_num_mode == BOOL_TRUE)
+		if (tknizer->io_num_mode == BOOL_TRUE && *(tknizer->str_pos) != '|')
 			*prev_type = TKN_OPERATOR;
 		else
 			error = ft_token_processor(tknizer, prev_type);

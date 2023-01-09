@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 18:24:01 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/06 18:13:30 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 08:23:57 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	set_signal(int sig_int, int sig_quit)
 		signal(SIGINT, SIG_DFL);
 	if (sig_int == SIG_HANDLER)
 		signal(SIGINT, signal_handler);
+	if (sig_int == SIG_HERE_DOC)
+		signal(SIGINT, signal_handler_here_doc);
 	if (sig_quit == SIG_IGNORE)
 		signal(SIGQUIT, SIG_IGN);
 	if (sig_quit == SIG_DEFAULT)
@@ -37,6 +39,16 @@ void	signal_handler(int signo)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+	}
+}
+
+void	signal_handler_here_doc(int signo)
+{
+	if (signo == SIGINT)
+	{
+		g_exit_code = 1;
+		write(1, "\n", 1);
+		close(STDIN_FILENO);
 	}
 }
 
@@ -63,6 +75,5 @@ void	wait_child(t_exec_fork *exec_data)
 		if (wait_pid == exec_data->pid)
 			g_exit_code = WEXITSTATUS(exec_data->status);
 	}
-	printf("after signal - %d\n", g_exit_code);
 	set_signal(SIG_HANDLER, SIG_IGNORE);
 }

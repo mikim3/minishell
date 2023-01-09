@@ -6,30 +6,51 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 13:46:11 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/06 14:10:37 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 13:32:34 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ft_minishell.h"
 
-t_tree_node	*ft_syntax_parse_tree(t_list *token_list)
+// t_tree_node	*ft_syntax_parse_tree(t_list *token_list)
+// {
+// 	t_tree_node	*parse_tree;
+// 	int			status;
+
+// 	parse_tree = 0;
+// 	if (ft_token_type(token_list) == TKN_NULL)
+// 	{
+// 		ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
+// 		return (0);
+// 	}
+// 	status = ft_syntax_parse_pipeline(token_list, &parse_tree);
+// 	if (status == FT_ERROR)
+// 	{
+// 		ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
+// 		ft_tree_node_post_traversal(parse_tree, &ft_free_a_tree_node);
+// 		return (0);
+// 	}
+// 	return (parse_tree);
+// }
+
+int	ft_syntax_parse_tree(t_list *token_list, t_tree_node **parse_tree)
 {
-	t_tree_node	*parse_tree;
 	int			status;
 
 	if (ft_token_type(token_list) == TKN_NULL)
 	{
 		ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
-		return (0);
+		return (FT_ERROR);
 	}
-	status = ft_syntax_parse_pipeline(token_list, &parse_tree);
+	status = ft_syntax_parse_pipeline(token_list, parse_tree);
 	if (status == FT_ERROR)
 	{
 		ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
-		ft_tree_node_post_traversal(parse_tree, &ft_free_a_tree_node);
-		return (0);
+		ft_tree_node_post_traversal(*parse_tree, &ft_free_a_tree_node);
+		return (FT_ERROR);
 	}
-	return (parse_tree);
+	ft_free_tokenizer_list_and_token(&token_list, 0, TKN_TKNIZE_SUCCESSED);
+	return (FT_SUCCESS);
 }
 
 int	ft_syntax_parse_pipeline(t_list *token, t_tree_node **parse)
