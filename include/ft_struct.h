@@ -57,7 +57,18 @@ typedef struct s_redirection_data
 	int				out_redirected;
 	int				here_doc_opened;
 	struct termios	*term;
+	int				pipe_num;
 }		t_pipe;
+
+// ft_token_here_doc
+
+typedef struct s_here_doc_data{
+	t_list	*token_node;
+	t_list	*token_list;
+	char	*redir;
+	char	*tmp;
+	int		type;
+}	t_heredoc;
 
 // ft_token_expansion
 

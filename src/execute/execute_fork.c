@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 17:25:19 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/09 10:21:41 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 20:00:05 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	fork_routine(t_tree_node *pipeline, \
 			pipeline, m_pipe, exec_data, dll_envp_tower) == FT_ERROR)
 			break ;
 		pipeline = pipeline->right;
+		(m_pipe->pipe_num)++;
 		(exec_data->iter)++;
 	}
 }

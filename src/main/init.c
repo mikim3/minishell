@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/06 19:52:59 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 19:58:21 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	init_pipe(t_pipe *m_pipe)
 	m_pipe->in_redirected = BOOL_FALSE;
 	m_pipe->out_redirected = BOOL_FALSE;
 	m_pipe->here_doc_opened = BOOL_FALSE;
+	m_pipe->pipe_num = 0;
 }
 
 void	main_init(void)

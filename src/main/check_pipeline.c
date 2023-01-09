@@ -6,16 +6,49 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 13:35:39 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/09 19:32:38 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 20:12:18 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ft_minishell.h"
 
+// int	main_check_pipeline(t_parser *parser,
+// 	t_detower *dll_envp_tower)
+// {
+// 	char		*input;
+// 	t_list		*token_list;
+// 	t_tree_node	*prev_pipeline;
+// 	t_tree_node	*pipeline;
+
+// 	pipeline = parser->token_tree;
+// 	while (pipeline != 0)
+// 	{
+// 		if (pipeline->left->left->left == 0 && 
+// 			pipeline->left->right->content == 0)
+// 		{
+// 			prev_pipeline->right = 0;
+// 			if (main_check_pipeline_readline(
+// 				&input, &(parser->org_cpy)) == FT_ERROR)
+// 				return (add_history(parser->org_cpy), FT_ERROR);
+// 			ft_tree_node_post_traversal(pipeline, 
+// 				&ft_free_a_tree_node);
+// 			parser->input = input;
+// 			if (main_parser(parser, &pipeline, &dll_envp_tower) == BOOL_TRUE)
+// 				return (add_history(parser->org_cpy), free(input), FT_ERROR);
+// 			else
+// 				prev_pipeline->right = pipeline;
+// 			free(input);
+// 		}
+// 		prev_pipeline = pipeline;
+// 		pipeline = pipeline->right;
+// 	}
+// 	add_history(parser->org_cpy);
+// 	return (FT_SUCCESS);
+// }
+
 int	main_check_pipeline(t_parser *parser, \
 	t_detower *dll_envp_tower)
 {
-	char		*input;
 	t_list		*token_list;
 	t_tree_node	*prev_pipeline;
 	t_tree_node	*pipeline;
@@ -23,26 +56,38 @@ int	main_check_pipeline(t_parser *parser, \
 	pipeline = parser->token_tree;
 	while (pipeline != 0)
 	{
-		if (pipeline->left->left->left == 0 && \
-			pipeline->left->right->content == 0)
-		{
-			prev_pipeline->right = 0;
-			if (main_check_pipeline_readline(\
-				&input, &(parser->org_cpy)) == FT_ERROR)
-				return (add_history(parser->org_cpy), FT_ERROR);
-			ft_tree_node_post_traversal(pipeline, \
-				&ft_free_a_tree_node);
-			parser->input = input;
-			if (main_parser(parser, &pipeline, &dll_envp_tower) == BOOL_TRUE)
-				return (add_history(parser->org_cpy), free(input), FT_ERROR);
-			else
-				prev_pipeline->right = pipeline;
-			free(input);
-		}
+		if (main_check_pipeline_loop(&pipeline, &prev_pipeline, \
+			parser, dll_envp_tower) == FT_ERROR)
+			return (FT_ERROR);
 		prev_pipeline = pipeline;
 		pipeline = pipeline->right;
 	}
 	add_history(parser->org_cpy);
+	return (FT_SUCCESS);
+}
+
+int	main_check_pipeline_loop(t_tree_node **pipeline, \
+	t_tree_node **prev_pipeline, \
+	t_parser *parser, t_detower *dll_envp_tower)
+{
+	char	*input;
+
+	if ((*pipeline)->left->left->left == 0 && \
+		(*pipeline)->left->right->content == 0)
+	{
+		(*prev_pipeline)->right = 0;
+		if (main_check_pipeline_readline(\
+			&input, &(parser->org_cpy)) == FT_ERROR)
+			return (add_history(parser->org_cpy), FT_ERROR);
+		ft_tree_node_post_traversal(*pipeline, \
+			&ft_free_a_tree_node);
+		parser->input = input;
+		if (main_parser(parser, pipeline, &dll_envp_tower) == BOOL_TRUE)
+			return (add_history(parser->org_cpy), free(input), FT_ERROR);
+		else
+			(*prev_pipeline)->right = *pipeline;
+		free(input);
+	}
 	return (FT_SUCCESS);
 }
 
