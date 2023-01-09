@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 13:53:23 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/09 19:59:33 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 20:22:36 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,47 @@ int	ft_here_doc_with_delimiter_control(t_list **token_node, \
 			return (ft_free_tokenizer_list_and_token(&token_list, \
 				0, TKN_TKNIZE_SUCCESSED), FT_ERROR);
 	}
+	return (FT_SUCCESS);
+}
+
+int	ft_make_h_doc_wth_expand(\
+	char *token_str, t_detower *dll_envp_tower, \
+	int pipe_num, int is_env_expand)
+{
+	int		here_doc_fd;
+	char	*delimiter;
+	int		ret;
+
+	if (ft_make_h_doc_set_before_loop(token_str, &delimiter, \
+		&here_doc_fd, pipe_num) == FT_ERROR)
+		return (FT_ERROR);
+	set_signal(SIG_HERE_DOC, SIG_IGNORE);
+	while (1)
+	{
+		ret = ft_make_h_doc_loop(\
+			delimiter, here_doc_fd, dll_envp_tower, is_env_expand);
+		if (ret == FT_ERROR || ret == FT_SUCCESS)
+			break ;
+	}
+	ft_close(here_doc_fd);
+	return (set_signal(SIG_HANDLER, SIG_IGNORE), free(delimiter), ret);
+}
+
+int	ft_make_h_doc_set_before_loop(char *token_str, char **delimiter, \
+	int *here_doc_fd, int pipe_num)
+{
+	char	*f_name;
+
+	*here_doc_fd = -1;
+	f_name = ft_make_h_doc_file_name(pipe_num);
+	if (f_name == 0)
+		return (FT_ERROR);
+	*here_doc_fd = ft_open(f_name, O_CREAT | O_RDWR | O_TRUNC, 0666);
+	free(f_name);
+	if (*here_doc_fd == -1)
+		return (FT_ERROR);
+	*delimiter = ft_strjoin(token_str, "\n");
+	if (*delimiter == 0)
+		return (FT_ERROR);
 	return (FT_SUCCESS);
 }

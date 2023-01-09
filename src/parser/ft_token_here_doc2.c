@@ -6,43 +6,11 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 08:22:03 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/09 19:57:02 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 20:16:27 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ft_minishell.h"
-
-int	ft_make_h_doc_wth_expand(\
-	char *token_str, t_detower *dll_envp_tower, \
-	int pipe_num, int is_env_expand)
-{
-	int		here_doc_fd;
-	char	*delimiter;
-	char	*f_name;
-	int		ret;
-
-	here_doc_fd = -1;
-	f_name = ft_make_h_doc_file_name(pipe_num);
-	if (f_name == 0)
-		return (FT_ERROR);
-	here_doc_fd = ft_open(f_name, O_CREAT | O_RDWR | O_TRUNC, 0666);
-	free(f_name);
-	if (here_doc_fd == -1)
-		return (FT_ERROR);
-	delimiter = ft_strjoin(token_str, "\n");
-	if (delimiter == 0)
-		return (FT_ERROR);
-	set_signal(SIG_HERE_DOC, SIG_IGNORE);
-	while (1)
-	{
-		ret = ft_make_h_doc_loop(\
-			delimiter, here_doc_fd, dll_envp_tower, is_env_expand);
-		if (ret == FT_ERROR || ret == FT_SUCCESS)
-			break ;
-	}
-	ft_close(here_doc_fd);
-	return (set_signal(SIG_HANDLER, SIG_IGNORE), free(delimiter), ret);
-}
 
 char	*ft_make_h_doc_file_name(int pipe_num)
 {

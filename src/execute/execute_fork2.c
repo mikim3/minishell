@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 14:04:41 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/09 20:03:25 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 21:12:27 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	fork_action(t_tree_node *pipeline, \
 	return (FT_SUCCESS);
 }
 
-void	parent_routine(t_pipe	*m_pipe)
+void	parent_routine(t_pipe *m_pipe)
 {
 	set_signal(SIG_IGNORE, SIG_IGNORE);
 	if (m_pipe->pre_pipe_check == BOOL_TRUE)
@@ -43,7 +43,9 @@ void	parent_routine(t_pipe	*m_pipe)
 		m_pipe->pre_pipe_read_end = m_pipe->pipe[P_READ];
 	}
 	else
+	{
 		m_pipe->pre_pipe_check = BOOL_FALSE;
+	}
 }
 
 void	child_routine(t_pipe *m_pipe, \
