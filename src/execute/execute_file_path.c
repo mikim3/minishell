@@ -65,9 +65,7 @@ char	*set_file_path(char *command, t_detower *dll_envp_tower)
 	else if (ft_strncmp("./", command, 2) == 0)
 	{
 		command = ft_substr(command, 2, ft_strlen(command) - 2);
-		current_path = ft_getcwd(NULL, 0);
-		if (current_path == NULL)
-			return (NULL);
+		current_path = getcwd(NULL, 0);
 		file_path = ft_strjoin_infree(current_path, ft_strdup("/"));
 		file_path = ft_strjoin_infree(file_path, ft_strdup(command));
 	}
