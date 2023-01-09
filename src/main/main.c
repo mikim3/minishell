@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/09 13:24:09 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 13:35:59 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,11 @@ int	main_loop(char *input, t_detower *dll_envp_tower, struct termios *term)
 	int			err;
 
 	m_pipe.term = term;
-	err = main_parser(input, &token_list, &dll_envp_tower);
+	err = main_parser(input, &token_list, &token_tree, &dll_envp_tower);
 	if (err == BOOL_TRUE)
 		return (FT_ERROR);
-	token_tree = ft_syntax_parse_tree(token_list);
-	if (token_tree == 0)
-		err = BOOL_TRUE;
 	else
 	{
-		ft_free_tokenizer_list_and_token(&token_list, \
-			0, TKN_TKNIZE_SUCCESSED);
 		init_pipe(&m_pipe);
 		if (main_check_pipeline(token_tree, dll_envp_tower) == FT_ERROR)
 			return (ft_tree_node_post_traversal(\
@@ -81,7 +76,8 @@ int	main_loop(char *input, t_detower *dll_envp_tower, struct termios *term)
 	return (FT_SUCCESS);
 }
 
-int	main_parser(char *input, t_list **token_list, t_detower **dll_envp_tower)
+int	main_parser(char *input, t_list **token_list,
+	t_tree_node **token_tree, t_detower **dll_envp_tower)
 {
 	int	err;
 
@@ -96,58 +92,8 @@ int	main_parser(char *input, t_list **token_list, t_detower **dll_envp_tower)
 	if (err == BOOL_FALSE && ft_token_expansion(*token_list, *dll_envp_tower) \
 		== FT_ERROR)
 		err = BOOL_TRUE;
+	if (err == BOOL_FALSE && ft_syntax_parse_tree(*token_list, token_tree) \
+		== FT_ERROR)
+		err = BOOL_TRUE;
 	return (err);
-}
-
-int	main_check_pipeline(t_tree_node *pipeline, \
-	t_detower *dll_envp_tower)
-{
-	char		*input;
-	int			err;
-	t_list		*token_list;
-	t_tree_node	*prev_pipeline;
-
-	err = BOOL_FALSE;
-	prev_pipeline = 0;
-	while (pipeline != 0)
-	{
-		if (pipeline->left->left->left == 0 && \
-			pipeline->left->right->content == 0)
-		{
-			if (main_check_pipeline_readline(&input) == FT_ERROR)
-				return (FT_ERROR);
-			ft_tree_node_post_traversal(pipeline, \
-				&ft_free_a_tree_node);
-			err = main_parser(input, &token_list, &dll_envp_tower);
-			if (err == BOOL_FALSE)
-			{
-				pipeline = ft_syntax_parse_tree(token_list);
-				if (pipeline == 0)
-					return (ft_free_tokenizer_list_and_token(&token_list, \
-						0, TKN_TKNIZE_SUCCESSED), FT_ERROR);
-				else
-				{
-					ft_free_tokenizer_list_and_token(&token_list, \
-						0, TKN_TKNIZE_SUCCESSED);
-					prev_pipeline->right = pipeline;
-				}
-			}
-		}
-		prev_pipeline = pipeline;
-		pipeline = pipeline->right;
-	}
-	return (FT_SUCCESS);
-}
-
-int	main_check_pipeline_readline(char **input)
-{
-	*input = readline("> ");
-	if (*input == NULL)
-		return (ft_putstr_fd("BABYSHELL: syntax error: unexpected end of file", \
-			STDERR_FILENO), FT_ERROR);
-	if (**input != '\0')
-	{
-		
-	}	// add_history(input); // 기존 history 문자열에 덧붙이게 만들어야 함
-	return (FT_SUCCESS);
 }
