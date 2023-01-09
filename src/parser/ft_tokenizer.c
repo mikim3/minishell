@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:01:52 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/06 14:08:57 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 12:18:38 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	ft_tokenizing_loop(t_tknizer *tknizer, int error, int *prev_type)
 	if (error == BOOL_FALSE && *prev_type != TKN_OPERATOR
 		&& ft_is_operator(*(tknizer->str_pos)) == BOOL_TRUE)
 	{
-		if (tknizer->io_num_mode == BOOL_TRUE)
+		if (tknizer->io_num_mode == BOOL_TRUE && *(tknizer->str_pos) != '|')
 			*prev_type = TKN_OPERATOR;
 		else
 			error = ft_token_processor(tknizer, prev_type);

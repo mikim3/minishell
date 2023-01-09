@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/09 11:44:52 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 12:54:57 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,14 @@ void	main_loop(t_list *token_list, t_detower *dll_envp_tower, \
 			err = BOOL_TRUE;
 		else
 		{
-			init_pipe(&m_pipe);
 			ft_free_tokenizer_list_and_token(&token_list, \
 				0, TKN_TKNIZE_SUCCESSED);
-			// main_check_pipeline
+			init_pipe(&m_pipe);
+			if (main_check_pipeline(token_tree, dll_envp_tower) == FT_ERROR)
+			{
+				ft_tree_node_post_traversal(token_tree, &ft_free_a_tree_node);
+				return ;
+			}
 			execute_fork(token_tree, dll_envp_tower, &m_pipe);
 			ft_tree_node_post_traversal(token_tree, \
 				&ft_free_a_tree_node);
@@ -101,25 +105,56 @@ int	main_parser(t_list **token_list, t_detower **dll_envp_tower)
 	return (err);
 }
 
-// int	main_check_pipeline(t_tree_node *pipeline, \
-// 	t_detower *dll_envp_tower, struct termios *term)
-// {
-// 	char	*input;
-// 	t_list	*token_list;
+int	main_check_pipeline(t_tree_node *pipeline, \
+	t_detower *dll_envp_tower)
+{
+	char		*input;
+	int			err;
+	t_list		*token_list;
+	t_tree_node	*prev_pipeline;
 
-// 	while (pipeline != 0)
-// 	{
-// 		if (pipeline->left->left->left == 0 && pipeline->left->right->left == 0)
-// 		{
-// 			input = readline("> ");
-// 			if (input == NULL)
-// 			{
-// 				// ctrl-d로 EOF 줌 -> > bash: syntax error: unexpected end of file
-// 			}
-// 			if (*input != '\0')
-// 				// add_history(input); // 기존 history 문자열에 덧붙이게 만들어야 함
-// 			main_loop(token_list, dll_envp_tower, pipeline, term);
-// 		}
-// 		pipeline = pipeline->right;
-// 	}
-// }
+	err = BOOL_FALSE;
+	prev_pipeline = 0;
+	while (pipeline != 0)
+	{
+		if (pipeline->left->left->left == 0 && \
+			pipeline->left->right->content == 0)
+		{
+			if (main_check_pipeline_readline(&input) == FT_ERROR)
+				return (FT_ERROR);
+			ft_tree_node_post_traversal(pipeline, \
+				&ft_free_a_tree_node);
+			token_list = (t_list *)ft_tokenizer(input);
+			err = main_parser(&token_list, &dll_envp_tower);
+			if (err == BOOL_FALSE)
+			{
+				pipeline = ft_syntax_parse_tree(token_list);
+				if (pipeline == 0)
+					return (ft_free_tokenizer_list_and_token(&token_list, \
+						0, TKN_TKNIZE_SUCCESSED), FT_ERROR);
+				else
+				{
+					ft_free_tokenizer_list_and_token(&token_list, \
+						0, TKN_TKNIZE_SUCCESSED);
+					prev_pipeline->right = pipeline;
+				}
+			}
+		}
+		prev_pipeline = pipeline;
+		pipeline = pipeline->right;
+	}
+	return (FT_SUCCESS);
+}
+
+int	main_check_pipeline_readline(char **input)
+{
+	*input = readline("> ");
+	if (*input == NULL)
+		return (ft_putstr_fd("BABYSHELL: syntax error: unexpected end of file", \
+			STDERR_FILENO), FT_ERROR);
+	if (**input != '\0')
+	{
+		
+	}	// add_history(input); // 기존 history 문자열에 덧붙이게 만들어야 함
+	return (FT_SUCCESS);
+}

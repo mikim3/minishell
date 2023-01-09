@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 11:41:04 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/09 09:14:33 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 12:12:43 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ int	ft_stx_a_pipeline(t_list *token_list, t_list *token, int token_pos, \
 	if (token == 0)
 		return (-1);
 	if (ft_token_type(token) == TKN_PIPE)
+	{
+		*err_token = ft_token_str(token);
 		return (-1);
+	}
 	token_pos = ft_stx_a_simple_cmd(token_list, token, token_pos, err_token);
 	if (token_pos == -1)
 		return (-1);

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/09 08:58:22 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 12:49:58 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,6 +309,10 @@ char		*ft_readline(char *prompt, struct termios *main_term);
 void		main_loop(t_list *token_list, t_detower *dll_envp_tower, \
 	t_tree_node *token_tree, struct termios *term);
 int			main_parser(t_list **token_list, t_detower **dll_envp_tower);
+
+int			main_check_pipeline(t_tree_node *pipeline, \
+	t_detower *dll_envp_tower);
+int			main_check_pipeline_readline(char **input);
 
 /*
 	signal.c
