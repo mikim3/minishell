@@ -32,7 +32,7 @@ void	ft_execve(char *file, char **argv, char **envp)
 	return ;
 }
 
-int	ft_chdir(char *dir)
+int	ft_chdir(char *dir, t_tree_cmd *cmd)
 {
 	int		return_value;
 
@@ -40,11 +40,11 @@ int	ft_chdir(char *dir)
 	if (return_value == -1)
 	{
 		if (errno == ENOENT)
-			exitcode_with_err("cd", strerror(errno), 127);
+			exitcode_with_err2("cd", cmd->cmd_argv[1], strerror(errno), 127);
 		else if (errno == EACCES)
-			exitcode_with_err("cd", strerror(errno), 126);
+			exitcode_with_err2("cd", cmd->cmd_argv[1], strerror(errno), 126);
 		else
-			exitcode_with_err("cd", strerror(errno), 1);
+			exitcode_with_err2("cd", cmd->cmd_argv[1], strerror(errno), 1);
 	}
 	return (return_value);
 }
@@ -56,16 +56,6 @@ char	*ft_getcwd(char *buf, size_t size)
 	output = getcwd(buf, size);
 	if (output == NULL)
 		exitcode_with_err("getcwd()", strerror(errno), 1);
-	return (output);
-}
-
-char	*ft_getenv(char *path_name)
-{
-	char	*output;
-
-	output = getenv(path_name);
-	if (output == NULL)
-		exitcode_with_err("getenv()", strerror(errno), 1);
 	return (output);
 }
 
