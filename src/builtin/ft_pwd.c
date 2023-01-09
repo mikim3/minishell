@@ -17,9 +17,7 @@ void	ft_pwd(t_pipe *pipe_value)
 	char	*output;
 
 	g_exit_code = 0;
-	output = ft_getcwd(NULL, 0);
-	if (output == NULL)
-		return ;
+	output = getcwd(NULL, 0);
 	output = ft_strjoin_infree(output, ft_strdup("\n"));
 	write(pipe_value->outfile_fd, output, ft_strlen(output));
 	free(output);

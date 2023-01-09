@@ -49,16 +49,6 @@ int	ft_chdir(char *dir, t_tree_cmd *cmd)
 	return (return_value);
 }
 
-char	*ft_getcwd(char *buf, size_t size)
-{
-	char	*output;
-
-	output = getcwd(buf, size);
-	if (output == NULL)
-		exitcode_with_err("getcwd()", strerror(errno), 1);
-	return (output);
-}
-
 int	ft_access(const char *file, int flags)
 {
 	int	ret_val;
