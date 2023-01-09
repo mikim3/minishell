@@ -27,27 +27,39 @@ static char	*ft_gethome(t_detower *env_tower)
 	return (home_dir);
 }
 
+static void	ft_cd_do(t_tree_cmd *cmd, t_detower *env_tower)
+{
+	char		*tmp;
+
+	if (cmd->cmd_argv[1] == NULL)
+	{
+		if (ft_gethome(env_tower) == NULL)
+			exitcode_with_err("cd", "HOME not set", 1);
+		else if (ft_chdir(ft_gethome(env_tower), cmd) == -1)
+			return ;
+	}
+	else if (cmd->cmd_argv[1] != NULL && \
+		!ft_strncmp(cmd->cmd_argv[1], "~", 1))
+	{
+		tmp = ft_strjoin(ft_getenv("HOME"), &cmd->cmd_argv[1][1]);
+		if (ft_chdir(tmp, cmd) == -1)
+			return (ft_char_free(tmp));
+		ft_char_free(tmp);
+	}
+	else if (cmd->cmd_argv[1] != NULL)
+		if (ft_chdir(cmd->cmd_argv[1], cmd) == -1)
+			return ;
+}
+
 void	ft_cd(t_tree_cmd *cmd, t_detower *env_tower)
 {
 	char		*pwd_path;
-	char		*tmp;
 
 	pwd_path = ft_getcwd(NULL, 0);
 	if (pwd_path == NULL)
 		return ;
-	if (!ft_strcmp(cmd->cmd_argv[1], "~"))
-	{
-		tmp = ft_strjoin(ft_gethome(env_tower), &cmd->cmd_argv[1][1]);
-		if (ft_chdir(tmp, cmd) == -1)
-			return (free(pwd_path), free(tmp));
-		if (tmp)
-			free(tmp);
-	}
-	else if (cmd->cmd_argv[1] != NULL)
-		if (ft_chdir(cmd->cmd_argv[1], cmd) == -1)
-			return (free(pwd_path));
+	ft_cd_do(cmd, env_tower);
 	change_pwd(env_tower, "PWD");
 	change_oldpwd(env_tower, pwd_path);
-	if (pwd_path)
-		free(pwd_path);
+	ft_char_free(pwd_path);
 }

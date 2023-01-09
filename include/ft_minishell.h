@@ -346,4 +346,7 @@ pid_t		ft_fork(void);
 pid_t		ft_pipe(int fd[2]);
 int			ft_dup2(int oldfd, int newfd);
 
+void		ft_char_free(char *str);
+char		*ft_getenv(char *path_name);
+
 #endif
