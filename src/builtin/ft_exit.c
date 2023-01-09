@@ -74,6 +74,12 @@ static long long	ft_atoill(char *str, int *check)
 	return ((ret * sign));
 }
 
+static void	exit_setterm(t_pipe *pipe_value)
+{
+	tcsetattr(STDIN_FILENO, TCSANOW, pipe_value->term);
+	exit(g_exit_code);
+}
+
 void	ft_exit(t_tree_cmd *cmd, t_pipe *pipe_value)
 {
 	int	check;
@@ -82,20 +88,18 @@ void	ft_exit(t_tree_cmd *cmd, t_pipe *pipe_value)
 	g_exit_code = 0;
 	ft_putstr_fd("exit\n", pipe_value->outfile_fd);
 	if (cmd->cmd_argv[1] == NULL)
-	{
-		tcsetattr(STDIN_FILENO, TCSANOW, pipe_value->term);
-		exit(g_exit_code);
-	}
+		exit_setterm(pipe_value);
 	else
 	{
 		g_exit_code = (unsigned char)ft_atoill(cmd->cmd_argv[1], &check);
 		if (check == FT_ERROR)
+		{
 			exitcode_with_err2("exit", cmd->cmd_argv[1], \
 			"numeric argument required", 255);
-		tcsetattr(STDIN_FILENO, TCSANOW, pipe_value->term);
-		exit(g_exit_code);
+			exit_setterm(pipe_value);
+		}
+		if (cmd->cmd_argv[2] == NULL)
+			exit_setterm(pipe_value);
 	}
-	ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
-	ft_putstr_fd(": exit: too many arguments\n", STDERR_FILENO);
-	g_exit_code = 1;
+	exitcode_with_err("exit", "too many arguments", 1);
 }
