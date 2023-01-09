@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:51:56 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 14:20:20 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 09:15:02 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,8 @@ void	ft_free_a_token_list_content(void *target)
 	token = (t_tkn *)target;
 	if (token == 0)
 		return ;
-	if (token->type != TKN_NULL)
-	{
-		free(token->str);
-		token->str = 0;
-	}
+	free(token->str);
+	token->str = 0;
 	token->type = 0;
 	free(token);
 	token = 0;

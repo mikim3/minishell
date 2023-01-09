@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/09 07:53:51 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 08:58:22 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ int			ft_make_h_doc_wth_expand(\
 int			ft_make_h_doc_loop(char *delimiter, \
 	int here_doc_fd, t_detower *dll_envp_tower, int is_env_expand);
 int			ft_make_h_doc_readline(char **buffer, int *here_doc_stop);
+int			ft_make_h_doc_readline_eof_condition(int *here_doc_stop, \
+	int *org_exit_code, int tmp_fd);
 
 /*
 	parser - ft_token_expansion
@@ -157,19 +159,22 @@ void		ft_free_a_token_list_content(void *target);
 
 int			ft_syntax_analysis(t_list *token_list);
 
-int			ft_stx_a_pipeline(t_list *token_list, t_list *token, int token_pos);
+int			ft_stx_a_pipeline(t_list *token_list, t_list *token, int token_pos, \
+	char **err_token);
 int			ft_stx_a_simple_cmd(\
-	t_list *token_list, t_list *token, int token_pos);
+	t_list *token_list, t_list *token, int token_pos, char **err_token);
 
 int			ft_stx_a_word_and_cmd_suffix_case(\
-	t_list *token_list, t_list *token, int token_pos);
+	t_list *token_list, t_list *token, int token_pos, char **err_token);
 
 int			ft_stx_a_cmd_prefix(\
-	t_list *token_list, t_list *token, int token_pos);
+	t_list *token_list, t_list *token, int token_pos, char **err_token);
 int			ft_stx_a_cmd_suffix(\
-	t_list *token_list, t_list *token, int token_pos);
-int			ft_stx_a_redir(t_list *token_list, t_list *token, int token_pos);
-int			ft_stx_a_word(t_list *token_list, t_list *token, int token_pos);
+	t_list *token_list, t_list *token, int token_pos, char **err_token);
+int			ft_stx_a_redir(t_list *token_list, t_list *token, int token_pos, \
+	char **err_token);
+int			ft_stx_a_word(t_list *token_list, t_list *token, int token_pos, \
+	char **err_token);
 
 /*
 	parser - ft_parser_util
