@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/09 20:10:57 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 20:21:34 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,9 @@ int			ft_here_doc_with_delimiter_control(t_list **token_node, \
 int			ft_make_h_doc_wth_expand(\
 	char *token_str, t_detower *dll_envp_tower, \
 	int pipe_num, int is_env_expand);
+int			ft_make_h_doc_set_before_loop(char *token_str, \
+	char **delimiter, \
+	int *here_doc_fd, int pipe_num);
 char		*ft_make_h_doc_file_name(int pipe_num);
 int			ft_make_h_doc_loop(char *delimiter, \
 	int here_doc_fd, t_detower *dll_envp_tower, int is_env_expand);
