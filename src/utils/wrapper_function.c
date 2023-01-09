@@ -59,16 +59,6 @@ char	*ft_getcwd(char *buf, size_t size)
 	return (output);
 }
 
-char	*ft_getenv(char *path_name)
-{
-	char	*output;
-
-	output = getenv(path_name);
-	if (output == NULL)
-		exitcode_with_err("getenv()", strerror(errno), 1);
-	return (output);
-}
-
 int	ft_access(const char *file, int flags)
 {
 	int	ret_val;

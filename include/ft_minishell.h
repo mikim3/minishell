@@ -337,8 +337,6 @@ void		ft_free_string_ptr_arr(char **argv);
 void		ft_execve(char *file, char **argv, char **envp);
 int			ft_chdir(char *dir, t_tree_cmd *cmd);
 char		*ft_getcwd(char *buf, size_t size);
-char		*ft_getenv(char *path_name);
-
 int			ft_access(const char *file, int flags);
 int			ft_fstat(int fd, struct stat *buf);
 
@@ -347,5 +345,8 @@ int			ft_close(int fd);
 pid_t		ft_fork(void);
 pid_t		ft_pipe(int fd[2]);
 int			ft_dup2(int oldfd, int newfd);
+
+void		ft_char_free(char *str);
+char		*ft_getenv(char *path_name);
 
 #endif

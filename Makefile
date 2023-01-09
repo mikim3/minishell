@@ -53,7 +53,7 @@ SRC_PARSER 	:= $(addprefix $(SRC_PARSER_DIR)/,$(SRC_PARSER))
 SRC_SIGNAL	= signal.c
 SRC_SIGNAL 	:= $(addprefix $(SRC_SIGNAL_DIR)/,$(SRC_SIGNAL))
 
-SRC_UTILS	= error.c wrapper_function.c wrapper_function2.c utils.c
+SRC_UTILS	= error.c wrapper_function.c wrapper_function2.c wrapper_function3.c utils.c
 SRC_UTILS	:= $(addprefix $(SRC_UTILS_DIR)/, $(SRC_UTILS))
 
 SRCS = $(SRC_BUILTIN) $(SRC_DOUBLY_LINKED_LIST) $(SRC_ENV) $(SRC_EXECUTE) $(SRC_MAIN) $(SRC_PARSER) $(SRC_SIGNAL) $(SRC_UTILS)
