@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:15:08 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/06 14:25:55 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 09:30:47 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,15 @@ int	ft_fstat(int fd, struct stat *buf)
 
 	ret_val = fstat(
 			fd, buf);
-	if (ret_val == -1)
+	if (ret_val == -1 && fd < 0)
+	{
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd("fstat(): ", STDERR_FILENO);
+		ft_putstr_fd(strerror(errno), STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+		g_exit_code = 1;
+	}	
+	else if (ret_val == -1 && fd >= 0)
 		exitcode_with_err("fstat()", strerror(errno), 1);
 	return (ret_val);
 }

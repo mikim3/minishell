@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/06 14:40:00 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 13:30:59 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int			ft_redir_output_redirection(\
 	t_pipe *m_pipe, int file_fd, int redir_fd);
 
 /*
-	parser - ft_token_expansion
+	ft_here_doc
 */
 
 int			ft_here_doc_expansion(\
@@ -93,6 +93,13 @@ int			ft_make_h_doc_wth_expand(\
 	char *token_str, t_detower *dll_envp_tower, int is_env_expand);
 int			ft_make_h_doc_loop(char *delimiter, \
 	int here_doc_fd, t_detower *dll_envp_tower, int is_env_expand);
+int			ft_make_h_doc_readline(char **buffer, int *here_doc_stop);
+int			ft_make_h_doc_readline_eof_condition(int *here_doc_stop, \
+	int *org_exit_code, int tmp_fd);
+
+/*
+	parser - ft_token_expansion
+*/
 
 int			ft_token_expansion(t_list *token_list, t_detower *dll_envp_tower);
 int			ft_token_str_expansion(\
@@ -125,7 +132,7 @@ char		*ft_compare_str_to_mnsh_envp_keys(char *str, t_d_list *mnsh_envp);
 	parser - ft_tokenizer
 */
 
-void		*ft_tokenizer(char *str);
+int			ft_tokenizer(char *str, t_list **token_list);
 int			ft_initialize_tokenizer( t_tknizer *tknizer, char *str);
 int			ft_tokenizing_loop(t_tknizer *tknizer, int error, int *prev_type);
 int			ft_close_quote(t_tknizer *tknizer, int *prev_type);
@@ -152,19 +159,22 @@ void		ft_free_a_token_list_content(void *target);
 
 int			ft_syntax_analysis(t_list *token_list);
 
-int			ft_stx_a_pipeline(t_list *token_list, t_list *token, int token_pos);
+int			ft_stx_a_pipeline(t_list *token_list, t_list *token, int token_pos, \
+	char **err_token);
 int			ft_stx_a_simple_cmd(\
-	t_list *token_list, t_list *token, int token_pos);
+	t_list *token_list, t_list *token, int token_pos, char **err_token);
 
 int			ft_stx_a_word_and_cmd_suffix_case(\
-	t_list *token_list, t_list *token, int token_pos);
+	t_list *token_list, t_list *token, int token_pos, char **err_token);
 
 int			ft_stx_a_cmd_prefix(\
-	t_list *token_list, t_list *token, int token_pos);
+	t_list *token_list, t_list *token, int token_pos, char **err_token);
 int			ft_stx_a_cmd_suffix(\
-	t_list *token_list, t_list *token, int token_pos);
-int			ft_stx_a_redir(t_list *token_list, t_list *token, int token_pos);
-int			ft_stx_a_word(t_list *token_list, t_list *token, int token_pos);
+	t_list *token_list, t_list *token, int token_pos, char **err_token);
+int			ft_stx_a_redir(t_list *token_list, t_list *token, int token_pos, \
+	char **err_token);
+int			ft_stx_a_word(t_list *token_list, t_list *token, int token_pos, \
+	char **err_token);
 
 /*
 	parser - ft_parser_util
@@ -175,6 +185,8 @@ char		*ft_token_str(t_list *token);
 int			ft_token_is_expandable(t_list *token);
 void		ft_free_a_tree_node(void *target);
 void		ft_free_a_tree_node_content(t_tree_node *node);
+void		ft_free_a_tree_node_cmd_content(t_tree_node *node);
+void		ft_free_a_tree_node_redir_content(t_tree_node *node);
 
 /*
 	parser - ft_tree
@@ -190,7 +202,7 @@ int			ft_tree_node_post_traversal(\
 	parser - ft_syntax_parse_tree
 */
 
-t_tree_node	*ft_syntax_parse_tree(t_list *token_list);
+int			ft_syntax_parse_tree(t_list *token_list, t_tree_node **parse_tree);
 int			ft_syntax_parse_pipeline(t_list *token, t_tree_node **parse);
 int			ft_syntax_parse_pipeline_data(t_tree_node **parse, \
 	t_tree_node **recur_parse, t_tree_node **cur_redirects, \
@@ -290,9 +302,14 @@ void		main_init(void);
 void		term_init(void);
 void		init_pipe(t_pipe *m_pipe);
 char		*ft_readline(char *prompt, struct termios *main_term);
-void		main_loop(t_list *token_list, t_detower *dll_envp_tower, \
-	t_tree_node *token_tree, struct termios *term);
-int			main_parser(t_list **token_list, t_detower **dll_envp_tower);
+int			main_loop(char *input, \
+	t_detower *dll_envp_tower, struct termios *term);
+int			main_parser(char *input, t_list **token_list, \
+	t_tree_node **token_tree, t_detower **dll_envp_tower);
+
+int			main_check_pipeline(t_tree_node *pipeline, \
+	t_detower *dll_envp_tower);
+int			main_check_pipeline_readline(char **input);
 
 /*
 	signal.c
@@ -300,7 +317,7 @@ int			main_parser(t_list **token_list, t_detower **dll_envp_tower);
 
 void		set_signal(int sig_int, int sig_quit);
 void		signal_handler(int signo);
-void		signal_handler2(int signo);
+void		signal_handler_here_doc(int signo);
 
 /*
 	utils

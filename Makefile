@@ -2,8 +2,8 @@ NAME = minishell
 
 CC = cc
 # CFLAGS = -Wall -Wextra -Werror
-#CFLAGS = -g -fsanitize=address
-CFLAGS = -g
+# CFLAGS = -g -fsanitize=address
+CFLAGS = -g -Wall -Wextra -Werror
 RM = rm
 RMFLAGS = -f
 
@@ -42,12 +42,12 @@ SRC_ENV	:= $(addprefix $(SRC_ENV_DIR)/, $(SRC_ENV))
 SRC_EXECUTE	= execute_cmd.c execute_tree.c execute_pipe.c execute_pipe2.c execute_file_path.c execute_fork.c execute_fork2.c
 SRC_EXECUTE	:= $(addprefix $(SRC_EXECUTE_DIR)/, $(SRC_EXECUTE))
 
-SRC_MAIN	= main.c init.c
+SRC_MAIN	= main.c init.c check_pipeline.c
 SRC_MAIN	:= $(addprefix $(SRC_MAIN_DIR)/, $(SRC_MAIN))
 
 SRC_PARSER	=	ft_tokenizer.c ft_token_processing.c ft_tokenizer_util.c ft_syntax_analysis.c ft_syntax_analysis2.c \
-				ft_syntax_parse_tree.c ft_syntax_parse_tree2.c ft_parser_util.c ft_tree.c ft_token_expansion.c \
-				ft_token_expansion2.c ft_token_expansion3.c ft_token_expansion_util.c ft_token_here_doc.c
+				ft_syntax_parse_tree.c ft_syntax_parse_tree2.c ft_parser_util.c ft_parser_util2.c ft_tree.c ft_token_expansion.c \
+				ft_token_expansion2.c ft_token_expansion3.c ft_token_expansion_util.c ft_token_here_doc.c ft_token_here_doc2.c
 SRC_PARSER 	:= $(addprefix $(SRC_PARSER_DIR)/,$(SRC_PARSER))
 
 SRC_SIGNAL	= signal.c

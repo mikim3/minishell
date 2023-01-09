@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:49:46 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 19:10:01 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 09:19:44 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,11 @@ int	ft_token_processor(
 	}
 	if (*(tknizer->str_pos) == '\0')
 	{
-		tknizer->tkn->str = 0;
-		tknizer->tkn->type = TKN_NULL;
-		if (ft_token_cut(&(tknizer->tkn_list), tknizer->tkn) == FT_ERROR)
+		ft_memset((tknizer->tkn), 0, sizeof(t_tkn));
+		tknizer->tkn->str = ft_strdup("newline");
+		if (tknizer->tkn->str == 0 \
+			|| ft_token_cut(&(tknizer->tkn_list), tknizer->tkn) == FT_ERROR)
 			return (FT_ERROR);
-		tknizer->tkn = 0;
-		tknizer->tkn_len = 0;
 		return (FT_SUCCESS);
 	}
 	if (ft_is_operator(*(tknizer->str_pos)) == BOOL_TRUE)
