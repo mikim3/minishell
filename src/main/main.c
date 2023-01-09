@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/09 10:27:24 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 11:44:52 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	main_loop(t_list *token_list, t_detower *dll_envp_tower, \
 			init_pipe(&m_pipe);
 			ft_free_tokenizer_list_and_token(&token_list, \
 				0, TKN_TKNIZE_SUCCESSED);
+			// main_check_pipeline
 			execute_fork(token_tree, dll_envp_tower, &m_pipe);
 			ft_tree_node_post_traversal(token_tree, \
 				&ft_free_a_tree_node);

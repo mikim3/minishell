@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 13:46:11 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/09 10:26:53 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 11:44:12 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_syntax_parse_pipeline(t_list *token, t_tree_node **parse)
 	t_tree_node	*simple_cmd;
 	int			token_type;
 
-	if (*parse == 0 && ft_syntax_parse_pipeline_data(parse, &recur_parse,
+	if (ft_syntax_parse_pipeline_data(parse, &recur_parse,
 			&cur_redirects, &simple_cmd) == FT_ERROR)
 		return (FT_ERROR);
 	token_type = ft_token_type(token);
