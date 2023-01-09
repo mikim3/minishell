@@ -106,4 +106,14 @@ typedef struct s_minishell_tree_node_cmd{
 	char	**cmd_argv;
 }	t_tree_cmd;
 
+// main
+
+typedef struct s_parser_data{
+	t_list		*token_list;
+	t_tree_node	*token_tree;
+	char		*input;
+	char		*org_cpy;
+	int			pipe_num;
+}		t_parser;
+
 #endif

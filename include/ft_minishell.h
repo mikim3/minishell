@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/09 18:53:57 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/09 19:16:33 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,10 +302,10 @@ void		init_pipe(t_pipe *m_pipe);
 char		*ft_readline(char *prompt, struct termios *main_term);
 int			main_loop(char *input, \
 	t_detower *dll_envp_tower, struct termios *term);
-int			main_parser(char *input, t_list **token_list, \
-	t_tree_node **token_tree, t_detower **dll_envp_tower);
+int			main_parser(t_parser *parser, t_tree_node **tree_node, \
+	t_detower **dll_envp_tower);
 
-int			main_check_pipeline(char **org_input, t_tree_node *pipeline, \
+int			main_check_pipeline(t_parser *parser, \
 	t_detower *dll_envp_tower);
 int			main_check_pipeline_readline(char **input, char **org_input);
 int			main_check_pipeline_readline_loop(char **input);
