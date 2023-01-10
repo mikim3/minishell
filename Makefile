@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 RM = rm
 RMFLAGS = -f

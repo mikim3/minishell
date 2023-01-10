@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/09 19:58:21 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/10 15:36:28 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,12 @@ void	init_pipe(t_pipe *m_pipe)
 	m_pipe->pipe_num = 0;
 }
 
-void	main_init(void)
+void	main_init(int argc, char **argv)
 {
 	struct termios	term;
 
+	(void)argc;
+	(void)argv;
 	tcgetattr(STDIN_FILENO, &term);
 	term.c_lflag &= ~(ECHOCTL);
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);

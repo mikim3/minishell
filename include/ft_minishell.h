@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/10 15:06:26 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/10 15:37:01 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,7 +302,7 @@ int			ft_tree_node_pre_traversal_exe_cmd_set(\
 	main
 */
 
-void		main_init(void);
+void		main_init(int argc, char **argv);
 void		term_init(void);
 void		init_pipe(t_pipe *m_pipe);
 char		*ft_readline(char *prompt, struct termios *main_term);

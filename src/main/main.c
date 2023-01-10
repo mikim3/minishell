@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:44:44 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/09 19:58:30 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/10 15:37:37 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,8 @@ int	main(int argc, char **argv, char **envp)
 	t_detower			*dll_envp_tower;
 	struct termios		main_term;
 
-	if (argc == 0 && argv == 0)
-		return (FT_ERROR);
 	tcgetattr(STDIN_FILENO, &main_term);
-	main_init();
+	main_init(argc, argv);
 	dll_envp_tower = ft_set_envp_dll(envp);
 	if (dll_envp_tower == 0)
 		return (FT_ERROR);

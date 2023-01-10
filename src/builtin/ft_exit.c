@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:16:16 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/09 15:45:39 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/10 15:43:17 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ void	ft_exit(t_tree_cmd *cmd, t_pipe *pipe_value)
 
 	check = FT_SUCCESS;
 	g_exit_code = 0;
-	ft_putstr_fd("exit\n", pipe_value->outfile_fd);
+	if (pipe_value->mnsh_builtin == BOOL_TRUE)
+		ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (cmd->cmd_argv[1] == NULL)
 		exit_setterm(pipe_value);
 	else
