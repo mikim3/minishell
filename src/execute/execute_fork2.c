@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 14:04:41 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/09 21:12:27 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/10 09:46:03 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,20 @@ void	child_routine(t_pipe *m_pipe, \
 {
 	set_signal(SIG_DEFAULT, SIG_DEFAULT);
 	if (m_pipe->pre_pipe_check == BOOL_TRUE)
+	{
 		if (ft_dup2(m_pipe->pre_pipe_read_end, m_pipe->infile_fd) == -1
 			|| ft_close(m_pipe->pre_pipe_read_end) == -1)
 			exit(g_exit_code);
+	}
 	if (m_pipe->next_pipe_check == BOOL_TRUE)
+	{
 		if (ft_close(m_pipe->pipe[P_READ]) == -1
 			|| ft_dup2(m_pipe->pipe[P_WRITE], m_pipe->outfile_fd) == -1
 			|| ft_close(m_pipe->pipe[P_WRITE]) == -1)
+		{
 			exit(g_exit_code);
+		}
+	}
 	if (ft_mnsh_tree_pre_traversal(pipeline->left, dll_envp_tower, \
 		m_pipe, &ft_execute_tree) == FT_ERROR)
 		exit(g_exit_code);

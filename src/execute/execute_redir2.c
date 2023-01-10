@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_pipe2.c                                    :+:      :+:    :+:   */
+/*   execute_redir2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 15:20:22 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/09 20:02:12 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/10 10:54:07 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_redir_infile(char *file_name, t_pipe *m_pipe, int redir_fd)
 		return (FT_ERROR);
 	else
 	{
-		file_fd = ft_open(file_name, O_RDWR, 0);
+		file_fd = ft_open(file_name, O_RDONLY, 0);
 		if (file_fd == -1)
 			return (FT_ERROR);
 	}

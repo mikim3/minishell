@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_pipe.c                                     :+:      :+:    :+:   */
+/*   execute_redir.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 11:01:23 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/09 20:59:30 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/10 10:29:17 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,15 @@ int	ft_redir_input_redirection(t_pipe *m_pipe, int file_fd, int redir_fd)
 		if (m_pipe->mnsh_builtin == BOOL_TRUE)
 		{
 			if (m_pipe->in_redirected == BOOL_TRUE)
-			{
 				if (ft_close(m_pipe->infile_fd) == -1)
 					return (FT_ERROR);
-			}
 			m_pipe->in_redirected = BOOL_TRUE;
 			m_pipe->infile_fd = file_fd;
 		}
 		else
 		{
-			if (ft_dup2(file_fd, m_pipe->infile_fd) == -1
-				|| ft_close(file_fd) == -1)
-				return (FT_ERROR);
+			ft_dup2(file_fd, m_pipe->infile_fd);
+			ft_close(file_fd);
 		}
 	}
 	else
@@ -94,10 +91,8 @@ int	ft_redir_output_redirection(t_pipe *m_pipe, int file_fd, int redir_fd)
 		if (m_pipe->mnsh_builtin == BOOL_TRUE)
 		{
 			if (m_pipe->out_redirected == BOOL_TRUE)
-			{
 				if (ft_close(m_pipe->outfile_fd) == -1)
 					return (FT_ERROR);
-			}
 			m_pipe->out_redirected = BOOL_TRUE;
 			m_pipe->outfile_fd = file_fd;
 		}

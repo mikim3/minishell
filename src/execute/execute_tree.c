@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 23:21:44 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/06 14:26:14 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/10 09:00:59 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ int	next_pipe_check(t_tree_node *node, t_pipe *m_pipe)
 		m_pipe->next_pipe_check = BOOL_TRUE;
 	}
 	else
+	{
 		m_pipe->next_pipe_check = BOOL_FALSE;
+	}
 	return (FT_SUCCESS);
 }
 
