@@ -1,9 +1,7 @@
 NAME = minishell
 
 CC = cc
-# CFLAGS = -Wall -Wextra -Werror
-CFLAGS = -g -fsanitize=address
-# CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 RM = rm
 RMFLAGS = -f
 
@@ -15,11 +13,8 @@ LIBFT_FLAG = -Llibft -lft
 
 READLINE_FLAG = -lreadline
 
-# READLINE_LIB 	= -lreadline -L${HOME}/brew/opt/readline/lib
-# READLINE_INC	= -I${HOME}/brew/opt/readline/include
 READLINE_LIB 	= -lreadline -L${HOME}/.brew/opt/readline/lib
 READLINE_INC	= -I${HOME}/.brew/opt/readline/include
-
 
 SRCDIR = ./src
 
