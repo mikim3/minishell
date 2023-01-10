@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 23:21:44 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/10 09:00:59 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/10 14:41:38 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,13 @@ void	ft_execute_tree(t_tree_node *node, \
 	}
 	else if (node->type == NODE_REDIR || node->type == NODE_FD_REDIR)
 	{
-		execute_redir(node, m_pipe);
+		if (node->content != 0)
+			execute_redir(node, m_pipe);
 	}
 	else if (node->type == NODE_CMD)
 	{
-		execute_cmd(node, dll_envp_tower, m_pipe);
+		if (node->content != 0)
+			execute_cmd(node, dll_envp_tower, m_pipe);
 	}
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 00:49:10 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/06 14:43:39 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/10 14:46:23 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	execute_cmd(t_tree_node *token_tree, \
 
 int	is_built_in(t_tree_cmd *cmd)
 {
+	if (cmd == 0)
+		return (0);
 	if (!ft_strcmp(cmd->cmd_name, "cd"))
 		return (1);
 	if (!ft_strcmp(cmd->cmd_name, "env"))
