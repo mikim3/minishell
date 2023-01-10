@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 16:24:51 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 16:45:28 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/10 14:18:23 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ t_tree_rdr	*ft_node_content_redir(t_list **token)
 
 int	ft_syntax_parse_cmd(t_list **token, t_tree_node *cmd)
 {
-	if (ft_strcmp(ft_token_str(*token), "") == 0)
-		return (FT_SUCCESS);
 	if (cmd->content == 0)
 	{
 		cmd->content = (t_tree_cmd *)malloc(sizeof(t_tree_cmd));
@@ -57,8 +55,6 @@ char	**ft_set_cmd_argv(char ***argv, char *str)
 	int		iter;
 	char	**new_argv;
 
-	if (str == 0 || ft_strcmp(str, "") == FT_SUCCESS)
-		return (*argv);
 	new_argv = ft_set_cmd_argv_set_new_argv(argv, str);
 	if (new_argv == 0)
 		return (0);

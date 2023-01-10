@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 13:35:39 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/09 20:16:20 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/10 14:18:24 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	main_check_pipeline(t_parser *parser, \
 	t_detower *dll_envp_tower)
 {
-	t_list		*token_list;
 	t_tree_node	*prev_pipeline;
 	t_tree_node	*pipeline;
 
@@ -38,7 +37,8 @@ int	main_check_pipeline_loop(t_tree_node **pipeline, \
 {
 	char	*input;
 
-	if ((*pipeline)->left->left->left == 0 && \
+	if ((*pipeline) != parser->token_tree && \
+		(*pipeline)->left->left->left == 0 && \
 		(*pipeline)->left->right->content == 0)
 	{
 		(*prev_pipeline)->right = 0;
@@ -60,7 +60,6 @@ int	main_check_pipeline_loop(t_tree_node **pipeline, \
 int	main_check_pipeline_readline(char **input, char **cpy_org)
 {
 	char	*tmp;
-	char	*without_prom;
 
 	if (main_check_pipeline_readline_loop(input) == FT_ERROR)
 		return (FT_ERROR);

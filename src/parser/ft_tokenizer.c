@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:01:52 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/09 13:19:36 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/10 14:22:54 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,18 +81,22 @@ int	ft_tokenizing_loop(t_tknizer *tknizer, int error, int *prev_type)
 
 int	ft_close_quote(t_tknizer *tknizer, int *prev_type)
 {
-	char	target;
+	char	*target;
 
 	if (*prev_type == TKN_OPERATOR
 		&& ft_token_processor(tknizer, prev_type) == FT_ERROR)
 		return (FT_ERROR);
-	target = *(tknizer->str_pos);
+	target = tknizer->str_pos;
 	tknizer->tkn_len++;
 	tknizer->str_pos++;
-	while (*(tknizer->str_pos) != target)
+	while (*(tknizer->str_pos) != *target)
 	{
 		if (*(tknizer->str_pos) == '\0')
+		{
+			exitcode_with_err2(\
+				"tokenizer", "unclosed", target, 1);
 			return (FT_ERROR);
+		}
 		tknizer->tkn_len++;
 		tknizer->str_pos++;
 	}
