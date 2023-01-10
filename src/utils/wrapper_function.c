@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:15:08 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/09 09:30:47 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/10 15:07:05 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ int	ft_chdir(char *dir, t_tree_cmd *cmd)
 	return (return_value);
 }
 
-int	ft_access(const char *file, int flags)
+int	ft_access(char *file, int flags)
 {
 	int	ret_val;
 
 	ret_val = access(
 			file, flags);
 	if (ret_val == -1)
-		exitcode_with_err("access()", strerror(errno), 1);
+		exitcode_with_err(file, strerror(errno), 1);
 	return (ret_val);
 }
 

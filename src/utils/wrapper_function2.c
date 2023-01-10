@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   function2.c                                        :+:      :+:    :+:   */
+/*   wrapper_function2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 15:30:01 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 18:57:30 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/10 15:07:06 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ft_minishell.h"
 
-int	ft_open(const char *str, int flags, mode_t mode)
+int	ft_open(char *str, int flags, mode_t mode)
 {
 	int	ret_val;
 
 	ret_val = open(
 			str, flags, mode);
 	if (ret_val == -1)
-		exitcode_with_err("open()", strerror(errno), 1);
+		exitcode_with_err(str, strerror(errno), 1);
 	return (ret_val);
 }
 

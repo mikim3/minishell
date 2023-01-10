@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/09 20:21:34 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/10 15:06:26 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -345,10 +345,10 @@ void		ft_free_string_ptr_arr(char **argv);
 
 void		ft_execve(char *file, char **argv, char **envp);
 int			ft_chdir(char *dir, t_tree_cmd *cmd);
-int			ft_access(const char *file, int flags);
+int			ft_access(char *file, int flags);
 int			ft_fstat(int fd, struct stat *buf);
 
-int			ft_open(const char *str, int flags, mode_t mode);
+int			ft_open(char *str, int flags, mode_t mode);
 int			ft_close(int fd);
 pid_t		ft_fork(void);
 pid_t		ft_pipe(int fd[2]);

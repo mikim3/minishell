@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 16:11:08 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/09 09:13:19 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/10 15:15:50 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	ft_stx_a_cmd_prefix(t_list *token_list, t_list *token, int token_pos, \
 	token = ft_lst_num(token_list, token_pos);
 	if (token == 0)
 		return (-1);
-	if (ft_token_type(token) == TKN_NULL)
+	if (ft_token_type(token) == TKN_NULL
+		|| ft_token_type(token) == TKN_PIPE)
 		return (token_pos);
 	if (ft_token_type(token) != TKN_WORD)
 	{
