@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 11:01:23 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/10 10:29:17 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/11 15:35:24 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,9 @@ int	ft_redir_input_redirection(t_pipe *m_pipe, int file_fd, int redir_fd)
 		}
 		else
 		{
-			ft_dup2(file_fd, m_pipe->infile_fd);
-			ft_close(file_fd);
+			if (ft_dup2(file_fd, m_pipe->infile_fd) == -1
+				|| ft_close(file_fd) == -1)
+				return (FT_ERROR);
 		}
 	}
 	else

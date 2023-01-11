@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:15:08 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/10 15:07:05 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/11 15:04:04 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,24 +57,5 @@ int	ft_access(char *file, int flags)
 			file, flags);
 	if (ret_val == -1)
 		exitcode_with_err(file, strerror(errno), 1);
-	return (ret_val);
-}
-
-int	ft_fstat(int fd, struct stat *buf)
-{
-	int	ret_val;
-
-	ret_val = fstat(
-			fd, buf);
-	if (ret_val == -1 && fd < 0)
-	{
-		ft_putstr_fd(": ", STDERR_FILENO);
-		ft_putstr_fd("fstat(): ", STDERR_FILENO);
-		ft_putstr_fd(strerror(errno), STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
-		g_exit_code = 1;
-	}	
-	else if (ret_val == -1 && fd >= 0)
-		exitcode_with_err("fstat()", strerror(errno), 1);
 	return (ret_val);
 }

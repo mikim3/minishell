@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:01:52 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/10 14:22:54 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/11 14:53:43 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,24 +86,23 @@ int	ft_close_quote(t_tknizer *tknizer, int *prev_type)
 	if (*prev_type == TKN_OPERATOR
 		&& ft_token_processor(tknizer, prev_type) == FT_ERROR)
 		return (FT_ERROR);
-	target = tknizer->str_pos;
+	target = ft_strndup(tknizer->str_pos, 1);
+	if (target == 0)
+		return (FT_ERROR);
 	tknizer->tkn_len++;
 	tknizer->str_pos++;
 	while (*(tknizer->str_pos) != *target)
 	{
 		if (*(tknizer->str_pos) == '\0')
-		{
-			exitcode_with_err2(\
-				"tokenizer", "unclosed", target, 1);
-			return (FT_ERROR);
-		}
+			return (free(target), exitcode_with_err2(\
+				"tokenizer", "unclosed", target, 1), FT_ERROR);
 		tknizer->tkn_len++;
 		tknizer->str_pos++;
 	}
 	tknizer->io_num_mode = BOOL_FALSE;
 	tknizer->expandable = BOOL_TRUE;
 	*prev_type = TKN_WORD;
-	return (FT_SUCCESS);
+	return (free(target), FT_SUCCESS);
 }
 
 int	ft_check_for_space(t_tknizer *tknizer, int error, int *prev_type)

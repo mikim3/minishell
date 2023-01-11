@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 15:20:22 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/10 10:54:07 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/11 15:16:57 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 int	ft_redir_infile(char *file_name, t_pipe *m_pipe, int redir_fd)
 {
 	int			file_fd;
-	struct stat	buf;
 
-	if (redir_fd != -1 && ft_fstat(redir_fd, &buf) == -1)
-		return (FT_ERROR);
 	if (ft_access(file_name, F_OK | R_OK) == -1)
 		return (FT_ERROR);
 	else
@@ -35,10 +32,7 @@ int	ft_redir_infile(char *file_name, t_pipe *m_pipe, int redir_fd)
 int	ft_redir_outfile(char *file_name, t_pipe *m_pipe, int redir_fd)
 {
 	int			file_fd;
-	struct stat	buf;
 
-	if (redir_fd != -1 && ft_fstat(redir_fd, &buf) == -1)
-		return (FT_ERROR);
 	file_fd = ft_open(file_name, O_CREAT | O_TRUNC | O_RDWR, 0666);
 	if (file_fd == -1)
 		return (FT_ERROR);
@@ -50,10 +44,7 @@ int	ft_redir_outfile(char *file_name, t_pipe *m_pipe, int redir_fd)
 int	ft_redir_append(char *file_name, t_pipe *m_pipe, int redir_fd)
 {
 	int			file_fd;
-	struct stat	buf;
 
-	if (redir_fd != -1 && ft_fstat(redir_fd, &buf) == -1)
-		return (FT_ERROR);
 	file_fd = ft_open(file_name, O_CREAT | O_APPEND | O_RDWR, 0666);
 	if (file_fd == -1)
 		return (FT_ERROR);
@@ -66,10 +57,7 @@ int	ft_redir_here_doc(t_pipe *m_pipe, int redir_fd)
 {
 	int			file_fd;
 	char		*tmp;
-	struct stat	buf;
 
-	if (redir_fd != -1 && ft_fstat(redir_fd, &buf) == -1)
-		return (FT_ERROR);
 	tmp = ft_make_h_doc_file_name(m_pipe->pipe_num);
 	if (tmp == 0)
 		return (FT_ERROR);
