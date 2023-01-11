@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:49:46 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/09 09:19:44 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/11 16:07:19 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	ft_token_processor(
 			return (FT_ERROR);
 		tknizer->tkn = ft_new_token();
 		if (tknizer->tkn == 0)
-			return (FT_ERROR);
+			return (exitcode_with_err("malloc", \
+				strerror(errno), 140), FT_ERROR);
 		ft_token_start_set(tknizer);
 	}
 	if (*(tknizer->str_pos) == '\0')
@@ -47,7 +48,7 @@ int	ft_token_set(t_tknizer *tknizer, int type)
 
 	new_str = ft_strndup(tknizer->tkn_start, tknizer->tkn_len);
 	if (new_str == 0)
-		return (FT_ERROR);
+		return (exitcode_with_err("malloc", strerror(errno), 140), FT_ERROR);
 	tknizer->tkn->str = new_str;
 	if (type == TKN_OPERATOR)
 	{
@@ -73,7 +74,7 @@ int	ft_token_cut(t_list **token_list, t_tkn *token)
 
 	new_node = ft_calloc(1, sizeof(t_list));
 	if (new_node == 0)
-		return (FT_ERROR);
+		return (exitcode_with_err("malloc", strerror(errno), 140), FT_ERROR);
 	new_node->content = (void *)token;
 	ft_lstadd_back(token_list, new_node);
 	return (FT_SUCCESS);

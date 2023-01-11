@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:01:52 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/11 14:53:43 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/11 16:08:28 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_initialize_tokenizer(t_tknizer *tknizer, char *str)
 	tknizer->tkn_list = 0;
 	tknizer->tkn = ft_new_token();
 	if (tknizer->tkn == 0)
-		return (FT_ERROR);
+		return (exitcode_with_err("malloc", strerror(errno), 140), FT_ERROR);
 	tknizer->str_pos = str;
 	tknizer->tkn_start = str;
 	tknizer->tkn_len = 0;
@@ -88,7 +88,7 @@ int	ft_close_quote(t_tknizer *tknizer, int *prev_type)
 		return (FT_ERROR);
 	target = ft_strndup(tknizer->str_pos, 1);
 	if (target == 0)
-		return (FT_ERROR);
+		return (exitcode_with_err("malloc", strerror(errno), 140), FT_ERROR);
 	tknizer->tkn_len++;
 	tknizer->str_pos++;
 	while (*(tknizer->str_pos) != *target)

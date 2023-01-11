@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:57:52 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/06 14:10:15 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/11 16:05:28 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_token_str_expansion(
 	free(*token_str);
 	*token_str = ft_strdup(expand->ret_str);
 	if (*token_str == 0)
-		return (FT_ERROR);
+		return (exitcode_with_err("malloc", strerror(errno), 140), FT_ERROR);
 	ft_token_expand_free_struct(&expand);
 	return (FT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 16:48:15 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 18:49:54 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/11 16:13:49 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_token_expand_str_control_with_expand(
 
 	tmp_str = ft_strndup(start, len);
 	if (tmp_str == 0)
-		return (FT_ERROR);
+		return (exitcode_with_err("malloc", strerror(errno), 140), FT_ERROR);
 	if (*tmp_str == '?')
 		tmp_buffer = ft_itoa(g_exit_code);
 	else
@@ -30,7 +30,8 @@ int	ft_token_expand_str_control_with_expand(
 	{
 		tmp_buffer = ft_strdup("");
 		if (tmp_buffer == 0)
-			return (FT_ERROR);
+			return (exitcode_with_err("malloc", \
+				strerror(errno), 140), FT_ERROR);
 	}
 	if (ft_token_expand_str_control_attach(
 			ret_str, &tmp_str, &tmp_buffer) == FT_ERROR)
@@ -65,7 +66,7 @@ int	ft_token_expand_str_control_attach(
 	if (*ret_str == 0)
 	{
 		*ret_str = *tmp_str;
-		return (FT_ERROR);
+		return (exitcode_with_err("malloc", strerror(errno), 140), FT_ERROR);
 	}
 	if (*tmp_str != 0)
 		free(*tmp_str);

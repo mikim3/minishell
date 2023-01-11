@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 13:46:11 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/10 14:33:16 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/11 16:10:38 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_syntax_parse_pipeline(t_list *token, t_tree_node **parse)
 
 	if (ft_syntax_parse_pipeline_data(parse, &recur_parse,
 			&cur_redirects, &simple_cmd) == FT_ERROR)
-		return (FT_ERROR);
+		return (exitcode_with_err("malloc", strerror(errno), 140), FT_ERROR);
 	token_type = ft_token_type(token);
 	if (ft_syntax_parse_token_traversal(&token_type, &token,
 			cur_redirects, simple_cmd) == FT_ERROR)
@@ -110,12 +110,12 @@ int	ft_syntax_parse_redirections(t_list **token,
 	else if (token_type == TKN_FD_REDIRECT)
 		cur_redirects->left = ft_tree_init(NODE_FD_REDIR, 0);
 	if (cur_redirects->left == 0)
-		return (FT_ERROR);
+		return (exitcode_with_err("malloc", strerror(errno), 140), FT_ERROR);
 	cur_redirects->left->content = (void *)ft_node_content_redir(token);
 	if (cur_redirects->left->content == 0)
-		return (FT_ERROR);
+		return (exitcode_with_err("malloc", strerror(errno), 140), FT_ERROR);
 	cur_redirects->right = ft_tree_init(NODE_REDIRECTIONS, 0);
 	if (cur_redirects->right == 0)
-		return (FT_ERROR);
+		return (exitcode_with_err("malloc", strerror(errno), 140), FT_ERROR);
 	return (FT_SUCCESS);
 }

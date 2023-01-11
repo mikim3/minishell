@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 17:25:19 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/10 15:20:43 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/11 17:19:12 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ void	execute_fork(t_tree_node *token_tree, \
 	exec_data.status = 0;
 	m_pipe->infile_fd = STDIN_FILENO;
 	m_pipe->outfile_fd = STDOUT_FILENO;
+	m_pipe->stdfd[0] = dup(STDIN_FILENO);
+	m_pipe->stdfd[1] = dup(STDOUT_FILENO);
+	m_pipe->stdfd[2] = dup(STDERR_FILENO);
 	fork_routine(pipeline, m_pipe, &exec_data, dll_envp_tower);
 	while (exec_data.iter > 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 16:24:51 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/10 14:18:23 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/11 16:11:46 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,20 @@ int	ft_syntax_parse_cmd(t_list **token, t_tree_node *cmd)
 	{
 		cmd->content = (t_tree_cmd *)malloc(sizeof(t_tree_cmd));
 		if (cmd->content == 0)
-			return (FT_ERROR);
+			return (exitcode_with_err("malloc", strerror(errno), 140), \
+				FT_ERROR);
 		((t_tree_cmd *)(cmd->content))->cmd_name
 			= ft_strdup(ft_token_str(*token));
 		if (((t_tree_cmd *)(cmd->content))->cmd_name == 0)
-			return (FT_ERROR);
+			return (exitcode_with_err("malloc", strerror(errno), 140), \
+				FT_ERROR);
 		((t_tree_cmd *)(cmd->content))->cmd_argv = 0;
 	}
 	((t_tree_cmd *)(cmd->content))->cmd_argv
 		= ft_set_cmd_argv(
 			&(((t_tree_cmd *)(cmd->content))->cmd_argv), ft_token_str(*token));
 	if (((t_tree_cmd *)(cmd->content))->cmd_argv == 0)
-		return (FT_ERROR);
+		return (exitcode_with_err("malloc", strerror(errno), 140), FT_ERROR);
 	return (FT_SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 18:49:18 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/05 18:50:09 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/11 16:08:50 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_token_expand_init_struct(t_expand **expand, char **token_str)
 {
 	*expand = (t_expand *)malloc(sizeof(t_expand));
 	if (*expand == 0)
-		return (FT_ERROR);
+		return (exitcode_with_err("malloc", strerror(errno), 140), FT_ERROR);
 	(*expand)->pos = *token_str;
 	(*expand)->ret_str = 0;
 	(*expand)->start = *token_str;

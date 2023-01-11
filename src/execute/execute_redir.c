@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 11:01:23 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/11 15:35:24 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/11 17:28:50 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,56 +59,70 @@ int	ft_match_redir_symbol(\
 
 int	ft_redir_input_redirection(t_pipe *m_pipe, int file_fd, int redir_fd)
 {
-	if (redir_fd == -1)
+	if (m_pipe->mnsh_builtin == BOOL_TRUE)
 	{
-		if (m_pipe->mnsh_builtin == BOOL_TRUE)
+		if (redir_fd == -1)
 		{
-			if (m_pipe->in_redirected == BOOL_TRUE)
-				if (ft_close(m_pipe->infile_fd) == -1)
-					return (FT_ERROR);
-			m_pipe->in_redirected = BOOL_TRUE;
-			m_pipe->infile_fd = file_fd;
+			if (ft_dup2(file_fd, m_pipe->infile_fd) == -1
+				|| ft_close(file_fd) == -1)
+				return (FT_ERROR);
 		}
 		else
 		{
-			if (ft_dup2(file_fd, m_pipe->infile_fd) == -1
+			if (ft_dup2(file_fd, redir_fd) == -1
 				|| ft_close(file_fd) == -1)
 				return (FT_ERROR);
 		}
 	}
 	else
 	{
-		if (ft_dup2(file_fd, redir_fd) == -1
-			|| ft_close(file_fd) == -1)
-			return (FT_ERROR);
+		if (redir_fd == -1)
+		{
+			if (ft_dup2(file_fd, m_pipe->infile_fd) == -1
+				|| ft_close(file_fd) == -1)
+				return (FT_ERROR);
+		}
+		else
+		{
+			if (ft_dup2(file_fd, redir_fd) == -1
+				|| ft_close(file_fd) == -1)
+				return (FT_ERROR);
+		}
 	}
 	return (FT_SUCCESS);
 }
 
 int	ft_redir_output_redirection(t_pipe *m_pipe, int file_fd, int redir_fd)
 {
-	if (redir_fd == -1)
+	if (m_pipe->mnsh_builtin == BOOL_TRUE)
 	{
-		if (m_pipe->mnsh_builtin == BOOL_TRUE)
+		if (redir_fd == -1)
 		{
-			if (m_pipe->out_redirected == BOOL_TRUE)
-				if (ft_close(m_pipe->outfile_fd) == -1)
-					return (FT_ERROR);
-			m_pipe->out_redirected = BOOL_TRUE;
-			m_pipe->outfile_fd = file_fd;
+			if (ft_dup2(file_fd, m_pipe->outfile_fd) == -1
+				|| ft_close(file_fd) == -1)
+				return (FT_ERROR);
 		}
 		else
 		{
-			if (ft_dup2(file_fd, m_pipe->outfile_fd) == -1
+			if (ft_dup2(file_fd, redir_fd) == -1
 				|| ft_close(file_fd) == -1)
 				return (FT_ERROR);
 		}
 	}
 	else
 	{
-		if (ft_dup2(file_fd, redir_fd) == -1
-			|| ft_close(file_fd) == -1)
-			return (FT_ERROR);
+		if (redir_fd == -1)
+		{
+			if (ft_dup2(file_fd, m_pipe->outfile_fd) == -1
+				|| ft_close(file_fd) == -1)
+				return (FT_ERROR);
+		}
+		else
+		{
+			if (ft_dup2(file_fd, redir_fd) == -1
+				|| ft_close(file_fd) == -1)
+				return (FT_ERROR);
+		}
 	}
 	return (FT_SUCCESS);
 }
