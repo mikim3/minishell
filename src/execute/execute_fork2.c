@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 14:04:41 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/11 17:22:35 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/11 17:41:53 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,6 @@ void	fork_after_traversal(t_pipe *m_pipe)
 		exit(g_exit_code);
 	else
 	{
-		// if (m_pipe->out_redirected == BOOL_TRUE)
-		// 	ft_close(m_pipe->outfile_fd);
-		// if (m_pipe->in_redirected == BOOL_TRUE)
-		// 	ft_close(m_pipe->infile_fd);
 		dup2(m_pipe->stdfd[STDIN_FILENO], STDIN_FILENO);
 		dup2(m_pipe->stdfd[STDOUT_FILENO], STDOUT_FILENO);
 		dup2(m_pipe->stdfd[STDERR_FILENO], STDERR_FILENO);

@@ -53,8 +53,6 @@ typedef struct s_redirection_data
 	int				pre_pipe_check;
 	int				next_pipe_check;
 	int				mnsh_builtin;
-	int				in_redirected;
-	int				out_redirected;
 	int				here_doc_opened;
 	struct termios	*term;
 	int				pipe_num;
