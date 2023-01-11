@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/31 13:53:23 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/09 20:22:36 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/11 19:16:15 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ int	ft_here_doc_expansion(t_list *token_list, t_detower *dll_envp_tower, \
 {
 	t_heredoc	heredoc;
 
-	ft_memset(&heredoc, 0, sizeof(t_heredoc));
-	heredoc.token_node = token_list;
-	heredoc.type = ft_token_type(heredoc.token_node);
+	ft_set_heredoc_struct(&heredoc, token_list);
 	while (heredoc.type != TKN_NULL)
 	{
 		if (heredoc.type == TKN_PIPE)
@@ -42,6 +40,14 @@ int	ft_here_doc_expansion(t_list *token_list, t_detower *dll_envp_tower, \
 	return (FT_SUCCESS);
 }
 
+void	ft_set_heredoc_struct(t_heredoc *heredoc, t_list *token_list)
+{
+	ft_memset(heredoc, 0, sizeof(t_heredoc));
+	heredoc->token_node = token_list;
+	heredoc->token_list = token_list;
+	heredoc->type = ft_token_type(heredoc->token_node);
+}
+
 int	ft_check_here_doc(t_heredoc *heredoc, \
 	t_detower *dll_envp_tower, int pipe_num)
 {
@@ -53,7 +59,7 @@ int	ft_check_here_doc(t_heredoc *heredoc, \
 		heredoc->token_node = (heredoc->token_node)->next;
 		tkn_str_ptr = &(((t_tkn *)(heredoc->token_node)->content)->str);
 		if (ft_here_doc_with_delimiter_control(
-				&(heredoc->token_node), heredoc->token_list, \
+				&(heredoc->token_node), &(heredoc->token_list), \
 				dll_envp_tower, pipe_num) == FT_ERROR)
 			return (FT_ERROR);
 		((t_tkn *)(heredoc->token_node)->content)->expandable = BOOL_FALSE;
@@ -62,7 +68,7 @@ int	ft_check_here_doc(t_heredoc *heredoc, \
 }
 
 int	ft_here_doc_with_delimiter_control(t_list **token_node, \
-	t_list *token_list, t_detower *dll_envp_tower, int pipe_num)
+	t_list **token_list, t_detower *dll_envp_tower, int pipe_num)
 {
 	char		**tkn_str_ptr;
 
@@ -75,7 +81,7 @@ int	ft_here_doc_with_delimiter_control(t_list **token_node, \
 			|| ft_make_h_doc_wth_expand(*tkn_str_ptr, \
 				dll_envp_tower, pipe_num, \
 					BOOL_FALSE) == FT_ERROR)
-			return (ft_free_tokenizer_list_and_token(&token_list, \
+			return (ft_free_tokenizer_list_and_token(token_list, \
 				0, TKN_TKNIZE_SUCCESSED), FT_ERROR);
 	}
 	else
@@ -83,7 +89,7 @@ int	ft_here_doc_with_delimiter_control(t_list **token_node, \
 		if (ft_make_h_doc_wth_expand(*tkn_str_ptr, \
 			dll_envp_tower, pipe_num, \
 				BOOL_TRUE) == FT_ERROR)
-			return (ft_free_tokenizer_list_and_token(&token_list, \
+			return (ft_free_tokenizer_list_and_token(token_list, \
 				0, TKN_TKNIZE_SUCCESSED), FT_ERROR);
 	}
 	return (FT_SUCCESS);
@@ -110,23 +116,4 @@ int	ft_make_h_doc_wth_expand(\
 	}
 	ft_close(here_doc_fd);
 	return (set_signal(SIG_HANDLER, SIG_IGNORE), free(delimiter), ret);
-}
-
-int	ft_make_h_doc_set_before_loop(char *token_str, char **delimiter, \
-	int *here_doc_fd, int pipe_num)
-{
-	char	*f_name;
-
-	*here_doc_fd = -1;
-	f_name = ft_make_h_doc_file_name(pipe_num);
-	if (f_name == 0)
-		return (FT_ERROR);
-	*here_doc_fd = ft_open(f_name, O_CREAT | O_RDWR | O_TRUNC, 0666);
-	free(f_name);
-	if (*here_doc_fd == -1)
-		return (FT_ERROR);
-	*delimiter = ft_strjoin(token_str, "\n");
-	if (*delimiter == 0)
-		return (FT_ERROR);
-	return (FT_SUCCESS);
 }

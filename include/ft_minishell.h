@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 17:51:38 by mikim3            #+#    #+#             */
-/*   Updated: 2023/01/11 15:04:11 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/11 19:16:31 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,11 @@ int			ft_redir_output_redirection(\
 
 int			ft_here_doc_expansion(\
 	t_list *token_list, t_detower *dll_envp_tower, int *pipe_num);
+void		ft_set_heredoc_struct(t_heredoc *heredoc, t_list *token_list);
 int			ft_check_here_doc(t_heredoc *heredoc, \
 	t_detower *dll_envp_tower, int pipe_num);
 int			ft_here_doc_with_delimiter_control(t_list **token_node, \
-	t_list *token_list, t_detower *dll_envp_tower, int pipe_num);
+	t_list **token_list, t_detower *dll_envp_tower, int pipe_num);
 
 int			ft_make_h_doc_wth_expand(\
 	char *token_str, t_detower *dll_envp_tower, \

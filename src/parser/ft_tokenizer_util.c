@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 13:51:56 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/09 09:15:02 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/11 19:17:14 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	ft_free_tokenizer_list_and_token(\
 		if (*token != 0)
 			ft_free_a_token_list_content((void *)*token);
 	}
+	*token_list = 0;
 	return ;
 }
 
