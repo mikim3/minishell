@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 14:04:41 by kshim             #+#    #+#             */
-/*   Updated: 2023/01/11 17:41:53 by kshim            ###   ########.fr       */
+/*   Updated: 2023/01/11 17:51:06 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,27 +63,20 @@ void	child_routine(t_pipe *m_pipe, \
 		if (ft_close(m_pipe->pipe[P_READ]) == -1
 			|| ft_dup2(m_pipe->pipe[P_WRITE], m_pipe->outfile_fd) == -1
 			|| ft_close(m_pipe->pipe[P_WRITE]) == -1)
-		{
 			exit(g_exit_code);
-		}
 	}
 	if (ft_mnsh_tree_pre_traversal(pipeline->left, dll_envp_tower, \
 		m_pipe, &ft_execute_tree) == FT_ERROR)
 		exit(g_exit_code);
-	fork_after_traversal(m_pipe);
+	exit(g_exit_code);
 }
 
 void	fork_after_traversal(t_pipe *m_pipe)
 {
-	if (m_pipe->mnsh_builtin == BOOL_FALSE)
-		exit(g_exit_code);
-	else
-	{
-		dup2(m_pipe->stdfd[STDIN_FILENO], STDIN_FILENO);
-		dup2(m_pipe->stdfd[STDOUT_FILENO], STDOUT_FILENO);
-		dup2(m_pipe->stdfd[STDERR_FILENO], STDERR_FILENO);
-		close(m_pipe->stdfd[STDIN_FILENO]);
-		close(m_pipe->stdfd[STDOUT_FILENO]);
-		close(m_pipe->stdfd[STDERR_FILENO]);
-	}
+	dup2(m_pipe->stdfd[STDIN_FILENO], STDIN_FILENO);
+	dup2(m_pipe->stdfd[STDOUT_FILENO], STDOUT_FILENO);
+	dup2(m_pipe->stdfd[STDERR_FILENO], STDERR_FILENO);
+	close(m_pipe->stdfd[STDIN_FILENO]);
+	close(m_pipe->stdfd[STDOUT_FILENO]);
+	close(m_pipe->stdfd[STDERR_FILENO]);
 }
